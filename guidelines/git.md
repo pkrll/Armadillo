@@ -1,7 +1,7 @@
 # Git Guidelines
 
 *Author: Ardalan Samimi*<br>
-*Version: 2.1.1*
+*Version: 2.1.2*
 
 ## Table of Contents
 
@@ -44,6 +44,14 @@ Before you start typing a single line of code, please read this document from st
 Before every coding session – that is, before you sit down and make beautiful <s>love</s> code – make a habit of always pulling the latest changes from the remote repository.
 
 This prevents you from working on outdated code. Obviously.
+
+**_It can not be stressed enough: Remember to always pull, then branch. Say it with me: Pull, then branch. Pull, then branch._**
+
+It is also a good idea to customize your shell to display information about the current git repository, like branch name and whether there are modified or updated files in the directory.
+
+Write it yourselves, or just google "gitprompt". It's worth it.
+
+![gitprompt](assets/gitprompt.png)
 
 ### How do I do it?
 
