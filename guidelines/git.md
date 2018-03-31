@@ -106,7 +106,7 @@ The following is a list of best practices stolen from the Internet:
 
 * Use grouping tokens (words) at the beginning of the branch names ([see below](#grouping-tokens)).
 * Define and use short lead tokens to differentiate branches in a way that is meaningful to your workflow.
-* Use slashes to separate parts of your branch names, for instance ``some-branch-name``.
+* Use dashes to separate parts of your branch names, for instance ``some-branch-name``.
 * Do not start with a number.
 * Avoid long descriptive names for long-lived branches.
 
