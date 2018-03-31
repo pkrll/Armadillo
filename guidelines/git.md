@@ -155,7 +155,7 @@ Below is an attempt to formalize the above rule into some easy to follow rules (
 
 * you should **never add multiple classes, modules or files in the same commit**, unless there is tight coupling between these.
 
-* when writing a new class or module, always **start with committing modules with only stub functions** and documentation first. **Commit after implementing each individual function**.
+* when writing a new class or module, always **start with committing modules with only stub functions** and documentation first. **Commit each individual function separately**.
 
 An individual commit should almost **never be more than 100 lines of code**.
 
