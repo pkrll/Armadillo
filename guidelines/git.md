@@ -300,4 +300,6 @@ After pushing all your changes to the repository, do the following:
 
 ## More information
 
-https://guides.github.com
+* [Github Guides](https://guides.github.com) - A good intro to the world of Git and Github.
+* [Pro Git book](https://git-scm.com/book/en/v2) - A really good resource for diving deeper into Git
+* [Google](http;//google.com) – Some small startup's really cool search engine
