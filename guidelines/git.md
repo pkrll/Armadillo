@@ -1,7 +1,7 @@
 # Git Guidelines
 
 *Author: Ardalan Samimi*<br>
-*Version: 2.1.0*
+*Version: 2.1.1*
 
 ## Table of Contents
 
@@ -24,6 +24,7 @@
     1. [How do I do it?](#how-do-i-do-it-3)
 6. [Github features](#github-features)
     1. [Issues](#issues)
+        1. [How do I do it?](#how-do-i-do-it-4)
     2. [Pull requests](#pull-requests)
         1. [What to look at when reviewing?](#what-to-look-at-when-reviewing)
         2. [Who to choose as reviewer?](#who-to-choose-as-reviewer)
