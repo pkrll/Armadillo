@@ -1,7 +1,7 @@
 # Git Guidelines
 
 *Author: Ardalan Samimi*<br>
-*Version: 2.0.1*
+*Version: 2.1.0*
 
 ## Table of Contents
 
@@ -243,6 +243,22 @@ When creating ``issues``, be specific. Use a good, clear title and paste in (usi
 
 #### How do I do it?
 Click on the "Issues" tab in the repository.
+
+![issues](assets/issue.png)
+
+1. Write a good, clear title.
+
+2. Put in the description. Use Markdown stylings to make it easier to read.
+
+3. Assign someone (if agreed upon). Otherwise, leave this blank until someone decides to take on the issue.
+
+4. Label it correctly.
+
+5. Choose the relevant project (this makes sure the issue is automatically added to that project board, if configured correctly).
+
+6. Choose milestone.
+
+7. Click to profit.
 
 ### Pull requests
 
