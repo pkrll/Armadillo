@@ -1,6 +1,4 @@
-### Tidrapport: https://docs.google.com/spreadsheets/d/1HoYrRaufmrAHeqFPgLayShiJHWqnjNet24BVB3A7DFg/edit?usp=sharing
-
-# Namn på projektet
+# Armadillo
 
 OSPP (1DT096) 2018 - Projekt iota
 
@@ -15,7 +13,7 @@ programmering (1DT096) våren 2018, Uppsala universitet.
 
 **TODO:** Lägg till en kort beskrivning av projektet.
 
-**TODO:** Länk(ar) till mer utförlig dokumentation. 
+**TODO:** Länk(ar) till mer utförlig dokumentation.
 
 ## Kom igång
 
@@ -25,18 +23,18 @@ till lämpliga underrubriker.
 
 ## Struktur
 
-**TODO:** Lägg till en kortfattad beskrivning över katalogstrukturen. 
+**TODO:** Lägg till en kortfattad beskrivning över katalogstrukturen.
 
 **meta**
 
 - gruppkontrakt
 - presentation av gruppens medlemmar
 
-## Färdigställ 
+## Färdigställ
 
 - Allt eftersom projektet fortskrider kan ni lägga till fler rubriker i detta
   dokument med kompletterande information.
 - Färdigställ dokumentet [meta/gruppkontrakt.md](./meta/gruppkontrakt.md).
 - Färdigställ dokumentet [meta/medlemmar.md](./meta/medlemmar.md).
-- Tag bort alla stycken markerade med **TODO** och **INFO**. 
+- Tag bort alla stycken markerade med **TODO** och **INFO**.
 - Tag bort hela detta avsnitt, dvs tag bort avsnittet **Färdigställ**.
