@@ -22,11 +22,11 @@ Ett gruppkontrakt ska vara underskrivet av samtliga projektmedlemmar. Följande 
 
 ## Rutiner
 
-* **Gruppen ska träffas varje dag** (med eventuella undantag) för att arbeta **mellan klockan 9 och 16**, inte nödvändigtvis med samma saker, men i samma rum.
+* **Gruppen ska träffas varje vardag** (med eventuella undantag) för att arbeta **mellan klockan 9 och 16**, inte nödvändigtvis med samma saker, men i samma rum.
 
 * Dagliga möten på cirka 30 minuter, från klockan 10.
 
-* Icke-sjukdomsrelaterad **frånvaro måste godkännas minst två arbetsdagar i förväg**.
+* Icke-sjukdomsrelaterad **frånvaro måste godkännas av samtliga medlemmar minst två arbetsdagar i förväg**.
 
 
 ## Kommunikationen i gruppen
@@ -43,7 +43,7 @@ Ett gruppkontrakt ska vara underskrivet av samtliga projektmedlemmar. Följande 
 
 * Vid händelsen att någon varit frånvarande utan att meddela det, får detta diskuteras inom gruppen.
 
-* Har man en giltig anledning till frånvaro, är det rimligt att personen får arbeta lite extra.
+* Har man en giltig anledning till frånvaro, är det rimligt att personen får arbeta lite extra, beroende på hur mycket tid personen tidigare lagt på projektet.
 
 ## Roller
 
