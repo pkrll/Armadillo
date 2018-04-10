@@ -1,3 +1,5 @@
+### Tidrapport: https://docs.google.com/spreadsheets/d/1HoYrRaufmrAHeqFPgLayShiJHWqnjNet24BVB3A7DFg/edit?usp=sharing
+
 # Namn på projektet
 
 OSPP (1DT096) 2018 - Projekt iota
