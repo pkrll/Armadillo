@@ -25,13 +25,14 @@ ankaret `#en-rubrik-med-åäö`.
 
 Bild                                     | Förnamn                     | Efternamn | Personnummer | Användarnamn (GitHub)
 -----------------------------------------|-----------------------------|-----------|--------------|----------------------
-<img src="images/fredrik.jpg" width="180"/> | [Fredrik](#fredrik-jonasson) | Jonasson | 910628-1877  | `fredrikjonasson`
+<img src="images/fredrik.jpg" width="180"/> | [Fredrik](#fredrik-facebook-jonasson) | Jonasson | 910628-1877  | `fredrikjonasson`
 <img src="images/love.jpg" width="180"/> | [Love](#love-osslund) | Osslund | 921221-4853  | `loveosslund`
 <img src="images/viktor.jpg" width="180"/> | [Viktor](#viktor-lindholm) | Lindholm | 921008-4159  | `viktorlindholm`
-<img src="images/ardalan.jpg" width="180"/> | [Ardalan](#ardalan-samimi) | Samimi | 880408-1233  | `pkrll`
+<img src="images/martin.jpg" width="180"/> | [Martin](#martin-nordmark) | Nordmark | YYMMDD-XXYY  | `marr3`
+<img src="images/ardalan.jpg" width="180"/> | [Ardalan](#ardalan-ardi-samimi) | Samimi | 880408-1233  | `pkrll`
 <img src="images/ulf.jpg" width="180"/> | [Ulf](#ulf-sigvardsson) | Sigvardsson | 851024-1451  | `ulfsigvardsson`
 
-## Fredrik Jonasson
+## Fredrik "Facebook" Jonasson
 
 ### Okänd talang
 
@@ -103,11 +104,31 @@ Under projektet hoppas jag förutom att bli ännu bättre på mina redan starka 
 * dokumentation
 * problemlösning
 
-## Ardalan Samimi
+## Martin Nordmark
 
 ### Okänd talang
 
-ingen
+---
+
+### Starka sidor
+
+Under projektet tror jag att jag kommer ha lättast att bidra med:
+
+* ...
+* ...
+
+### Personlig utveckling
+
+Under projektet hoppas jag förutom att bli ännu bättre på mina redan starka sidor även ges möjlighet att utveckla följande färdigheter, till exempel:
+
+* ...
+* ...
+
+## Ardalan "Ardi" Samimi
+
+### Ökänd talang
+
+Kan hitta fel i allt
 
 ### Starka sidor
 
