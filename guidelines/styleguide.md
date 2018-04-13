@@ -30,10 +30,9 @@ This is a dynamic document. As it will be subject to change, it is important to 
 
 ## Astyle
 
-Always format the code using the command line tool ``astyle`` before committing your code. This can be done just by writing ``make style`` in the root folder of the project.
+Always format the code using the command line tool [``astyle``](http://astyle.sourceforge.net) before committing your code. This can be done just by writing ``make style`` in the root folder of the project.
 
 **Note:** Keep in mind  that the tool only fixes formatting stuff, and not for example variable or function names.
-
 ---
 
 ## Formatting
