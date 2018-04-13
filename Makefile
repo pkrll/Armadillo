@@ -26,7 +26,7 @@ all:
 
 build: compile
 	@echo "Linking the kernel..."
-	$(CC)-ld -T $(SRC_DIR)/ldscript -o $(BIN_DIR)/$(ELF_NAME) $(OBJECTS)
+	$(CC)-ld -T $(SRC_DIR)/linker -o $(BIN_DIR)/$(ELF_NAME) $(OBJECTS)
 
 compile: $(OBJECTS)
 
