@@ -139,6 +139,7 @@ Kan hitta fel i allt
 
 Under projektet tror jag att jag kommer ha lättast att bidra med:
 
+* Git
 * skriva kod
 * problemlösning och algoritmer
 * skriva kod utifrån färdig specifikation
