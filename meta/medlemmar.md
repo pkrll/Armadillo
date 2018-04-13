@@ -28,7 +28,7 @@ Bild                                     | Förnamn                     | Eftern
 <img src="images/fredrik.JPG" width="180"/> | [Fredrik](#fredrik-facebook-jonasson) | Jonasson | 910628-1877  | `fredrikjonasson`
 <img src="images/love.JPG" width="180"/> | [Love](#love-osslund) | Osslund | 921221-4853  | `loveosslund`
 <img src="images/viktor.JPG" width="180"/> | [Viktor](#viktor-lindholm) | Lindholm | 921008-4159  | `viktorlindholm`
-<img src="images/martin.JPG" width="180"/> | [Martin](#martin-nordmark) | Nordmark | YYMMDD-XXYY  | `marr3`
+<img src="images/martin.JPG" width="180"/> | [Martin](#martin-nordmark) | Nordmark | 960107-7952  | `marr3`
 <img src="images/ardalan.JPG" width="180"/> | [Ardalan](#ardalan-ardi-samimi) | Samimi | 880408-1233  | `pkrll`
 <img src="images/ulf.JPG" width="180"/> | [Ulf](#ulf-sigvardsson) | Sigvardsson | 851024-1451  | `ulfsigvardsson`
 
@@ -108,21 +108,26 @@ Under projektet hoppas jag förutom att bli ännu bättre på mina redan starka 
 
 ### Okänd talang
 
----
+Tung på att rita.
 
 ### Starka sidor
 
 Under projektet tror jag att jag kommer ha lättast att bidra med:
 
-* ...
-* ...
+* samarbete
+* mycket arbete
+* research
+* dokumentation
+* skriva kod
 
 ### Personlig utveckling
 
 Under projektet hoppas jag förutom att bli ännu bättre på mina redan starka sidor även ges möjlighet att utveckla följande färdigheter, till exempel:
 
-* ...
-* ...
+* Git
+* muntlig presentation
+* planering
+* analys/design/specifikation
 
 ## Ardalan "Ardi" Samimi
 
