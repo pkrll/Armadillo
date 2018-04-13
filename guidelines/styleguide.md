@@ -1,7 +1,7 @@
 # Style guide for Project Iota / Uphill
 
 *Author: Ardalan Samimi*<br>
-*Version: 1.0.0*
+*Version: 1.0.3*
 
 This document outlines the coding conventions for Uphill and should serve as a guide for writing consistent, concise and readable code in **C**.
 
@@ -33,6 +33,7 @@ This is a dynamic document. As it will be subject to change, it is important to 
 Always format the code using the command line tool [``astyle``](http://astyle.sourceforge.net) before committing your code. This can be done just by writing ``make style`` in the root folder of the project.
 
 **Note:** Keep in mind  that the tool only fixes formatting stuff, and not for example variable or function names.
+
 ---
 
 ## Formatting
