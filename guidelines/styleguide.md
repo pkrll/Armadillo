@@ -128,17 +128,17 @@ if (condition) return something;
 
 ```c
 switch (foo) {
-	case 'bar':
-		...
-		break;
+  case 'bar':
+    ...
+    break;
 
   .
   .
   .
 
-	default:
-		...
-		break;
+  default:
+    ...
+    break;
 }
 ```
 
