@@ -1,5 +1,6 @@
 
 #define UART16550BASE 0xb80003f8
+#define DISPLAYREGIST 0x1F000400
 
 void putchar(char c) {
 	// Line status register.
@@ -19,8 +20,17 @@ void printk(const char* s) {
 	}
 }
 
+void print_to_led(const char *string) {
+	char *asciipos = (char *) DISPLAYREGIST + 0x00000018;
+
+	for (int i = 0; i < 8; i++) {
+		asciipos[i * 8] = string[i];
+	}
+}
+
 int main(void) {
-	printk("Hello world!\n");
+	// printk("Hello world!\n");
+	print_to_led("Hello World, this is foo");
 
 	return 0;
 }
