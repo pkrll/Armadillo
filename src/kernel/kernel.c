@@ -29,15 +29,35 @@ void print_to_ascii(const char *string) {
 	}
 }
 
+void reset_led() {
+	char *led = (char *) LEDDISPLAY;
+	*led = 0b0;
+}
+
 void print_to_led(const int position) {
 	char *led = (char *) LEDDISPLAY;
-	*led = 0b00000001 << (position - 1);
+	*led = 0b00000001 << (position - 1) | led[0];
+}
+
+void start_counter() {
+	while (1) {
+		for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 100000000; i++) { /* Pause... */ }
+
+			if (i == 9) {
+				reset_led();
+			} else {
+				print_to_led(i);
+			}
+
+		}
+	}
 }
 
 int main(void) {
 	printk("Hello world!\n");
-	print_to_ascii("Hello World, this is foo");
-	print_to_led(5);
+	print_to_ascii("UphillOS");
+	start_counter();
 
 	return 0;
 }
