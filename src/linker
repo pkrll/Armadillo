@@ -1,21 +1,43 @@
-ENTRY(start)
+ENTRY(bootup)
 OUTPUT_FORMAT(elf32-littlemips)
 
-SECTIONS {
+SECTIONS
+{
+	_ram = 0x80000000;
 
-	. = 0xbfc00384;
-	.text : { * (.ktext); }
+  .text 0x80100000 : {
+    /* Exception handlers. */
+		*(.ktext)
+		. = ALIGN(4K);
+		*(.text)
+	}
 
-	. = 0x8000;
-	.text : { * (.text); }
+	.rodata ALIGN(4K) :
+	{
+		*(.rodata*)
+		*(.gnu.linkonce.r.*)
+	}
 
-	. = ALIGN(4K);
-	.data : { * (.data); }
+	.data ALIGN(4K) :
+	{
+		*(.data*)
+		*(.gnu.linkonce.d.*)
+	}
 
-	.bss : ALIGN(4K) {
-		_BSS_START_ = .;
-    	*(.bss)
-		_BSS_END_ = .;
-  }
+	.bss ALIGN(4K) :
+	{
+		*(.common)
+		*(.bss*)
+		*(.gnu.linkonce.b.*)
+	}
 
+	/DISCARD/ :
+	{
+		/* *(.gcc_except_table) */
+		*(.eh_frame)
+		*(.note)
+		*(.comment)
+		*(.rel.*)
+		*(.rela.*)
+	}
 }

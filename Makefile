@@ -51,7 +51,7 @@ gdb: $(BIN_DIR)/$(ELF_NAME)
 	mipsel-elf-gdb --symbols=$(BIN_DIR)/$(ELF_NAME) -ex "target extended-remote :1234"
 
 objdump: $(BIN_DIR)/$(ELF_NAME)
-	mipsel-elf-objdump -D bin/uphill.elf > $(BIN_DIR)/$(ELF_NAME)
+	mipsel-elf-objdump -D bin/uphill.elf > $(BIN_DIR)/uphill.asm
 
 symbols: $(BIN_DIR)/$(ELF_NAME)
 	mipsel-elf-nm -n $(BIN_DIR)/$(ELF_NAME)

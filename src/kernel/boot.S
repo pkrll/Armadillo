@@ -1,19 +1,25 @@
-.globl start
+.globl bootup
 .extern main
-.extern excp
 
 .set noreorder
 
-.set STACKSIZE, 0x8000
+.set STACKSIZE, 0x4000
 
 .section .text
 
-start:
-	la $sp, stack
+bootup:
+
+	la 		$sp, stack
 	addiu $sp, STACKSIZE - 32
-	nop
-	# li $s0, 0x7fffffff
-	# addi $s1, $s0, 1
+
+	li		$t1, 0x80100000		#  sets ebase
+	mtc0	$t1, $15,1
+	# Set status.bev to 0
+	li		$t1, 0x0
+	mtc0	$t1, $12,0
+
+	syscall
+
 	nop
 	jal main
 	nop

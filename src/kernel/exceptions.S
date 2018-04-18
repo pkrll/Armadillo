@@ -2,14 +2,14 @@
 .extern exception_handler
 
 .set noreorder
+.set noat
 
 .section .ktext
-
+.org 0x184
 excp:
-	addi $s2, $s0, 1
-	sb $s2, 0x1F000408
-	nop
 	jal exception_handler
+	nop
+	jr $ra # How do we return?
 	nop
 	b .
 	nop
