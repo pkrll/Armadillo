@@ -37,7 +37,7 @@ $(OBJ_DIR)/%.o: $(KER_SRC)/%.S
 
 $(BIN_DIR)/$(ELF_NAME): $(OBJECTS)
 	@echo "Linking the kernel..."
-	$(CC)-ld -T $(SRC_DIR)/linker -o $(BIN_DIR)/$(ELF_NAME) $(OBJ_DIR)/boot.o $(OBJ_DIR)/test.o $(OBJ_DIR)/kernel.o
+	$(CC)-ld -T $(SRC_DIR)/linker -o $(BIN_DIR)/$(ELF_NAME) $(OBJECTS)
 
 run: $(BIN_DIR)/$(ELF_NAME)
 	@echo "Running $(ELF_NAME) on qemu with flags: $(VMFLAGS)"
@@ -51,7 +51,7 @@ gdb: $(BIN_DIR)/$(ELF_NAME)
 	mipsel-elf-gdb --symbols=$(BIN_DIR)/$(ELF_NAME) -ex "target extended-remote :1234"
 
 objdump: $(BIN_DIR)/$(ELF_NAME)
-	mipsel-elf-objdump -D bin/uphill.elf > $(BIN_DIR)/$(ELF_NAME)
+	mipsel-elf-objdump -D bin/uphill.elf > $(BIN_DIR)/uphill.asm
 
 symbols: $(BIN_DIR)/$(ELF_NAME)
 	mipsel-elf-nm -n $(BIN_DIR)/$(ELF_NAME)

@@ -1,15 +1,15 @@
+ENTRY(bootup)
 OUTPUT_FORMAT(elf32-littlemips)
-OUTPUT_ARCH(mips:isa32)
-ENTRY(start)
 
 SECTIONS
 {
-	.text (0x8000) :
-	{
+	_ram = 0x80000000;
+
+  .text 0x80100000 : {
+    /* Exception handlers. */
+		*(.ktext)
+		. = ALIGN(4K);
 		*(.text)
-		*(.text.*)
-		*(.stub)
-		*(.gnu.linkonce.t.*)
 	}
 
 	.rodata ALIGN(4K) :
@@ -33,7 +33,7 @@ SECTIONS
 
 	/DISCARD/ :
 	{
-		*(.gcc_except_table)
+		/* *(.gcc_except_table) */
 		*(.eh_frame)
 		*(.note)
 		*(.comment)
