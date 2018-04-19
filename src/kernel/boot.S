@@ -15,10 +15,16 @@ bootup:
 	li		$t1, 0x80100000		#  sets ebase
 	mtc0	$t1, $15,1
 	# Set status.bev to 0
-	li		$t1, 0x0
-	mtc0	$t1, $12,0
+	li		$t0, 0x0
+	mtc0	$t0, $12
 
-	syscall
+	#li 	$t2, 0x7F7FFFFF
+	#and 	$t3, $t0, $t2
+	#mtc0 $t3, $12
+
+	#Overflow exception
+	li		$t4, 0x7fffffff
+	addi 	$t5, $t4, 1
 
 	nop
 	jal main
