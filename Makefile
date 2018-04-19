@@ -33,10 +33,10 @@ build: $(BIN_DIR)/$(ELF_NAME)
 compile: $(OBJECTS)
 
 $(OBJ_DIR)/%.o: $(KER_SRC)/%.c
-	$(CC)-gcc $(CFLAGS) -o $@ -c $<
+	$(CC)-gcc -I $(INC_DIR) $(CFLAGS) -o $@ -c $<
 
 $(OBJ_DIR)/%.s: $(KER_SRC)/%.S
-	$(CC)-gcc -I ./src/include/ -E -o $@ $<
+	$(CC)-gcc -I $(INC_DIR) -E -o $@ $<
 
 $(OBJ_DIR)/%.o: $(OBJ_DIR)/%.s
 	$(CC)-as $(AFLAGS) -o $@ $<
