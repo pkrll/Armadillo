@@ -48,6 +48,7 @@ void *pop_from_stack(Stack_t *stack) {
     stack->top = frame->next;
     free(frame);
     stack -> size = ((stack -> size) -1);
+
     return element;
   }
 }
