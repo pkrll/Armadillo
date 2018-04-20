@@ -1,5 +1,6 @@
 #include<stdlib.h>  // Ska raderas!
 #include<stdio.h> 	// Ska raderas!
+#include "stack.h"
 
 struct Stack_element {
   void *element;
@@ -31,6 +32,8 @@ void push_to_stack(Stack_t *stack, void *element) {
   new_element -> next = stack->top;
   stack -> size = ((stack -> size)+1);
   stack -> top = new_element;
+  printf("Stackens storlek är nu %d\n", stack->size);
+
 }
 
 void *pop_from_stack(Stack_t *stack) {
@@ -45,41 +48,6 @@ void *pop_from_stack(Stack_t *stack) {
     stack->top = frame->next;
     free(frame);
     stack -> size = ((stack -> size) -1);
-
     return element;
-  }}
-
-int main(int argc, char const *argv[]) {
-  Stack_t *stack = initialize_stack();
-  if (stack != NULL) {
-    printf("Sucess\n");
-  } else {
-    printf("failure\n");
   }
-  
-  int elem1 = 1;
-  push_to_stack(stack, &elem1);
-  int* elem1_fetch = ((pop_from_stack(stack)));
-  int elem1_converted = (*(elem1_fetch));
-
-  int elem2 = 2;
-  push_to_stack(stack, &elem2);
-  int* elem2_fetch = ((pop_from_stack(stack)));
-  int elem2_converted = (*(elem2_fetch));
-
-  int elem3 = 3;
-  push_to_stack(stack, &elem3);
-  int* elem3_fetch = ((pop_from_stack(stack)));
-  int elem3_converted = (*(elem3_fetch));
-
-  int elem4 = 4;
-  push_to_stack(stack, &elem4);
-  int* elem4_fetch = ((pop_from_stack(stack)));
-  int elem4_converted = (*(elem4_fetch));
-  
-  printf("elem1: %d\n", elem1_converted);
-  printf("elem2: %d\n", elem2_converted);
-  printf("elem3: %d\n", elem3_converted);
-  printf("elem4: %d\n", elem4_converted);
-  return 0;
 }
