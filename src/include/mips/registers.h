@@ -53,8 +53,9 @@
 #define C0_ENTRYLO1 $3
 #define C0_CONTEXT 	$4
 #define C0_PAGEMASK	$5
+#define C0_WIRED 		$6
 #define C0_BADVADDR	$8	// Bad virtual address
-#define CO_ENTRYHI	$10
+#define C0_ENTRYHI	$10
 
 #define C0_COUNT 		$9 	// Timer count
 #define C0_COMPARE	$11 // Timer compare
@@ -66,17 +67,9 @@
 
 #define C0_EBASE		$15,1	// Exception entry point base address
 
-// -----------------------------------
-// Adresses
-// -----------------------------------
-
-#define EBASE_ADDR 0x80100000 // Ebase adress
-
-// -----------------------------------
-// Bitmasks
-// -----------------------------------
-
-#define ENABLE_TIMINTR  0x8000
-#define ENABLE_INTR     0x1
+#define C0_CONFIG		$16		// CPU Config
+#define C0_CONFIG1	$16,1	// Config 1 (contains TLB size)
+#define C0_CONFIG2	$16,2
+#define C0_CONFIG3	$16,3
 
 #endif
