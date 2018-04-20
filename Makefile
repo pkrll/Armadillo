@@ -54,7 +54,7 @@ debug: $(BIN_DIR)/$(ELF_NAME)
 	@$(VM) $(VMFLAGS_DEBUG) -kernel $(BIN_DIR)/$(ELF_NAME)
 
 gdb: $(BIN_DIR)/$(ELF_NAME)
-	mipsel-elf-gdb --symbols=$(BIN_DIR)/$(ELF_NAME) -ex "target extended-remote :1234"
+	mipsel-elf-gdb --symbols=$(BIN_DIR)/$(ELF_NAME) -ex "target extended-remote :1234" -ex: "layout regs"
 
 objdump: $(BIN_DIR)/$(ELF_NAME)
 	mipsel-elf-objdump -D bin/uphill.elf > $(BIN_DIR)/uphill.asm

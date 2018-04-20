@@ -66,5 +66,17 @@
 
 #define C0_EBASE		$15,1	// Exception entry point base address
 
+// -----------------------------------
+// Adresses
+// -----------------------------------
+
+#define EBASE_ADDR 0x80100000 // Ebase adress
+
+// -----------------------------------
+// Bitmasks
+// -----------------------------------
+
+#define ENABLE_TIMINTR  0x8000
+#define ENABLE_INTR     0x1
 
 #endif
