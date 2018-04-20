@@ -1,4 +1,6 @@
 .globl bootup
+.globl stack
+.globl STACKSIZE
 .extern main
 
 .set noreorder
@@ -14,19 +16,26 @@ bootup:
 
 	li		$t1, 0x80100000		#  sets ebase
 	mtc0	$t1, $15,1
-	# Set status.bev to 0
+	# Set status.bev to 0, led stops working after this
 	li		$t0, 0x0
 	mtc0	$t0, $12
 
-	#li 	$t2, 0x7F7FFFFF
-	#and 	$t3, $t0, $t2
+	#li 	$t2, 0x7F7FFFFF   Bara ändra 23:e biten i $12?
+ 	#and 	$t3, $t0, $t2
 	#mtc0 $t3, $12
 
 	#Overflow exception
 	li		$t4, 0x7fffffff
 	addi 	$t5, $t4, 1
-
 	nop
+
+	#Trap exception
+	teqi $zero, 0
+
+	#li		$t6, 1							#Tänd en leddisplay
+	#sw		$t6, 0x1F000408			#Hoppar till 0x80100004 ovanför excp
+	#nop
+
 	jal main
 	nop
 	b .
@@ -34,5 +43,4 @@ bootup:
 
 .section .bss
 
-stack:
-	.space STACKSIZE
+stack: 			.space STACKSIZE

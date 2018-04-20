@@ -20,6 +20,7 @@ SECTIONS
 
 	.data ALIGN(4K) :
 	{
+		*(.kdata*)
 		*(.data*)
 		*(.gnu.linkonce.d.*)
 	}

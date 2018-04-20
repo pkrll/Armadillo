@@ -62,6 +62,10 @@ int main(void) {
 	return 0;
 }
 
-void exception_handler() {
-	printk("Nope");
+void exception_overflow() {
+	printk("Overflow_exception\n");
+}
+
+void exception_trap() {
+	printk("Trap_exception\n");
 }
