@@ -11,16 +11,19 @@ ELF_NAME = uphill.elf
 
 SRC_DIR = src
 KER_SRC = $(SRC_DIR)/kernel
+INC_DIR = $(SRC_DIR)/include
 OBJ_DIR = obj
 BIN_DIR = bin
 
 # Source and object files
 
+HEADER_SOURCES=$(wildcard $(INC_DIR)/*.h)
 KERNEL_SOURCES=$(wildcard $(KER_SRC)/*.c)
 ASSEMBLY_SOURCES=$(wildcard $(KER_SRC)/*.S)
 
 OBJECTS = $(patsubst $(KER_SRC)/%.c, $(OBJ_DIR)/%.o, $(KERNEL_SOURCES))
 OBJECTS += $(patsubst $(KER_SRC)/%.S, $(OBJ_DIR)/%.o, $(ASSEMBLY_SOURCES))
+
 
 all:
 	@echo "usage: make [build|compile|run|debug|gdb|objdump|symbols|clean]"
@@ -30,9 +33,12 @@ build: $(BIN_DIR)/$(ELF_NAME)
 compile: $(OBJECTS)
 
 $(OBJ_DIR)/%.o: $(KER_SRC)/%.c
-	$(CC)-gcc $(CFLAGS) -o $@ -c $<
+	$(CC)-gcc -I $(INC_DIR) $(CFLAGS) -o $@ -c $<
 
-$(OBJ_DIR)/%.o: $(KER_SRC)/%.S
+$(OBJ_DIR)/%.s: $(KER_SRC)/%.S
+	$(CC)-gcc -I $(INC_DIR) -E -o $@ $<
+
+$(OBJ_DIR)/%.o: $(OBJ_DIR)/%.s
 	$(CC)-as $(AFLAGS) -o $@ $<
 
 $(BIN_DIR)/$(ELF_NAME): $(OBJECTS)
