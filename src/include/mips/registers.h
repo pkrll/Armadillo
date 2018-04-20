@@ -48,11 +48,11 @@
 // -----------------------------------
 
 #define C0_INDEX 		$0 	// Select TLB entry for read / write
-#define C0_RANDOM 	$2
-#define C0_ENTRYLO0 $3
-#define C0_ENTRYLO1 $4
-#define C0_CONTEXT 	$5
-#define C0_PAGEMASK	$6
+#define C0_RANDOM 	$1
+#define C0_ENTRYLO0 $2
+#define C0_ENTRYLO1 $3
+#define C0_CONTEXT 	$4
+#define C0_PAGEMASK	$5
 #define C0_BADVADDR	$8	// Bad virtual address
 #define CO_ENTRYHI	$10
 
@@ -62,7 +62,7 @@
 #define C0_STATUS		$12 // Status register
 #define C0_CAUSE		$13 // Cause register
 
-#define C0_ECP			$14	// Exception Program Counter
+#define C0_EPC			$14	// Exception Program Counter
 
 #define C0_EBASE		$15,1	// Exception entry point base address
 
