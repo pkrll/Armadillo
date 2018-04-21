@@ -1,6 +1,6 @@
 
 #define UART16550BASE 0xb80003f8
-#define DISPLAYREGIST 0x1F000400
+#define DISPLAYREGIST 0xbf000400 // Boot mode: 0x1F000400 ?
 #define ASDCIIDISPLAY	DISPLAYREGIST + 0x00000018
 #define LEDDISPLAY 		DISPLAYREGIST + 0x00000008
 
@@ -41,7 +41,7 @@ void print_to_led(const int position) {
 
 void start_counter() {
 	while (1) {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 1; i < 10; i++) {
 			for (int i = 0; i < 100000000; i++) { /* Pause... */ }
 
 			if (i == 9) {
@@ -60,4 +60,8 @@ int main(void) {
 	start_counter();
 
 	return 0;
+}
+
+void exception_handler() {
+	printk("Nope");
 }
