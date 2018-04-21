@@ -37,7 +37,7 @@ void test_push() {
 
 void test_pop() {
   Stack_t *stack = initialize_stack();
-  
+
   int elem1 = 1;
   push_to_stack(stack, &elem1);
   int elem2 = 2;
@@ -61,17 +61,16 @@ void test_pop() {
 }
 
 
-int main(int argc, char *argv[argc]){
+int main(){
   CU_initialize_registry();
   CU_pSuite stack_test = CU_add_suite("Testing stack creation, push, pop and destruction", NULL, NULL);
   CU_add_test(stack_test, "Create stack", test_stack_creation);
   CU_add_test(stack_test, "Push elements to stack", test_push);
   CU_add_test(stack_test, "Pop elements from stack", test_pop);
-    
+
   CU_basic_run_tests();
 
   CU_cleanup_registry();
 
   return CU_get_error();
 }
-
