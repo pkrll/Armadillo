@@ -62,6 +62,9 @@ objdump: $(BIN_DIR)/$(ELF_NAME)
 symbols: $(BIN_DIR)/$(ELF_NAME)
 	mipsel-elf-nm -n $(BIN_DIR)/$(ELF_NAME)
 
+style:
+	astyle --style=google --indent=tab=2 --indent-continuation=2 $(KERNEL_SOURCES)
+
 clean:
 	rm -rf bin/*
 	rm -rf obj/*
