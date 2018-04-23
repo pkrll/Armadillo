@@ -24,8 +24,6 @@ start:
 	mtc0	T1, C0_STATUS
 
 	# jal		init_timer
-
-
 	#syscall # temporary
 
 	nop

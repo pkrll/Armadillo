@@ -4,6 +4,9 @@
 #define ASDCIIDISPLAY	DISPLAYREGIST + 0x00000018
 #define LEDDISPLAY 		DISPLAYREGIST + 0x00000008
 
+extern int syscall();
+
+
 void putchar(char c) {
 	// Line status register.
 	volatile int* lsr = (volatile int*)(UART16550BASE + 0x0028);
@@ -45,7 +48,7 @@ void start_counter() {
 			for (int i = 0; i < 100000000; i++) { /* Pause... */ }
 
 			if (i == 9) {
-				reset_led();
+				asm volatile("li $a0, 0x1;" "syscall");
 			} else {
 				print_to_led(i);
 			}
