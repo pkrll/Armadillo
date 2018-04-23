@@ -23,13 +23,13 @@ start:
 	li		T1, 0x0
 	mtc0	T1, C0_STATUS
 
-	jal		init_timer
+	# jal		init_timer
 
 
 	#syscall # temporary
 
 	nop
-	#jal main
+	jal main
 	nop
 	b	.
 
