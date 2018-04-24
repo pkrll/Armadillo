@@ -3,7 +3,7 @@
 #include <mips/bitmasks.h>
 #include <mips/pcb.h>
 
-.globl init_process_1
+.globl test_dispatcher
 .globl  context_switch
 .extern print0
 .extern print1
@@ -12,6 +12,9 @@
 .set RAMSIZE, PCB_SIZE * 5
 
 .section .text
+
+test_dispatcher:
+
 init_process_1:
 	nop
 	la		$t1, _running
@@ -19,8 +22,6 @@ init_process_1:
 	add		$t0, $zero, $zero
 	addi	$t0, 1
 	sw		$t0, 0($t1)		# Set _running to 1
-	lw		$t1, 0($t1)		# check??? should be 1
-
 
 	jal 	get_pcb_adress 			# PCB Adress is in $k1
 	nop
@@ -38,7 +39,7 @@ init_process_0:
 	add		$t0, $zero, $zero
 	sw		$t0, 0($t1)		# Set _running to 0
 
-	jal get_pcb_adress 			# PCB Adress is in $k1
+	jal get_pcb_adress 	# PCB Adress is in $k1
 	nop
 	li		$t1, 0
 	sw		$t1, 0($k1)		# Store PID
@@ -46,12 +47,12 @@ init_process_0:
 	jal get_context_adress 	# Context adress is in $k1
 	nop
 	la		$t1, process_0
-	sw		$t1, 112($k1)		# Starting point of the process
+	sw		$t1, 112($k1)		  # Starting point of the process
 
 # Arbetsyta för process 0
 process_0:
 	li		$t1, 0xDEADBEEF
-	jal		print0				# jump to print0 and save position to $ra
+	jal		print0
 	nop
 	syscall
 	nop
@@ -95,11 +96,12 @@ save_context:
 	lw		$k0, 0($sp) # $ra
 	addi	$sp, 4
 
-	# Get offending instruction and store it + 4 as the PC from where to resume next time
-	mfc0	$k0, $14 # EPC
+	# Get offending instruction, add 4, and store
+  # it as the PC from where to resume next time
+	mfc0	$k0, C0_EPC # EPC
 	addi	$k0, $k0, 4
 
-	sw		$k0, 112($k1)		# pc
+	sw		$k0, 112($k1)	# pc
 	sw		$fp, 108($k1)
 	sw		$gp, 104($k1)
 	sw		$s7, 100($k1)
@@ -164,15 +166,15 @@ load_context:
 	lw		$k1, 8($k1)
 	#lw		$ra, 4($k1) # Dessa skiter sig
 	#lw		$sp, 0($k1)
-	mtc0	$k0, $14 	# Store old pc in EPC register
-	eret						# Returns from exception using EPC
+	mtc0	$k0, C0_EPC # Store old pc in EPC register
+	eret						  # Returns from exception using EPC
 	nop
 
 # Puts the adress of the current process' CPU context in $k1
 get_context_adress:
 	addi	$sp, -4
-	sw 		$ra, 0($sp)						# Save stack pointer due to jal
-	jal		get_pcb_adress				# jump to get_pcb_adress and save position to $ra
+	sw 		$ra, 0($sp)			# Save stack pointer due to jal
+	jal		get_pcb_adress	# jump to get_pcb_adress and save position to $ra
 	nop
 	addi	$k1, CONTEXT_OFFSET
 	lw		$ra, 0($sp)

@@ -4,16 +4,13 @@
 #include <mips/pcb.h>
 
 .globl start
-.globl context_switch
 .extern main
 .extern	init_timer
-.extern init_process_1
-
+.extern test_dispatcher
 
 .set noreorder
 
 .set STACKSIZE, 0x4000
-
 
 .section .text
 
@@ -28,7 +25,7 @@ start:
 	# use the RAM-based exception vector.
 	li		T1, 0x0
 	mtc0	T1, C0_STATUS
-	jal init_process_1
+	jal test_dispatcher
 	nop
 #	jal		init_timer
 
