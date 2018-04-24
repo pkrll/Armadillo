@@ -22,6 +22,16 @@ void printk(const char* s) {
 	}
 }
 
+void print1(){
+	printk("1");
+	for (int i = 1; i < 100000; i++);
+}
+
+void print0(){
+	printk("0");
+	for (int i = 1; i < 100000; i++);
+}
+
 void print_to_ascii(const char *string) {
 	char *asciipos = (char *) ASDCIIDISPLAY;
 	for (int i = 0; i < 8; i++) {
