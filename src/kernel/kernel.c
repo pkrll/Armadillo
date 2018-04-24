@@ -1,6 +1,6 @@
 
 #define UART16550BASE 0xb80003f8
-#define DISPLAYREGIST 0x1F000400
+#define DISPLAYREGIST 0xbf000400 // Boot mode: 0x1F000400 ?
 #define ASDCIIDISPLAY	DISPLAYREGIST + 0x00000018
 #define LEDDISPLAY 		DISPLAYREGIST + 0x00000008
 
@@ -55,7 +55,7 @@ void start_counter() {
 			for (int i = 0; i < 100000000; i++) { /* Pause... */ }
 
 			if (i == 9) {
-				reset_led();
+				asm volatile("li $a0, 0x1;" "syscall");
 			} else {
 				print_to_led(i);
 			}

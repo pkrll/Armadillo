@@ -25,15 +25,12 @@ start:
 	# use the RAM-based exception vector.
 	li		T1, 0x0
 	mtc0	T1, C0_STATUS
+
+	# jal		init_timer
+	#syscall # temporary
 	jal test_dispatcher
 	nop
-#	jal		init_timer
-
-
-	#syscall # temporary
-
-	nop
-#	jal main
+	#jal main
 	nop
 	b	.
 
