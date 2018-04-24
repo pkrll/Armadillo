@@ -5,17 +5,15 @@
 #include <CUnit/Automated.h>
 #include "stack.h"
 
-
-struct Stack_element {
+typedef struct Stack_element {
   void *element;
   struct Stack_element *next;
-} typedef Stack_element_t;
-
-struct Stack {
+} Stack_element_t;
+  
+typedef struct Stack {
   Stack_element_t *top;
   int size;
-} typedef Stack_t;
-
+} Stack_t;
 
 void test_stack_creation() {
   Stack_t *stack = initialize_stack();
@@ -46,16 +44,19 @@ void test_pop() {
   push_to_stack(stack, &elem3);
   int elem4 = 4;
   push_to_stack(stack, &elem4);
-
+  
   int *elem1_fetch = ((pop_from_stack(stack)));
   int elem1_converted = (*(elem1_fetch));
   CU_ASSERT_TRUE((elem1_converted) == 4);
   int *elem2_fetch = ((pop_from_stack(stack)));
   int elem2_converted = (*(elem2_fetch));
+  CU_ASSERT_TRUE((elem2_converted) == 3);
   int *elem3_fetch = ((pop_from_stack(stack)));
   int elem3_converted = (*(elem3_fetch));
+  CU_ASSERT_TRUE((elem3_converted) == 2);
   int *elem4_fetch = ((pop_from_stack(stack)));
   int elem4_converted = (*(elem4_fetch));
+  CU_ASSERT_TRUE((elem4_converted) == 1);
 
   CU_ASSERT_TRUE((stack->size) == 0);
 }
