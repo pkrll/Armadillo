@@ -1,3 +1,5 @@
+PHONY: run debug gdb objdump symbols docs style clean
+
 CC = mipsel-elf
 CFLAGS = -g -Wall -Wextra -Werror -nostdlib -fno-builtin
 AFLAGS = --gen-debug -mips32
@@ -61,6 +63,12 @@ objdump: $(BIN_DIR)/$(ELF_NAME)
 
 symbols: $(BIN_DIR)/$(ELF_NAME)
 	mipsel-elf-nm -n $(BIN_DIR)/$(ELF_NAME)
+
+Doxyfile:
+	doxygen -g Doxyfile
+
+docs: Doxyfile
+	doxygen Doxyfile
 
 style:
 	astyle --style=google --indent=tab=2 --indent-continuation=2 $(KERNEL_SOURCES)
