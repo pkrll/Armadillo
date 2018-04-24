@@ -3,41 +3,45 @@ OUTPUT_FORMAT(elf32-littlemips)
 
 SECTIONS
 {
-	_ram = 0x80000000;
+    _ram = 0x80000000;
 
-  .text 0x80100000 : {
-    /* Exception handlers. */
-		*(.ktext)
-		. = ALIGN(4K);
-		*(.text)
-	}
+    . = 0x80100000;
+    __start = .;
+    __text_start = .;
 
-	.rodata ALIGN(4K) :
-	{
-		*(.rodata*)
-		*(.gnu.linkonce.r.*)
-	}
+    .text :
+    {
+        KEEP(*(.ktext))
+        *(.text)
+    }
+    . = ALIGN(4096); /* align to page size */
+    __text_end = .;
 
-	.data ALIGN(4K) :
-	{
-		*(.data*)
-		*(.gnu.linkonce.d.*)
-	}
+    __rodata_start = .;
+    .rodata :
+    {
+        *(.rodata)
+    }
+    . = ALIGN(4096); /* align to page size */
+    __rodata_end = .;
 
-	.bss ALIGN(4K) :
-	{
-		*(.common)
-		*(.bss*)
-		*(.gnu.linkonce.b.*)
-	}
+    __data_start = .;
+    .data :
+    {
+        *(.data)
+    }
 
-	/DISCARD/ :
-	{
-		/* *(.gcc_except_table) */
-		*(.eh_frame)
-		*(.note)
-		*(.comment)
-		*(.rel.*)
-		*(.rela.*)
-	}
+    . = ALIGN(4096); /* align to page size */
+    __data_end = .;
+
+    __bss_start = .;
+    .bss :
+    {
+        bss = .;
+        *(.bss)
+    }
+
+    . = ALIGN(4096); /* align to page size */
+    __bss_end = .;
+    __end = .;
 }
