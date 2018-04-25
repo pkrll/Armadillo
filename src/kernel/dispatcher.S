@@ -32,6 +32,12 @@ init_process_1:
 	nop
 	la		$t1, process_1
 	sw		$t1, 112($k1)		# Starting point of the process
+	
+	move 	$t0, $k1		#  Transfer context adress to $t0
+	jal		get_stack_adress # jump to get_stack_adress and save position to $ra
+	nop
+	sw		$k1, 0($t0)		# Init stack pointer to first byte of process stack
+
 
 init_process_0:
 	nop
@@ -163,9 +169,9 @@ load_context:
 	lw		$t3, 20($k1)
 	lw		$t2, 16($k1)
 	lw		$t1, 12($k1)
-	lw		$k1, 8($k1)
-	#lw		$ra, 4($k1) # Dessa skiter sig
-	#lw		$sp, 0($k1)
+	lw		$t0, 8($k1)
+	lw		$ra, 4($k1) # Dessa skiter sig
+	lw		$sp, 0($k1)
 	mtc0	$k0, C0_EPC # Store old pc in EPC register
 	eret						  # Returns from exception using EPC
 	nop
@@ -195,6 +201,16 @@ get_pcb_adress:
 	jr		$ra
 	nop
 
+get_stack_adress:
+	addi	$sp, -4
+	sw 		$ra, 0($sp)			# Save stack pointer due to jal
+	jal get_pcb_adress				# PCB adress is now in $k1
+	nop
+	addi	$k1, STACK_SIZE
+	lw		$ra, 0($sp)
+	addi	$sp, 4
+	jr		$ra
+	nop
 
 .section .bss
 
