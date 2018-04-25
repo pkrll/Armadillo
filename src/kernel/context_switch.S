@@ -1,10 +1,10 @@
 #include <mips/registers.h>
 #include <mips/adresses.h>
 #include <mips/bitmasks.h>
-#include <mips/pcb.h>
+#include <mips/pcb_offsets.h>
 
 .globl test_dispatcher
-.globl  context_switch
+.globl context_switch
 .extern print0
 .extern print1
 
@@ -32,7 +32,7 @@ init_process_1:
 	nop
 	la		$t1, process_1
 	sw		$t1, 112($k1)		# Starting point of the process
-	
+
 	move 	$t0, $k1		#  Transfer context adress to $t0
 	jal		get_stack_adress # jump to get_stack_adress and save position to $ra
 	nop

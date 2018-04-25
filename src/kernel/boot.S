@@ -1,7 +1,7 @@
 #include <mips/registers.h>
 #include <mips/adresses.h>
 #include <mips/bitmasks.h>
-#include <mips/pcb.h>
+#include <mips/pcb_offsets.h>
 
 .globl start
 .extern main
@@ -28,9 +28,9 @@ start:
 
 	# jal		init_timer
 	#syscall # temporary
-	jal test_dispatcher
+	#jal test_dispatcher
 	nop
-	#jal main
+	jal main
 	nop
 	b	.
 

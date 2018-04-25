@@ -1,5 +1,5 @@
-#ifndef __PCB_H_
-#define __PCB_H_
+#ifndef __PCB_OFFSETS_H_
+#define __PCB_OFFSETS_H_
 
 #define PID_SIZE        0x4
 #define STATE_SIZE      0x4
@@ -15,4 +15,5 @@
 #define CONTEXT_OFFSET PID_SIZE + STATE_SIZE
 #define PC_OFFSET PID_SIZE + STACK_SIZE + CONTEXT_SIZE + STACK_SIZE + TEXT_SIZE + DATA_SIZE + MEM_IMAGE_SIZE + SCHEDULE_SIZE
 #define STACK_OFFSET PID_SIZE + STATE_SIZE + CONTEXT_SIZE
+
 #endif

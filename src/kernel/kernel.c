@@ -1,4 +1,6 @@
 
+#include "common/list.h"
+
 #define UART16550BASE 0xb80003f8
 #define DISPLAYREGIST 0xbf000400 // Boot mode: 0x1F000400 ?
 #define ASDCIIDISPLAY	DISPLAYREGIST + 0x00000018
@@ -65,8 +67,20 @@ void start_counter() {
 }
 
 int main(void) {
+	malloc_init();
 	printk("Hello world!\n");
 	print_to_ascii("UphillOS");
+	char *test = malloc(sizeof(char));
+	char *test2 = malloc(sizeof(char));
+	test = "hej\0";
+	test2 = "bye\0";
+	list_t *list = list_new();
+	enqueue(list, test);
+	enqueue(list, test2);
+	char *poop = pop(list);
+	printk(poop);
+	char *pee = pop(list);
+	printk(pee);
 	start_counter();
 
 	return 0;
