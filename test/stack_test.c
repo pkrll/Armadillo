@@ -3,62 +3,75 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 #include <CUnit/Automated.h>
-#include "stack.h"
-
-typedef struct Stack_element {
-  void *element;
-  struct Stack_element *next;
-} Stack_element_t;
-  
-typedef struct Stack {
-  Stack_element_t *top;
-  int size;
-} Stack_t;
+#include <common/stack.h>
 
 void test_stack_creation() {
-  Stack_t *stack = initialize_stack();
+  Stack_t *stack = stack_init();
   CU_ASSERT_TRUE(stack != NULL);
+	stack_destroy(stack);
 }
 
 void test_push() {
-  Stack_t *stack = initialize_stack();
-  int elem1 = 1;
-  push_to_stack(stack, &elem1);
-  int elem2 = 2;
-  push_to_stack(stack, &elem2);
-  int elem3 = 3;
-  push_to_stack(stack, &elem3);
-  int elem4 = 4;
-  push_to_stack(stack, &elem4);
-  CU_ASSERT_TRUE(stack->size == 4);
+  Stack_t *stack = stack_init();
+	CU_ASSERT_TRUE(stack_size(stack) == 0);
+
+	int elem1 = 1;
+  stack_push(stack, &elem1);
+	CU_ASSERT_TRUE(stack_size(stack) == 1);
+
+	int elem2 = 2;
+  stack_push(stack, &elem2);
+	CU_ASSERT_TRUE(stack_size(stack) == 2);
+
+	int elem3 = 3;
+  stack_push(stack, &elem3);
+	CU_ASSERT_TRUE(stack_size(stack) == 3);
+
+	int elem4 = 4;
+  stack_push(stack, &elem4);
+  CU_ASSERT_TRUE(stack_size(stack) == 4);
+
+	stack_destroy(stack);
 }
 
 void test_pop() {
-  Stack_t *stack = initialize_stack();
+  Stack_t *stack = stack_init();
+	CU_ASSERT_TRUE(stack_size(stack) == 0);
 
   int elem1 = 1;
-  push_to_stack(stack, &elem1);
+  stack_push(stack, &elem1);
   int elem2 = 2;
-  push_to_stack(stack, &elem2);
+  stack_push(stack, &elem2);
   int elem3 = 3;
-  push_to_stack(stack, &elem3);
+  stack_push(stack, &elem3);
   int elem4 = 4;
-  push_to_stack(stack, &elem4);
-  
-  int *elem1_fetch = ((pop_from_stack(stack)));
+  stack_push(stack, &elem4);
+
+	CU_ASSERT_TRUE(stack_size(stack) == 4);
+
+  int *elem1_fetch = stack_pop(stack);
   int elem1_converted = (*(elem1_fetch));
   CU_ASSERT_TRUE((elem1_converted) == 4);
-  int *elem2_fetch = ((pop_from_stack(stack)));
+
+	CU_ASSERT_TRUE(stack_size(stack) == 3);
+
+  int *elem2_fetch = stack_pop(stack);
   int elem2_converted = (*(elem2_fetch));
   CU_ASSERT_TRUE((elem2_converted) == 3);
-  int *elem3_fetch = ((pop_from_stack(stack)));
+
+	CU_ASSERT_TRUE(stack_size(stack) == 2);
+
+  int *elem3_fetch = stack_pop(stack);
   int elem3_converted = (*(elem3_fetch));
   CU_ASSERT_TRUE((elem3_converted) == 2);
-  int *elem4_fetch = ((pop_from_stack(stack)));
+
+	CU_ASSERT_TRUE(stack_size(stack) == 1);
+
+  int *elem4_fetch = stack_pop(stack);
   int elem4_converted = (*(elem4_fetch));
   CU_ASSERT_TRUE((elem4_converted) == 1);
 
-  CU_ASSERT_TRUE((stack->size) == 0);
+  CU_ASSERT_TRUE((stack_size(stack)) == 0);
 }
 
 

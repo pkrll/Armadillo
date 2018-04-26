@@ -60,6 +60,7 @@ run: $(BIN_DIR)/$(ELF_NAME)
 	@$(VM) $(VMFLAGS) -kernel $(BIN_DIR)/$(ELF_NAME)
 
 test: test_stack
+	./bin/test_stack
 
 test_stack: $(OBJ_DIR)/stack.o $(OBJ_DIR)/stack_test.o
 	gcc -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJ_DIR)/stack.o $(OBJ_DIR)/stack_test.o -o $(BIN_DIR)/test_stack $(TFLAGS)

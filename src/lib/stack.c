@@ -1,49 +1,59 @@
-#include <stdlib.h>  // Temporary!
-#include <stdio.h>   // Temporary!
-#include <stack.h>
+#include <stdlib.h>
+#include <common/stack.h>
 
-typedef struct Stack_element {
+struct StackElement {
   void *element;
-  struct Stack_element *next;
-} Stack_element_t;
-  
-typedef struct Stack {
+  Stack_element_t *next;
+};
+
+struct Stack {
   Stack_element_t *top;
   int size;
-} Stack_t;
+};
 
-Stack_t *initialize_stack() {
-  Stack_t *stack  = calloc(1, sizeof(stack));
-  stack -> size = 0;
+stack_t *stack_init() {
+  stack_t *stack = calloc(1, sizeof(stack));
+
+	if (stack != NULL) {
+		stack->size = 0;
+	}
+
   return stack;
 }
 
-void destroy_stack(Stack_t *stack) {
-  if (stack == NULL) {
-    printf("There is no stack to destroy.");
-    return;
-  }
-  free(stack);
+void stack_destroy(stack_t *stack) {
+  if (stack != NULL) free(stack);
 }
 
-void push_to_stack(Stack_t *stack, void *element) {
+void stack_push(stack_t *stack, void *element) {
   Stack_element_t *new_element = calloc(1, sizeof(new_element));
-  new_element -> element = element;
-  new_element -> next = stack->top;
-  stack -> size = ((stack -> size)+1);
-  stack -> top = new_element;
+  new_element->element = element;
+  new_element->next = stack->top;
+  stack->size = stack->size + 1;
+  stack->top = new_element;
 }
 
-void *pop_from_stack(Stack_t *stack) {
+void *stack_pop(stack_t *stack) {
   if (stack->size > 0) {
     Stack_element_t *frame = stack->top;
     void *element = frame->element;
 
     stack->top = frame->next;
-    free(frame);
-    stack -> size = ((stack -> size) -1);
+
+		free(frame);
+
+    stack->size--;
 
     return element;
   }
+
   return 0;
+}
+
+int stack_size(stack_t *stack) {
+	if (stack) {
+		return stack->size;
+	}
+
+	return 0;
 }
