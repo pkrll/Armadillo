@@ -13,6 +13,7 @@ ELF_NAME = uphill.elf
 
 SRC_DIR = src
 KER_SRC = $(SRC_DIR)/kernel
+CMN_SRC = $(SRC_DIR)/common
 INC_DIR = $(SRC_DIR)/include
 OBJ_DIR = obj
 BIN_DIR = bin
@@ -21,9 +22,11 @@ BIN_DIR = bin
 
 HEADER_SOURCES=$(wildcard $(INC_DIR)/*.h)
 KERNEL_SOURCES=$(wildcard $(KER_SRC)/*.c)
+COMMON_SOURCES=$(wildcard $(CMN_SRC)/*.c)
 ASSEMBLY_SOURCES=$(wildcard $(KER_SRC)/*.S)
 
 OBJECTS = $(patsubst $(KER_SRC)/%.c, $(OBJ_DIR)/%.o, $(KERNEL_SOURCES))
+OBJECTS += $(patsubst $(CMN_SRC)/%.c, $(OBJ_DIR)/%.o, $(COMMON_SOURCES))
 OBJECTS += $(patsubst $(KER_SRC)/%.S, $(OBJ_DIR)/%.o, $(ASSEMBLY_SOURCES))
 
 
@@ -35,6 +38,9 @@ build: $(BIN_DIR)/$(ELF_NAME)
 compile: $(OBJECTS)
 
 $(OBJ_DIR)/%.o: $(KER_SRC)/%.c
+	$(CC)-gcc -I $(INC_DIR) $(CFLAGS) -o $@ -c $<
+
+$(OBJ_DIR)/%.o: $(CMN_SRC)/%.c
 	$(CC)-gcc -I $(INC_DIR) $(CFLAGS) -o $@ -c $<
 
 $(OBJ_DIR)/%.s: $(KER_SRC)/%.S
