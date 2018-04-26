@@ -1,3 +1,4 @@
+#include <common/memory.h>
 
 #define UART16550BASE 0xb80003f8
 #define DISPLAYREGIST 0xbf000400 // Boot mode: 0x1F000400 ?
@@ -55,9 +56,26 @@ void start_counter() {
 }
 
 int main(void) {
-	printk("Hello world!\n");
-	print_to_ascii("UphillOS");
-	start_counter();
+	// printk("Hello world!\n");
+	// print_to_ascii("UphillOS");
+	// start_counter();
+	mem_init();
+	char *array = malloc(sizeof(char));
+	array[0] = 'a';
+	array[1] = 'b';
+	array[2] = 'c';
+	array[3] = '\n';
+	array[4] = '\0';
+	printk(array);
+
+	char *array2 = malloc(sizeof(char));
+	array2[0] = 'd';
+	array2[1] = 'e';
+	array2[2] = 'f';
+	array2[3] = '\n';
+	array2[4] = '\0';
+	printk(array2);
+	printk(array);
 
 	return 0;
 }
