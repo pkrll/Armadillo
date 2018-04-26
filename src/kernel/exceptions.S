@@ -41,5 +41,5 @@ __jump_back:
 
 __syscall:
 
-	jal context_switch
+	b context_switch
 	nop

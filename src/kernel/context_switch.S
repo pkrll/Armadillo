@@ -2,6 +2,8 @@
 #include <mips/adresses.h>
 #include <mips/bitmasks.h>
 #include <mips/pcb_offsets.h>
+#include <common/pcb.h>
+#include <common/dispatcher.h>
 
 .globl test_dispatcher
 .globl context_switch
@@ -11,81 +13,36 @@
 .set noreorder
 .set RAMSIZE, PCB_SIZE * 5
 
+.section .kdata
+	pid: .word 0
+	_pcb_adress_space: .word 0
+
 .section .text
 
-test_dispatcher:
-
-init_process_1:
-	nop
-	la		$t1, _running
-
-	add		$t0, $zero, $zero
-	addi	$t0, 1
-	sw		$t0, 0($t1)		# Set _running to 1
-
-	jal 	get_pcb_adress 			# PCB Adress is in $k1
-	nop
-	li		$t1, 0
-	sw		$t1, 0($k1)		# Store PID
-
-	jal get_context_adress 	# Context adress is in $k1
-	nop
-	la		$t1, process_1
-	sw		$t1, 112($k1)		# Starting point of the process
-
-	move 	$t0, $k1		#  Transfer context adress to $t0
-	jal		get_stack_adress # jump to get_stack_adress and save position to $ra
-	nop
-	sw		$k1, 0($t0)		# Init stack pointer to first byte of process stack
-
-
-init_process_0:
-	nop
-	la		$t1, _running
-	add		$t0, $zero, $zero
-	sw		$t0, 0($t1)		# Set _running to 0
-
-	jal get_pcb_adress 	# PCB Adress is in $k1
-	nop
-	li		$t1, 0
-	sw		$t1, 0($k1)		# Store PID
-
-	jal get_context_adress 	# Context adress is in $k1
-	nop
-	la		$t1, process_0
-	sw		$t1, 112($k1)		  # Starting point of the process
-
-# Arbetsyta för process 0
-process_0:
-	li		$t1, 0xDEADBEEF
-	jal		print0
-	nop
-	syscall
-	nop
-	b process_0
-	nop
-
-# Arbetsyta för process 1
-process_1:
-	li		$t1, 0xB000B1E5
-	jal print1
-	nop
-	syscall
-	nop
-	b process_1
 
 context_switch:
+
+	# Get offending instruction, add 4, and store
+	# it as the PC from where to resume next time
+	mfc0	$k0, C0_EPC 	# EPC
+
 	addi	$sp, -4
-	sw		$ra, 0($sp) # Save $ra before jal
+	sw		$ra, 0($sp) 	# Save $ra before jal
+	jal 	get_pcb_adress 	# Adress is in $k1
+	nop
+	lw		$ra, 0($sp)
+	addi	$sp, 4
+
+	sw		$k0, 4($k1)		# Store PC in PCB
+
+	addi	$sp, -4
+	sw		$ra, 0($sp) 	# Save $ra before jal
 	jal		save_context
 	nop
 
-	# pick_process, hardcoded for now
-	la 		$k0, _running	# Adress of current PID
-	li		$t0, 1
-	lw		$t1, 0($k0)		# Value of current PID
-	xor		$t0, $t1, $t0	# Flip the current PID
-	sw		$t0, 0($k0)		# Store new PID
+	# pick a process in C
+	jal 	process_switch # pid in $v0??
+	nop
 
 	jal		load_context
 	nop
@@ -99,15 +56,9 @@ save_context:
 	addi	$sp, 4
 
 	# Pop original $ra from the stack to store and restore the stack pointer
-	lw		$k0, 0($sp) # $ra
 	addi	$sp, 4
+	lw		$k0, 0($sp) # $ra
 
-	# Get offending instruction, add 4, and store
-  # it as the PC from where to resume next time
-	mfc0	$k0, C0_EPC # EPC
-	addi	$k0, $k0, 4
-
-	sw		$k0, 112($k1)	# pc
 	sw		$fp, 108($k1)
 	sw		$gp, 104($k1)
 	sw		$s7, 100($k1)
@@ -140,10 +91,14 @@ save_context:
 	nop
 
 load_context:
+	jal get_pcb_adress
+	nop
+	addi	$k1, 4	# adress to PC storing place
+	mtc0	$k1, C0_EPC # Store old pc in EPC register
+
 	jal		get_context_adress # Adress to context is in $k1
 	nop
 
-	lw		$k0, 112($k1)		# pc, adress to resume execution from
 	lw		$fp, 108($k1)
 	lw		$gp, 104($k1)
 	lw		$s7, 100($k1)
@@ -170,9 +125,9 @@ load_context:
 	lw		$t2, 16($k1)
 	lw		$t1, 12($k1)
 	lw		$t0, 8($k1)
-	lw		$ra, 4($k1) # Dessa skiter sig
+	lw		$ra, 4($k1)
 	lw		$sp, 0($k1)
-	mtc0	$k0, C0_EPC # Store old pc in EPC register
+
 	eret						  # Returns from exception using EPC
 	nop
 
@@ -182,22 +137,25 @@ get_context_adress:
 	sw 		$ra, 0($sp)			# Save stack pointer due to jal
 	jal		get_pcb_adress	# jump to get_pcb_adress and save position to $ra
 	nop
-	addi	$k1, CONTEXT_OFFSET
 	lw		$ra, 0($sp)
 	addi	$sp, 4
+	li		$k0, CONTEXT_OFFSET
+	add		$k1, $k1, $k0		# Add context offset to PCB adress
 	jr		$ra
 	nop
 
 # Puts the adress of the current process' PCB in $k1
 get_pcb_adress:
 	nop									# This must be here because of pseudo instruction 'la'
-	la 		$k0, _running	# Adress of current PID
-	lw		$k0, 0($k0)		# Current PID
-	li 		$k1, PCB_SIZE
-	mult  $k0, $k1			# Offset
-	mflo	$k0
-	la 		$k1, ram			# Adress to ram
-	add		$k1, $k1, $k0	#	Adress to PCB
+	la 		$k0, running_process	# Adress of current PCB
+	lw		$k0, 0($k0)		# Current PID, (first byte in PCB)
+	li		$k1, PCB_SIZE
+	mult  $k0, $k1
+	mflo	$k0						# Offset to PCB correct
+
+	lw		$k1, pcb_adress_space
+	add		$k1, $k1, $k0	# Add the offset and get the correct PCB adress
+
 	jr		$ra
 	nop
 

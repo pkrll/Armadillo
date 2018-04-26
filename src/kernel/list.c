@@ -1,20 +1,34 @@
-#include "common/list.h"
+#include <common/list.h>
 
-struct link{
+/**
+* Struct used as links in a list. Contains a pointer to
+* data and a pointer to the next item in the list, if any.
+*/
+struct Link{
   void *data;
   link_t *next;
 };
 
-struct list{
+/**
+* List struct with pointers to the first and last element
+* and also the size of the list.
+*/
+struct List{
   link_t *first;
   link_t *last;
   int size;
 };
 
+/**
+* Allocates space for a link, initiates data and next to NULL.
+* @param [out] Pointer to the link
+*/
 link_t *link_new(){
   link_t *link = malloc(sizeof(link_t*));
+  link->data = NULL;
+  link->next = NULL;
   return link;
-}
+};
 
 list_t *list_new(){
     list_t *list = malloc(sizeof(list_t*));
@@ -39,11 +53,12 @@ void enqueue(list_t *list, void *data){
 
 void *pop(list_t *list){
   void *result;
-  if (list->size>0) {
-    result = list->first->data;
+  if (list -> size>0) {
+    result = list -> first->data;
     list->first = list->first->next;
     list->size--;
   }
   return result;
 };
+
 int list_size(list_t *list);

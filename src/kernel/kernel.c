@@ -1,10 +1,7 @@
 
 #include "common/list.h"
-
-#define UART16550BASE 0xb80003f8
-#define DISPLAYREGIST 0xbf000400 // Boot mode: 0x1F000400 ?
-#define ASDCIIDISPLAY	DISPLAYREGIST + 0x00000018
-#define LEDDISPLAY 		DISPLAYREGIST + 0x00000008
+#include <common/stdlib.h>
+#include <common/dispatcher.h>
 
 void putchar(char c) {
 	// Line status register.
@@ -22,16 +19,6 @@ void printk(const char* s) {
 		putchar(*s);
 		s++;
 	}
-}
-
-void print1(){
-	printk("1");
-	for (int i = 1; i < 10000000; i++);
-}
-
-void print0(){
-	printk("0");
-	for (int i = 1; i < 10000000; i++);
 }
 
 void print_to_ascii(const char *string) {
@@ -68,19 +55,9 @@ void start_counter() {
 
 int main(void) {
 	malloc_init();
+	dispatcher_init();
 	printk("Hello world!\n");
 	print_to_ascii("UphillOS");
-	char *test = malloc(sizeof(char));
-	char *test2 = malloc(sizeof(char));
-	test = "hej\0";
-	test2 = "bye\0";
-	list_t *list = list_new();
-	enqueue(list, test);
-	enqueue(list, test2);
-	char *poop = pop(list);
-	printk(poop);
-	char *pee = pop(list);
-	printk(pee);
 	start_counter();
 
 	return 0;

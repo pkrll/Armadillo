@@ -8,7 +8,7 @@ extern uint8_t __end __attribute__((section (".data")));
 #define METADATA 0x2000
 #define PAGESIZE 0X1000
 
-typedef struct heap {
+typedef struct Heap {
   uint32_t next_allocation;
 }heap_t;
 
