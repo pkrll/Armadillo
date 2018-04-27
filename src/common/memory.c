@@ -37,8 +37,7 @@ void *malloc(size_t size) {
 
 	if (free_allocation_list_head == NULL) {
 		last = metadata->last_allocation;
-		metadata->last_allocation += number_of_pages(size) * PAGESIZE;
-
+		metadata->last_allocation += number_of_pages(size) * PAGESIZE + sizeof(segment_t);
 	} else {
 		metadata->free_allocation_list_head = free_allocation_list_head->next;
 		free_allocation_list_head->next = NULL;
