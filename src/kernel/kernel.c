@@ -60,20 +60,16 @@ int main(void) {
 	// print_to_ascii("UphillOS");
 	// start_counter();
 	mem_init();
-	char *array = malloc(sizeof(char));
+	char *array = malloc(sizeof(char)*3);
 	array[0] = 'a';
-	array[1] = 'b';
-	array[2] = 'c';
-	array[3] = '\n';
-	array[4] = '\0';
+	array[1] = '\n';
+	array[2] = '\0';
 	printk(array);
 
-	char *array2 = malloc(sizeof(char));
+	char *array2 = malloc(sizeof(char)*3);
 	array2[0] = 'd';
-	array2[1] = 'e';
-	array2[2] = 'f';
-	array2[3] = '\n';
-	array2[4] = '\0';
+	array2[1] = '\n';
+	array2[2] = '\0';
 	printk(array2);
 	printk(array);
 
