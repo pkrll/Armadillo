@@ -55,9 +55,13 @@ void *malloc(size_t size) {
 }
 
 void free(void *ptr) {
+        metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
 	if (ptr != NULL) {
-
-	}
+          metadata->first_free_allocation = ptr;
+	} else {
+          ((free_header_t *)ptr)->next = (metadata->first_free_allocation);
+          metadata->first_free_allocation = ptr;
+        }
 }
 
 void *find_first_free(size_t size) {
