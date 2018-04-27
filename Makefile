@@ -77,7 +77,7 @@ docs: Doxyfile
 	doxygen Doxyfile
 
 style:
-	astyle --style=google --indent=tab=2 --indent-continuation=2 $(KERNEL_SOURCES)
+	astyle --style=google --indent=tab=2 --indent-continuation=2 $(KERNEL_SOURCES) $(COMMON_SOURCES)
 
 clean:
 	rm -rf bin/*
