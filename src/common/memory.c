@@ -6,17 +6,17 @@ extern uint8_t __end __attribute__((section (".data")));
 
 typedef struct Metadata {
 	void *last_allocation;
-	void *first_free_allocation;
+	void *free_allocation_list_head;
 } metadata_t;
 
-typedef struct Header {
+typedef struct Segment {
 	uint16_t size;
-} header_t;
+} segment_t;
 
-typedef struct FreeHeader {
+typedef struct FreeSegment {
 	uint16_t size;
 	void *next;
-} free_header_t;
+} free_segment_t;
 
 
 void *find_first_free(size_t size);
@@ -24,31 +24,31 @@ int number_of_pages(size_t size);
 
 void mem_init() {
 	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
-	metadata->last_allocation = (header_t *)((uint32_t)&__end + sizeof(metadata_t));
-	metadata->first_free_allocation = NULL;
+	metadata->last_allocation = (segment_t *)((uint32_t)&__end + sizeof(metadata_t));
+	metadata->free_allocation_list_head = NULL;
 }
 
 void *malloc(size_t size) {
 	if (size == 0) return NULL;
 
 	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
-	header_t *last = NULL;
-	free_header_t *first_free_allocation = find_first_free(size);
+	segment_t *last = NULL;
+	free_segment_t *free_allocation_list_head = find_first_free(size);
 
-	if (first_free_allocation == NULL) {
+	if (free_allocation_list_head == NULL) {
 		last = metadata->last_allocation;
 		metadata->last_allocation += number_of_pages(size) * PAGESIZE;
 
 	} else {
-		metadata->first_free_allocation = first_free_allocation->next;
-		first_free_allocation->next = NULL;
-		last = (header_t *)first_free_allocation;
+		metadata->free_allocation_list_head = free_allocation_list_head->next;
+		free_allocation_list_head->next = NULL;
+		last = (segment_t *)free_allocation_list_head;
 	}
 
-	// Move pointer forward sizeof(header_t)
+	// Move pointer forward sizeof(segment_t)
 	if (last) {
 		last->size = number_of_pages(size);
-		last += sizeof(header_t);
+		last += sizeof(segment_t);
 	}
 
 	return (void *)last;
@@ -57,18 +57,19 @@ void *malloc(size_t size) {
 void free(void *ptr) {
 	if (ptr == NULL) return;
 
-  metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
-	free_header_t *segment = (free_header_t *)ptr;
+	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
+	free_segment_t *segment = (free_segment_t *)ptr;
 
-	segment->next = metadata->first_free_allocation;
-	metadata->first_free_allocation = segment;
+	segment->next = metadata->free_allocation_list_head;
+	metadata->free_allocation_list_head = segment;
 }
 
 void *find_first_free(size_t size) {
 	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
-	free_header_t *head = metadata->first_free_allocation;
+	free_segment_t *head = metadata->free_allocation_list_head;
 
 	while (head) {
+		// TODO: This just takes the first segment that fits, need to optimize.
 		if (head->size > size) {
 			return head;
 		}
