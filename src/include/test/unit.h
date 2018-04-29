@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Unit test macros
+ */
+
 #ifndef __UNIT_H__
 #define __UNIT_H__
 

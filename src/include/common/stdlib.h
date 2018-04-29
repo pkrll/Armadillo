@@ -1,10 +1,15 @@
+/**
+ * @file
+ * @brief Standard library
+ */
+
 #ifndef __STDLIB_H_
 #define __STDLIB_H_
 
 char itoa(int n);
 /**
- * Compares the string pointed to by str1 with the string
- * pointed to by str2.
+ * @brief Compares the string pointed to by str1 with the string
+ * 				pointed to by str2.
  *
  * @param  str1 The first string to be compared.
  * @param  str2 The second string to be compared.
@@ -23,3 +28,5 @@ int strcmp(const char *str1, const char *str2);
  * @return     The length of the string.
  */
 int strlen(const char *str);
+
+#endif

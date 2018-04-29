@@ -1,4 +1,4 @@
-#include <mips/adresses.h>
+
 
 void putchar(char c) {
 	// Line status register.

@@ -1,5 +1,12 @@
+/**
+ * @file
+ * @brief Input / output library
+ */
+
 #ifndef __STDIO_H_
 #define __STDIO_H_
+
+#include <mips/adresses.h>
 
 /**
  * Prints the string to the UART 16550 device.
