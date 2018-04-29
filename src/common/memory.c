@@ -19,9 +19,30 @@ typedef struct FreeSegment {
 	void *next;
 } free_segment_t;
 
-void *get_freed_segment(size_t size);
-int number_of_pages(size_t size);
-size_t aligned_mem(size_t mem);
+/**
+ * Retrieves a free segment from the list of freed allocations
+ * that fits the requested size.
+ *
+ * @param  size The number of bytes requested.
+ * @return      A pointer to a freed segment of the requested
+ * 							size, or NULL if none is found.
+ */
+static void *get_freed_segment(size_t size);
+/**
+ * Calculates the number of pages based on the size requested.
+ *
+ * @param  size The number of bytes requested.
+ * @return      The number of pages needed for the reqeusted
+ * 							size in bytes.
+ */
+static int number_of_pages(size_t size);
+/**
+ * Returns the specified memory size aligned.
+ *
+ * @param  mem Specified memory...
+ * @return     ...
+ */
+static size_t aligned_mem(size_t mem);
 
 void do_nothing(void *ptr) { // NOTE: Is this needed?
 	ptr = ptr + 0;
