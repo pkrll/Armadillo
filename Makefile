@@ -57,6 +57,36 @@ run: $(BIN_DIR)/$(ELF_NAME)
 	@echo "Running $(ELF_NAME) on qemu with flags: $(VMFLAGS)"
 	@$(VM) $(VMFLAGS) -kernel $(BIN_DIR)/$(ELF_NAME)
 
+#######################
+# Unit testing
+#######################
+
+TEST_DIR = tests
+TKER_DIR = $(TEST_DIR)/kernel
+
+TEST_SOURCES 	= $(wildcard $(TEST_DIR)/*.c)
+TEST_BINARIES = $(patsubst $(TEST_DIR)/%.c, $(BIN_DIR)/%, $(TEST_SOURCES))
+TEST_KERNEL 	= $(OBJ_DIR)/test_boot.o $(OBJ_DIR)/test_exception.o
+
+$(OBJ_DIR)/%.s: $(TKER_DIR)/%.S
+	$(CC)-gcc -I $(INC_DIR) -E -o $@ $<
+
+$(OBJ_DIR)/%.o: $(OBJ_DIR)/%.s
+	$(CC)-as $(AFLAGS) -o $@ $<
+
+$(OBJ_DIR)/%.o: $(TEST_DIR)/%.c
+	$(CC)-gcc -I $(INC_DIR) $(CFLAGS) -o $@ -c $<
+
+test: $(TEST_BINARIES)
+
+$(BIN_DIR)/test_stdlib: $(TEST_KERNEL) $(OBJ_DIR)/stdio.o $(OBJ_DIR)/stdlib.o $(OBJ_DIR)/test_stdlib.o
+	$(CC)-ld -T $(TEST_DIR)/linker.ld -o $@ $^
+	@$(VM) $(VMFLAGS) -kernel $@
+
+#######################
+# Debugging
+#######################
+
 debug: $(BIN_DIR)/$(ELF_NAME)
 	@echo "Running $(ELF_NAME) on qemu with flags: $(VMFLAGS_DEBUG)"
 	@$(VM) $(VMFLAGS_DEBUG) -kernel $(BIN_DIR)/$(ELF_NAME)
@@ -69,6 +99,10 @@ objdump: $(BIN_DIR)/$(ELF_NAME)
 
 symbols: $(BIN_DIR)/$(ELF_NAME)
 	mipsel-elf-nm -n $(BIN_DIR)/$(ELF_NAME)
+
+#######################
+# Documentation
+#######################
 
 Doxyfile:
 	doxygen -g Doxyfile
