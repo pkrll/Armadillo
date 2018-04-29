@@ -1,3 +1,5 @@
+#ifndef __STDIO_H_
+#define __STDIO_H_
 
 /**
  * Prints the string to the UART 16550 device.
@@ -22,3 +24,5 @@ void print_to_led(const int p);
  * Resets the LED display.
  */
 void reset_led();
+
+#endif
