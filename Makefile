@@ -5,7 +5,7 @@ CFLAGS = -g -Wall -Wextra -Werror -nostdlib -fno-builtin
 AFLAGS = --gen-debug -mips32
 VM = qemu-system-mipsel
 VMFLAGS = -M malta -m 256 -serial stdio
-VMFLAGS_DEBUG = -M malta -m 256 -monitor stdio -s -S
+VMFLAGS_DEBUG = -M malta -m 256 -s -S
 
 ELF_NAME = uphill.elf
 
@@ -36,6 +36,7 @@ all:
 build: $(BIN_DIR)/$(ELF_NAME)
 
 compile: $(OBJECTS)
+	@echo "Compilation done..."
 
 $(OBJ_DIR)/%.o: $(KER_SRC)/%.c
 	$(CC)-gcc -I $(INC_DIR) $(CFLAGS) -o $@ -c $<
@@ -51,7 +52,7 @@ $(OBJ_DIR)/%.o: $(OBJ_DIR)/%.s
 
 $(BIN_DIR)/$(ELF_NAME): $(OBJECTS)
 	@echo "Linking the kernel..."
-	$(CC)-ld -T $(SRC_DIR)/linker -o $(BIN_DIR)/$(ELF_NAME) $(OBJECTS)
+	$(CC)-ld -T $(SRC_DIR)/linker.ld -o $(BIN_DIR)/$(ELF_NAME) $(OBJECTS)
 
 run: $(BIN_DIR)/$(ELF_NAME)
 	@echo "Running $(ELF_NAME) on qemu with flags: $(VMFLAGS)"
