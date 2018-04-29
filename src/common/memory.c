@@ -1,6 +1,6 @@
 #include <common/memory.h>
 
-#define PAGESIZE 8
+#define PAGESIZE 4096
 #define ALIGNMEM 8
 
 extern uint8_t __end __attribute__((section (".data")));
@@ -57,28 +57,30 @@ void mem_init() {
 void *malloc(size_t size) {
 	if (size == 0) return NULL;
 
-	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
-	segment_t *segment = NULL;
-	free_segment_t *free_allocation_list_head = get_freed_segment(size);
+	metadata_t *metadata 	= (metadata_t *)((uint32_t)&__end);
+	segment_t *allocation = NULL;
+	free_segment_t *freed_segment = get_freed_segment(size);
 
-	if (free_allocation_list_head == NULL) {
-		segment = metadata->last_allocation;
+	if (freed_segment == NULL) {
+		// TODO: Perhaps break this out into its own function
 		size_t unaligned_memory = number_of_pages(size) * PAGESIZE + sizeof(segment_t);
 		size_t aligned_memory = aligned_mem(unaligned_memory);
+
+		allocation = metadata->last_allocation;
 		metadata->last_allocation += aligned_memory;
-		segment->size = number_of_pages(aligned_memory);
+		allocation->size = number_of_pages(aligned_memory);
 	} else {
-		metadata->free_allocation_list_head = free_allocation_list_head->next;
-		free_allocation_list_head->next = NULL;
-		segment = (segment_t *)free_allocation_list_head;
+		metadata->free_allocation_list_head = freed_segment->next;
+		freed_segment->next = NULL;
+		allocation = (segment_t *)freed_segment;
 	}
 
 	// Move pointer forward sizeof(segment_t)
-	if (segment) {
-		segment += sizeof(segment_t);
+	if (allocation) {
+		allocation += sizeof(segment_t);
 	}
 
-	return (void *)segment;
+	return (void *)allocation;
 }
 
 void free(void *ptr) {
