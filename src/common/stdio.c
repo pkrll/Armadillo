@@ -1,4 +1,4 @@
-
+#include <common/stdio.h>
 
 void putchar(char c) {
 	// Line status register.
