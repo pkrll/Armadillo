@@ -1,6 +1,6 @@
 #include <common/memory.h>
 
-#define PAGESIZE 4096
+#define PAGESIZE 8
 #define ALIGNMEM 8
 
 extern uint8_t __end __attribute__((section (".data")));
