@@ -84,4 +84,6 @@ style:
 clean:
 	rm -rf bin/*
 	rm -rf obj/*
-	rm $(CLEAN_FILES)
+ifneq ($(CLEAN_FILES), )
+	rm -f $(CLEAN_FILES)
+endif
