@@ -104,10 +104,7 @@ symbols: $(BIN_DIR)/$(ELF_NAME)
 # Documentation
 #######################
 
-Doxyfile:
-	doxygen -g Doxyfile
-
-docs: Doxyfile
+documentation:
 	doxygen Doxyfile
 
 style:
