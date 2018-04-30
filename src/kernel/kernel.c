@@ -17,7 +17,7 @@ void start_counter() {
 }
 
 int main(void) {
-  start_counter();
+	start_counter();
 	return 0;
 }
 
