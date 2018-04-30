@@ -11,6 +11,8 @@
 extern int tests_run __attribute__ ((section(".data")));
 extern int suite_run __attribute__ ((section(".data")));
 
+char *all_tests();
+
 #define mu_assert(message, test) do { \
 	if (!(test)) return message; \
 } while (0)

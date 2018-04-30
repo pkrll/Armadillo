@@ -67,7 +67,7 @@ run: $(BIN_DIR)/$(ELF_NAME)
 TEST_DIR = tests
 TKER_DIR = $(TEST_DIR)/kernel
 TEST_INC = $(TEST_DIR)/include
-TEST_KERNEL = $(OBJ_DIR)/test_boot.o $(OBJ_DIR)/test_exception.o $(OBJ_DIR)/test_kernel.o
+TEST_KERNEL = $(OBJ_DIR)/test_boot.o $(OBJ_DIR)/test_exception.o $(OBJ_DIR)/test_kernel.o $(OBJ_DIR)/test_main.o
 
 $(OBJ_DIR)/%.o: $(TKER_DIR)/%.c
 	$(CC)-gcc -I $(INC_DIR) -I $(TEST_INC) $(CFLAGS) -o $@ -c $<
@@ -79,7 +79,7 @@ $(OBJ_DIR)/%.o: $(OBJ_DIR)/%.s
 	$(CC)-as $(AFLAGS) -o $@ $<
 
 $(OBJ_DIR)/%.o: $(TEST_DIR)/%.c
-	$(CC)-gcc -I $(INC_DIR) -I ./tests/include/ $(CFLAGS) -o $@ -c $<
+	$(CC)-gcc -I $(INC_DIR) -I $(TEST_INC) $(CFLAGS) -o $@ -c $<
 
 test: $(BIN_DIR)/armadillo_test
 
