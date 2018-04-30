@@ -1,9 +1,6 @@
-#include <test/unit.h>
+#include <munit/unit.h>
 #include <common/stdlib.h>
-#include <common/stdio.h>
-#include <common/memory.h>
-
-int tests_run __attribute__((section (".data"))) = 0;
+#include <test_stdlib.h>
 
 static char *test_strlen() {
   mu_assert("Test failed: strlen(\"Hello\") != 5", strlen("Hello") == 5);
@@ -21,22 +18,9 @@ static char *test_strcmp() {
 	return 0;
 }
 
-static char *all_tests() {
+char *test_stdlib() {
 	mu_run_test(test_strlen);
 	mu_run_test(test_strcmp);
-
-	return 0;
-}
-
-int main() {
-
-	char *result = all_tests();
-
-	if (result != 0) {
-		printk(result);
-	} else {
-		printk("All tests passed!\n");
-	}
 
 	return 0;
 }

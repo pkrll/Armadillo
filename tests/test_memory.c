@@ -1,9 +1,6 @@
-#include <test/unit.h>
-#include <common/stdlib.h>
-#include <common/stdio.h>
+#include <munit/unit.h>
 #include <common/memory.h>
-
-int tests_run __attribute__((section (".data"))) = 0;
+#include <test_memory.h>
 
 static char *test_malloc() {
 
@@ -55,22 +52,9 @@ static char *test_free() {
   return 0;
 }
 
-static char *all_tests() {
+char *test_memory() {
 	mu_run_test(test_malloc);
 	mu_run_test(test_free);
-
-	return 0;
-}
-
-int main() {
-
-	char *result = all_tests();
-
-	if (result != 0) {
-		printk(result);
-	} else {
-		printk("All tests passed!\n");
-	}
 
 	return 0;
 }
