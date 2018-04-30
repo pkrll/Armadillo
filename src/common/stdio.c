@@ -1,7 +1,7 @@
 #include <common/stdio.h>
 #include <stdarg.h>
 
-void convert(char specifier, va_list args);
+void convert(char specifier, va_list *args);
 void putchar(char c);
 
 void printk(const char* s) {
@@ -23,7 +23,7 @@ void printf(const char *string, ...) {
 		}
 
 		string++;
-		convert(*string++, args);
+		convert(*string++, &args);
 	}
 
 	va_end(args);
@@ -57,12 +57,12 @@ void putchar(char c) {
 	*thr = c;
 }
 
-void convert(char specifier, va_list args) {
+void convert(char specifier, va_list *args) {
 	switch (specifier) {
 		case 'd':
 			break;
 		case 's':
-			printk(va_arg(args, char *));
+			printk(va_arg(*args, char *));
 			break;
 	}
 }
