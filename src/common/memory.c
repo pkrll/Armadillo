@@ -42,6 +42,17 @@ static int number_of_pages(size_t size);
  * @param  mem Specified memory...
  * @return     ...
  */
+
+void null_memory(void *ptr, size_t size);
+/**
+ * Null the memory segment size bytes with start at ptr.
+ *
+ * @param  ptr  the start of null segment.
+ * @param  size The number of bytes nulled.
+ * @return      ...
+ * 		
+ */
+
 static size_t aligned_mem(size_t mem);
 
 void do_nothing(void *ptr) { // NOTE: Is this needed?
@@ -79,7 +90,7 @@ void *malloc(size_t size) {
 	if (allocation) {
 		allocation += sizeof(segment_t);
 	}
-
+        null_memory(allocation, size);
 	return (void *)allocation;
 }
 
@@ -102,6 +113,14 @@ size_t aligned_mem(size_t mem) {
 
 int number_of_pages(size_t size) {
 	return size / PAGESIZE;
+}
+
+void null_memory(void *ptr, size_t size) {
+  char *p = ptr;
+  while(size > 0) {
+    *p = 0;
+    size -= 1;
+  }
 }
 
 void *get_freed_segment(size_t size) {

@@ -82,7 +82,7 @@ $(OBJ_DIR)/%.o: $(TEST_DIR)/%.c
 
 test: $(TEST_BINARIES)
 
-$(BIN_DIR)/test_stdlib: $(TEST_KERNEL) $(OBJ_DIR)/stdio.o $(OBJ_DIR)/stdlib.o $(OBJ_DIR)/test_stdlib.o
+$(BIN_DIR)/test_stdlib: $(TEST_KERNEL) $(OBJ_DIR)/stdio.o $(OBJ_DIR)/stdlib.o $(OBJ_DIR)/memory.o $(OBJ_DIR)/test_stdlib.o
 	$(CC)-ld -T $(TEST_DIR)/linker.ld -o $@ $^
 	@$(VM) $(VMFLAGS) -kernel $@
 
