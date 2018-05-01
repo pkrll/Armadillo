@@ -29,7 +29,8 @@ start:
 	nop
 	jal main
 	nop
-	b	.
+	b .
+	nop
 
 .section .bss
 

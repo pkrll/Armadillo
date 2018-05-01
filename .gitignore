@@ -3,3 +3,4 @@
 obj/*
 bin/*
 *.out
+*.c.orig
