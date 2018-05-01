@@ -3,7 +3,6 @@
 #include <common/list.h>
 #include <mips/pcb_offsets.h>
 #include <common/dispatcher.h>
-#include <common/screen.h>
 
 static list_t *ready_queue __attribute__((section(".bss")));
 __attribute__((unused))static pcb_t *running_process __attribute__((section(".bss")));

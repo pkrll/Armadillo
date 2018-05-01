@@ -3,7 +3,7 @@
 
 #include <common/stdlib.h>
 #include <common/pcb.h>
-#include <common/screen.h>
+#include <common/stdio.h>
 
 __attribute__((unused))static addr_t process_mem_space __attribute__((section(".bss"))); //Berätta för assebly var denna finns
 void dispatcher_init();
