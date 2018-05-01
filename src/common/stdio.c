@@ -59,10 +59,10 @@ void putchar(char c) {
 
 void convert(char specifier, va_list *args) {
 	switch (specifier) {
-		case 'd':
-			break;
-		case 's':
-			printk(va_arg(*args, char *));
-			break;
+	case 'd':
+		break;
+	case 's':
+		printk(va_arg(*args, char *));
+		break;
 	}
 }

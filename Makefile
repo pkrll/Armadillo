@@ -69,6 +69,8 @@ TKER_DIR = $(TEST_DIR)/kernel
 TEST_INC = $(TEST_DIR)/include
 TEST_KERNEL = $(OBJ_DIR)/test_boot.o $(OBJ_DIR)/test_exception.o $(OBJ_DIR)/test_kernel.o $(OBJ_DIR)/test_main.o
 
+TEST_SOURCES = $(wildcard $(TEST_DIR)/*.c)
+
 $(OBJ_DIR)/%.o: $(TKER_DIR)/%.c
 	$(CC)-gcc -I $(INC_DIR) -I $(TEST_INC) $(CFLAGS) -o $@ -c $<
 
@@ -112,7 +114,7 @@ documentation:
 	doxygen Doxyfile
 
 style:
-	astyle --style=google --indent=tab=2 --indent-continuation=2 $(KERNEL_SOURCES) $(COMMON_SOURCES)
+	astyle --style=google --indent=tab=2 --indent-continuation=2 $(KERNEL_SOURCES) $(COMMON_SOURCES) $(TEST_SOURCES)
 
 clean:
 	rm -rf bin/*

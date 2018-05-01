@@ -2,39 +2,38 @@
 #include <common/stdlib.h>
 #include <common/memory.h>
 
-
 struct StackNode {
-  void *element;
-  stack_node_t *next;
+	void *element;
+	stack_node_t *next;
 };
 
 struct Stack {
-  stack_node_t *top;
-  int size;
+	stack_node_t *top;
+	int size;
 };
 
 stack_t *stack_init() {
-  stack_t *stack = malloc(sizeof(stack_t));
+	stack_t *stack = malloc(sizeof(stack_t));
 
 	if (stack != NULL) {
 		stack->size = 0;
 	}
 
-  return stack;
+	return stack;
 }
 
 void stack_destroy(stack_t *stack) {
-  if (stack != NULL) free(stack);
+	if (stack != NULL) free(stack);
 }
 
 void stack_push(stack_t *stack, void *element) {
-  stack_node_t *node = malloc(sizeof(stack_node_t));
+	stack_node_t *node = malloc(sizeof(stack_node_t));
 
 	if (node != NULL) {
-  	node->element = element;
-  	node->next 		= stack->top;
-  	stack->top 		= node;
-  	stack->size 	= stack->size + 1;
+		node->element = element;
+		node->next 		= stack->top;
+		stack->top 		= node;
+		stack->size 	= stack->size + 1;
 	}
 }
 
