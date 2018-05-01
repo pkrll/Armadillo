@@ -17,10 +17,12 @@ typedef enum State{
 
 typedef struct Pcb pcb_t;
 typedef struct Context context_t;
-__attribute__((unused))static pcb_t *running_process __attribute__((section(".bss")));
 
 pcb_t *init_pcb(pid_t pid, addr_t start_function);
 context_t *init_context();
 addr_t init_stack();
 void set_pcb_state(pcb_t *pcb, state_t state);
+pid_t get_pid(pcb_t *pcb);
+context_t *get_context(pcb_t *pcb);
+addr_t get_pc(pcb_t *pcb);
 #endif

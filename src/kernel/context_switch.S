@@ -1,21 +1,12 @@
 #include <mips/registers.h>
-#include <mips/adresses.h>
-#include <mips/bitmasks.h>
-#include <mips/pcb_offsets.h>
-#include <common/pcb.h>
-#include <common/dispatcher.h>
 
-.globl test_dispatcher
+
 .globl context_switch
-.extern print0
-.extern print1
+.extern get_running_pcb
+.extern get_current_context
+.extern get_running_pc
 
 .set noreorder
-.set RAMSIZE, PCB_SIZE * 5
-
-.section .kdata
-	pid: .word 0
-	_pcb_adress_space: .word 0
 
 .section .text
 
@@ -24,156 +15,126 @@ context_switch:
 
 	# Get offending instruction, add 4, and store
 	# it as the PC from where to resume next time
-	mfc0	$k0, C0_EPC 	# EPC
+	mfc0	K0, C0_EPC 	# EPC
 
-	addi	$sp, -4
-	sw		$ra, 0($sp) 	# Save $ra before jal
-	jal 	get_pcb_adress 	# Adress is in $k1
+	# Before saving anything, we need the adress to the current PCB
+	addi	SP, -8
+	sw		V0, 4(SP)		#save V0 before function call
+	sw		RA, 0(SP) 	# Save RA before jal
+	jal 	get_current_pcb #current PID in V0?
 	nop
-	lw		$ra, 0($sp)
-	addi	$sp, 4
+	move 	K1, V0			#  Move PCB adress to K1
+	lw		V0, 4(SP)		# restore V0
+	lw		RA, 0(SP)
+	addi	SP, 8
 
-	sw		$k0, 4($k1)		# Store PC in PCB
+	# Now we can start saving stuff to the PCB adress in K1
+	addi	K0, 4				# add to offending instruction
+	sw		K0, 4(K1)		# Store PC in PCB
 
-	addi	$sp, -4
-	sw		$ra, 0($sp) 	# Save $ra before jal
+	addi	SP, -4
+	sw		RA, 0(SP) 	# Save RA before jal
 	jal		save_context
 	nop
 
-	# pick a process in C
-	jal 	process_switch # pid in $v0??
+	# switch process in C
+	jal 	process_switch # pid in V0??
 	nop
 
 	jal		load_context
 	nop
 
 save_context:
-	addi	$sp, -4
-	sw		$ra, 0($sp)
-	jal		get_context_adress # Adress of context is in $k1 efter this
+	# Make room on the stack for RA and V0 since these will be overwritten by the jal
+	addi	SP, -8
+	sw		V0, 4(SP)
+	sw		RA, 0(SP)
+	jal		get_current_context # Adress of context is in V0 efter this
 	nop
-	lw		$ra, 0($sp)
-	addi	$sp, 4
 
-	# Pop original $ra from the stack to store and restore the stack pointer
-	addi	$sp, 4
-	lw		$k0, 0($sp) # $ra
+	# Move context adress into K1 wich is not saved and restore V0 and RA
+	move 	K1, V0
+	lw		V0, 4(SP)
+	lw		RA, 0(SP)
+	addi	SP, 8
 
-	sw		$fp, 108($k1)
-	sw		$gp, 104($k1)
-	sw		$s7, 100($k1)
-	sw		$s6, 96($k1)
-	sw		$s5, 92($k1)
-	sw		$s4, 88($k1)
-	sw		$s3, 84($k1)
-	sw		$s2, 80($k1)
-	sw		$s1, 76($k1)
-	sw		$s0, 72($k1)
-	sw		$a3, 68($k1)
-	sw		$a2, 64($k1)
-	sw		$a1, 60($k1)
-	sw		$a0, 56($k1)
-	sw		$v1, 52($k1)
-	sw		$v0, 48($k1)
-	sw		$t9, 44($k1)
-	sw		$t8, 40($k1)
-	sw		$t7, 36($k1)
-	sw		$t6, 32($k1)
-	sw		$t5, 28($k1)
-	sw		$t4, 24($k1)
-	sw		$t3, 20($k1)
-	sw		$t2, 16($k1)
-	sw		$t1, 12($k1)
-	sw		$t0, 8($k1)
-	sw		$k0, 4($k1) # $ra
-	sw		$sp, 0($k1)
-	jr		$ra
+	# Pop original RA from the stack and store in K0 (NOT in RA since we need to return from this function).
+	# Also restore the stack pointer for saving.
+	addi	SP, 4
+	lw		K0, 0(SP) # RA
+
+	sw		FP, 108(K1)
+	sw		GP, 104(K1)
+	sw		S7, 100(K1)
+	sw		S6, 96(K1)
+	sw		S5, 92(K1)
+	sw		S4, 88(K1)
+	sw		S3, 84(K1)
+	sw		S2, 80(K1)
+	sw		S1, 76(K1)
+	sw		S0, 72(K1)
+	sw		A3, 68(K1)
+	sw		A2, 64(K1)
+	sw		A1, 60(K1)
+	sw		A0, 56(K1)
+	sw		V1, 52(K1)
+	sw		V0, 48(K1)
+	sw		T9, 44(K1)
+	sw		T8, 40(K1)
+	sw		T7, 36(K1)
+	sw		T6, 32(K1)
+	sw		T5, 28(K1)
+	sw		T4, 24(K1)
+	sw		T3, 20(K1)
+	sw		T2, 16(K1)
+	sw		T1, 12(K1)
+	sw		T0, 8(K1)
+	sw		K0, 4(K1) # Actually RA
+	sw		SP, 0(K1)
+	jr		RA
 	nop
 
 load_context:
-	jal get_pcb_adress
+	jal		get_running_pc
 	nop
-	addi	$k1, 4	# adress to PC storing place
-	mtc0	$k1, C0_EPC # Store old pc in EPC register
+	mtc0	V0, C0_EPC # Store the process' previous PC in EPC register
 
-	jal		get_context_adress # Adress to context is in $k1
-	nop
-
-	lw		$fp, 108($k1)
-	lw		$gp, 104($k1)
-	lw		$s7, 100($k1)
-	lw		$s6, 96($k1)
-	lw		$s5, 92($k1)
-	lw		$s4, 88($k1)
-	lw		$s3, 84($k1)
-	lw		$s2, 80($k1)
-	lw		$s1, 76($k1)
-	lw		$s0, 72($k1)
-	lw		$a3, 68($k1)
-	lw		$a2, 64($k1)
-	lw		$a1, 60($k1)
-	lw		$a0, 56($k1)
-	lw		$v1, 52($k1)
-	lw		$v0, 48($k1)
-	lw		$t9, 44($k1)
-	lw		$t8, 40($k1)
-	lw		$t7, 36($k1)
-	lw		$t6, 32($k1)
-	lw		$t5, 28($k1)
-	lw		$t4, 24($k1)
-	lw		$t3, 20($k1)
-	lw		$t2, 16($k1)
-	lw		$t1, 12($k1)
-	lw		$t0, 8($k1)
-	lw		$ra, 4($k1)
-	lw		$sp, 0($k1)
-
-	eret						  # Returns from exception using EPC
+	jal		get_current_context # Adress to context is now in V0
 	nop
 
-# Puts the adress of the current process' CPU context in $k1
-get_context_adress:
-	addi	$sp, -4
-	sw 		$ra, 0($sp)			# Save stack pointer due to jal
-	jal		get_pcb_adress	# jump to get_pcb_adress and save position to $ra
-	nop
-	lw		$ra, 0($sp)
-	addi	$sp, 4
-	li		$k0, CONTEXT_OFFSET
-	add		$k1, $k1, $k0		# Add context offset to PCB adress
-	jr		$ra
-	nop
+	#  Move context adress into K1 and start restoring registers
+	move 	K1, V0
+	lw		FP, 108(K1)
+	lw		GP, 104(K1)
+	lw		S7, 100(K1)
+	lw		S6, 96(K1)
+	lw		S5, 92(K1)
+	lw		S4, 88(K1)
+	lw		S3, 84(K1)
+	lw		S2, 80(K1)
+	lw		S1, 76(K1)
+	lw		S0, 72(K1)
+	lw		A3, 68(K1)
+	lw		A2, 64(K1)
+	lw		A1, 60(K1)
+	lw		A0, 56(K1)
+	lw		V1, 52(K1)
+	lw		V0, 48(K1)
+	lw		T9, 44(K1)
+	lw		T8, 40(K1)
+	lw		T7, 36(K1)
+	lw		T6, 32(K1)
+	lw		T5, 28(K1)
+	lw		T4, 24(K1)
+	lw		T3, 20(K1)
+	lw		T2, 16(K1)
+	lw		T1, 12(K1)
+	lw		T0, 8(K1)
+	lw		RA, 4(K1)
+	lw		SP, 0(K1)
 
-# Puts the adress of the current process' PCB in $k1
-get_pcb_adress:
-	nop									# This must be here because of pseudo instruction 'la'
-	la 		$k0, running_process	# Adress of current PCB
-	lw		$k0, 0($k0)		# Current PID, (first byte in PCB)
-	li		$k1, PCB_SIZE
-	mult  $k0, $k1
-	mflo	$k0						# Offset to PCB correct
-
-	lw		$k1, pcb_adress_space
-	add		$k1, $k1, $k0	# Add the offset and get the correct PCB adress
-
-	jr		$ra
-	nop
-
-get_stack_adress:
-	addi	$sp, -4
-	sw 		$ra, 0($sp)			# Save stack pointer due to jal
-	jal get_pcb_adress				# PCB adress is now in $k1
-	nop
-	addi	$k1, STACK_SIZE
-	lw		$ra, 0($sp)
-	addi	$sp, 4
-	jr		$ra
+	# Return from exception using the adress in EPC
+	eret
 	nop
 
 .section .bss
-
-ram:
-	.space	RAMSIZE
-
-_running:
-	.space	0x4
