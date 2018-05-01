@@ -17,10 +17,7 @@ void start_counter() {
 }
 
 int main(void) {
-	printk("Hello world!\n");
-	print_to_ascii("UphillOS");
 	start_counter();
-
 	return 0;
 }
 
