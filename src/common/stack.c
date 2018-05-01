@@ -12,6 +12,8 @@ struct Stack {
 	int size;
 };
 
+void node_destroy(stack_node_t *node);
+
 stack_t *stack_init() {
 	stack_t *stack = malloc(sizeof(stack_t));
 
@@ -23,7 +25,10 @@ stack_t *stack_init() {
 }
 
 void stack_destroy(stack_t *stack) {
-	if (stack != NULL) free(stack);
+	if (stack != NULL) {
+		node_destroy(stack->top);
+		free(stack);
+	}
 }
 
 void stack_push(stack_t *stack, void *element) {
@@ -53,4 +58,13 @@ void *stack_pop(stack_t *stack) {
 
 int stack_size(stack_t *stack) {
 	return (stack != NULL) ? stack->size : 0;
+}
+
+void node_destroy(stack_node_t *node) {
+	if (node) {
+		stack_node_t *next_node = node->next;
+		free(node);
+
+		node_destroy(next_node);
+	}
 }
