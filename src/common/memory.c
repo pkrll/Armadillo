@@ -37,22 +37,19 @@ static void *get_freed_segment(size_t size);
  */
 static int number_of_pages(size_t size);
 /**
+ * Null the memory segment size bytes with start at ptr.
+ *
+ * @param  ptr  the start of null segment.
+ * @param  size The number of bytes nulled.
+ *
+ */
+void null_memory(void *ptr, size_t size);
+/**
  * Returns the specified memory size aligned.
  *
  * @param  mem Specified memory...
  * @return     ...
  */
-
-void null_memory(void *ptr, size_t size);
-/**
- * Null the memory segment size bytes with start at ptr.
- *
- * @param  ptr  the start of null segment.
- * @param  size The number of bytes nulled.
- * @return      ...
- *
- */
-
 static size_t aligned_mem(size_t mem);
 
 void do_nothing(void *ptr) { // NOTE: Is this needed?
