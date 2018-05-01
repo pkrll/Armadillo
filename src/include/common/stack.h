@@ -2,7 +2,7 @@
 #define __STACK_H__
 
 typedef struct Stack stack_t;
-typedef struct StackElement stack_element_t;
+typedef struct StackNode stack_node_t;
 
 /**
  * Initializes the stack.

@@ -83,7 +83,7 @@ $(OBJ_DIR)/%.o: $(TEST_DIR)/%.c
 
 test: $(BIN_DIR)/armadillo_test
 
-$(BIN_DIR)/armadillo_test: $(TEST_KERNEL) $(OBJ_DIR)/stdio.o $(OBJ_DIR)/stdlib.o $(OBJ_DIR)/test_stdlib.o $(OBJ_DIR)/memory.o $(OBJ_DIR)/test_memory.o
+$(BIN_DIR)/armadillo_test: $(TEST_KERNEL) $(OBJ_DIR)/stdio.o $(OBJ_DIR)/stdlib.o $(OBJ_DIR)/test_stdlib.o $(OBJ_DIR)/memory.o $(OBJ_DIR)/test_memory.o $(OBJ_DIR)/stack.o $(OBJ_DIR)/test_stack.o
 	$(CC)-ld -T $(TEST_DIR)/linker.ld -o $@ $^
 	@$(VM) $(VMFLAGS) -kernel $@
 
