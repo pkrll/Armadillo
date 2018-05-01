@@ -30,7 +30,8 @@ OBJECTS += $(patsubst $(CMN_SRC)/%.c, $(OBJ_DIR)/%.o, $(COMMON_SOURCES))
 OBJECTS += $(patsubst $(KER_SRC)/%.S, $(OBJ_DIR)/%.o, $(ASSEMBLY_SOURCES))
 
 # Files to clean up
-CLEAN_FILES = $(shell find $(SRC_DIR) -type f -name '*.orig')
+CLEAN_FILES  = $(shell find $(SRC_DIR) -type f -name '*.orig')
+CLEAN_FILES += $(shell find $(TEST_DIR) -type f -name '*.orig')
 
 all:
 	@echo "usage: make [build|compile|run|debug|gdb|objdump|symbols|clean]"
