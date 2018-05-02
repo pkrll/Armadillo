@@ -1,7 +1,9 @@
 #include <common/memory.h>
+#include <common/stdio.h>
 
-#define PAGESIZE 8
+#define PAGESIZE 4096
 #define ALIGNMEM 8
+#define HEADER 8
 
 extern uint8_t __end __attribute__((section (".data")));
 
@@ -54,10 +56,8 @@ void null_memory(void *ptr, size_t size);
  */
 
 static size_t aligned_mem(size_t mem);
+static size_t alloc(size_t size);
 
-void do_nothing(void *ptr) { // NOTE: Is this needed?
-	ptr = ptr + 0;
-}
 
 void mem_init() {
 	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
@@ -68,27 +68,25 @@ void mem_init() {
 void *malloc(size_t size) {
 	if (size == 0) return NULL;
 
-	metadata_t *metadata 	= (metadata_t *)((uint32_t)&__end);
+	metadata_t *metadata  = (metadata_t *)((uint32_t)&__end);
 	segment_t *allocation = NULL;
 	free_segment_t *freed_segment = get_freed_segment(size);
 
 	if (freed_segment == NULL) {
-		// TODO: Perhaps break this out into its own function
-		size_t unaligned_memory = number_of_pages(size) * PAGESIZE + sizeof(segment_t);
-		size_t aligned_memory = aligned_mem(unaligned_memory);
 
 		allocation = metadata->last_allocation;
-		metadata->last_allocation += aligned_memory;
-		allocation->size = number_of_pages(aligned_memory);
+		size_t allocation_size = alloc(size);
+		metadata->last_allocation += allocation_size;
+		allocation->size = allocation_size / PAGESIZE;
 	} else {
 		metadata->free_allocation_list_head = freed_segment->next;
 		freed_segment->next = NULL;
 		allocation = (segment_t *)freed_segment;
 	}
 
-	// Move pointer forward sizeof(segment_t)
+	// Move pointer forward HEADER
 	if (allocation) {
-		allocation += sizeof(segment_t);
+		allocation = (segment_t *)((uint32_t)allocation + HEADER);
 	}
 	null_memory(allocation, size);
 	return (void *)allocation;
@@ -98,43 +96,61 @@ void free(void *ptr) {
 	if (ptr == NULL) return;
 
 	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
-	free_segment_t *segment = (free_segment_t *)(ptr - sizeof(segment));
+	segment_t *segment = (segment_t *)(ptr);
+	segment = (segment_t *)((uint32_t)segment - HEADER);
+	size_t size = segment->size;
+	free_segment_t *free_segment = (free_segment_t *)segment;
 
-	segment->next = metadata->free_allocation_list_head;
+	free_segment->size = size;
+	free_segment->next = metadata->free_allocation_list_head;
 	metadata->free_allocation_list_head = segment;
 }
 
+size_t alloc(size_t size) {
+	size_t unaligned_memory = number_of_pages(size) * PAGESIZE;
+	return aligned_mem(unaligned_memory);
+}
+
 size_t aligned_mem(size_t mem) {
-	// Already aligned
+	// Too small size left of the page to fit header.
+	if (mem % PAGESIZE <= HEADER) {
+		mem += HEADER;
+	}
+	// Already aligned.
 	if (mem % ALIGNMEM == 0) return mem;
-	// Align memory with ALIGNMEM
+	// Align memory with ALIGNMEM.
 	return mem + (ALIGNMEM - (mem % ALIGNMEM));
 }
 
 int number_of_pages(size_t size) {
-	return size / PAGESIZE;
+	return size / PAGESIZE + 1;
 }
 
 void null_memory(void *ptr, size_t size) {
 	char *p = ptr;
-	while(size > 0) {
+	size_t incr = 0;
+	while (incr < size) {
 		*p = 0;
-		size -= 1;
+		p += 1;
+		incr += sizeof(char);
 	}
 }
 
 void *get_freed_segment(size_t size) {
 	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
-	free_segment_t *head = metadata->free_allocation_list_head;
+	free_segment_t *current = metadata->free_allocation_list_head;
+	free_segment_t *prev = NULL;
 
-	while (head) {
+	while (current) {
 		// TODO: This just takes the first segment that fits, need to optimize.
-		if ((head->size * PAGESIZE) >= size) {
-			return head;
+		if ((current->size * PAGESIZE) >= size) {
+			if (prev != NULL) {
+				prev->next = current->next;
+			}
+			return current;
 		}
-
-		head = head->next;
+		prev = current;
+		current = current->next;
 	}
-
 	return NULL;
 }
