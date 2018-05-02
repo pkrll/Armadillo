@@ -1,7 +1,7 @@
 #ifndef __PCB_H_
 #define __PCB_H_
 
-#include <common/malloc.h>
+#include <common/memory.h>
 
 typedef int reg_t;
 typedef int pid_t;

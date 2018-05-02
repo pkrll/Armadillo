@@ -1,18 +1,14 @@
-#include <common/pcb.h>
-#include <common/malloc.h>
-#include <common/list.h>
-#include <mips/pcb_offsets.h>
 #include <common/dispatcher.h>
 
-static list_t *ready_queue __attribute__((section(".bss")));
+static queue_t *ready_queue __attribute__((section(".bss")));
 __attribute__((unused))static pcb_t *running_process __attribute__((section(".bss")));
 
+/*
+*	Workspace for process 2
+*/
 void process_2(){
-	/*
-	*	Workspace for process 2
-	*/
 	while (1) {
-		for (int i = 1; i < 10000; i++);
+		for (int i = 1; i < 10000000; i++);
 		printk("2");
 		asm volatile("syscall");
 	}
@@ -23,7 +19,7 @@ void process_2(){
 */
 void process_1(){
 	while (1) {
-		for (int i = 1; i < 10000; i++);
+		for (int i = 1; i < 10000000; i++);
 		printk("1");
 		asm volatile("syscall");
 	}
@@ -34,15 +30,17 @@ void process_1(){
 */
 void process_0(){
 	while (1) {
-		for (int i = 1; i < 10000; i++);
+		for (int i = 1; i < 10000000; i++);
 		printk("0");
 		asm volatile("syscall");
 	}
 }
 
 /*
-*	Initializes all processes by assigning PIDs, starting functions and enqueing them into the ready queue.
-* One process is assigned as the running process and its starting function is called.
+*	@ brief	Initializes all processes by assigning PIDs,
+*					starting functions and enqueing them into the ready queue.
+* 				One process is assigned as the running process
+*					and its starting function is called.
 */
 void init_processes(){
   pcb_t *p0 = init_pcb(0, &process_0);
@@ -54,41 +52,38 @@ void init_processes(){
 	process_0();
 }
 
-/*
-*	Allocates the ready queue and initializes all processes
-*/
 void dispatcher_init(){
-  ready_queue = list_new();
+  ready_queue = queue_new();
   init_processes();
 }
 
 /*
-*	Enqueues the running process into the ready queue, pops another process
-*	from the queue and assigns it as the running process.
+*	@brief	Enqueues the running process into the ready queue, pops another process
+*					from the queue and assigns it as the running process.
 */
 void process_switch(){
   enqueue(ready_queue, running_process);
-  pcb_t *next = pop(ready_queue);
+  pcb_t *next = dequeue(ready_queue);
   set_pcb_state(next, running);
   running_process = next;
 }
 
 /*
-*	Returns the adress for the PCB Of the currently running process
+*	@ brief	Returns the adress for the PCB Of the currently running process
 */
 pcb_t *get_current_pcb(){
 	return running_process;
 }
 
 /*
-*	Returns the adress for the CPU context for the currently running process.
+*	@brief	Returns the adress for the CPU context for the currently running process.
 */
 context_t *get_current_context(){
 	return get_context(running_process);
 }
 
 /*
-*	Returns the PC for the currently running process
+*	@brief	Returns the PC for the currently running process
 */
 addr_t get_running_pc(){
 	return get_pc(running_process);

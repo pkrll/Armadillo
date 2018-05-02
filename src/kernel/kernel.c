@@ -18,12 +18,11 @@ void start_counter() {
 }
 
 int main(void) {
-	malloc_init();
+	mem_init();
 	dispatcher_init();
 	printk("Hello world!\n");
 	print_to_ascii("UphillOS");
 	start_counter();
-
 	return 0;
 }
 
