@@ -119,12 +119,12 @@ static char *test_free() {
 
   mu_assert("Test failed: a5 >= a4", a5 < a4);
   mu_assert("Test failed: a5 >= a4", a6 < a4);
-  /*
-  int N = 1000;
 
-  uint32_t start = (uint32_t)malloc(sizeof(char)*10);
-  char **array = (char **)(start + N*8);
-  mu_assert("mod 8 == 0", ((uint32_t)array) % 8 == 4);
+  
+  int N = 1000;
+  // OBS N > 6000 ger typ stack overflow ?!?
+  char *array[N];
+    
   for (int i = 0; i < N; i++) {
     array[i] = malloc(sizeof(char));
   }
@@ -135,7 +135,7 @@ static char *test_free() {
     uint32_t reused_mem = (uint32_t)malloc(sizeof(char));
     mu_assert("Test failed: Free not reallocating properly.", reused_mem <= (uint32_t)array[N-1]);
   }
-  */
+  
   return 0;
 }
 
