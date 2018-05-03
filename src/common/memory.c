@@ -6,7 +6,7 @@
 extern uint8_t __end __attribute__((section (".data")));
 
 typedef struct Metadata {
-	void *last_allocation;
+	void *next_allocation;
 	void *free_allocation_list_head;
 } metadata_t;
 
@@ -58,7 +58,7 @@ void do_nothing(void *ptr) { // NOTE: Is this needed?
 
 void mem_init() {
 	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
-	metadata->last_allocation = (segment_t *)((uint32_t)&__end + sizeof(metadata_t));
+	metadata->next_allocation = (segment_t *)((uint32_t)&__end + sizeof(metadata_t));
 	metadata->free_allocation_list_head = NULL;
 }
 
@@ -74,8 +74,8 @@ void *malloc(size_t size) {
 		size_t unaligned_memory = number_of_pages(size) * PAGESIZE + sizeof(segment_t);
 		size_t aligned_memory = aligned_mem(unaligned_memory);
 
-		allocation = metadata->last_allocation;
-		metadata->last_allocation += aligned_memory;
+		allocation = metadata->next_allocation;
+		metadata->next_allocation += aligned_memory;
 		allocation->size = number_of_pages(aligned_memory);
 	} else {
 		metadata->free_allocation_list_head = freed_segment->next;
