@@ -1,6 +1,6 @@
 #include <common/stdlib.h>
 #include <common/stdio.h>
-#include <common/dispatcher.h>
+#include <kernel/dispatcher.h>
 
 void start_counter() {
 	while (1) {

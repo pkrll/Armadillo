@@ -1,4 +1,4 @@
-#include <common/pcb.h>
+#include <kernel/pcb.h>
 
 #define PROCESS_STACKSIZE 512
 

@@ -1,4 +1,4 @@
-#include <common/dispatcher.h>
+#include <kernel/dispatcher.h>
 
 static queue_t *ready_queue __attribute__((section(".data")));
 __attribute__((unused))static pcb_t *running_process __attribute__((section(".data")));

@@ -1,9 +1,9 @@
 #ifndef __DISPATCHER_H_
 #define __DISPATCHER_H_
 
+#include <kernel/pcb.h>
 #include <common/stdlib.h>
 #include <common/stdio.h>
-#include <common/pcb.h>
 #include <common/memory.h>
 #include <common/queue.h>
 
