@@ -84,6 +84,20 @@ void *dequeue(queue_t *queue) {
 	return data;
 }
 
+void queue_destroy(queue_t *queue) {
+	if (queue == NULL) return;
+
+	link_t *current = queue->first;
+
+	while (current) {
+		link_t *link = current;
+		current = link->next;
+		free(link);
+	}
+
+	free(queue);
+}
+
 int list_size(queue_t *queue) {
 	return (queue) ? queue->size : 0;
 }
