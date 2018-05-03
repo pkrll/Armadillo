@@ -121,6 +121,7 @@ static char *test_memory_align() {
   return 0;
 }
 
+
 static char *test_free() {
 
   mem_init();
@@ -141,8 +142,16 @@ static char *test_free() {
 
   mu_assert("Test failed: a5 >= a4", a5 < a4);
   mu_assert("Test failed: a5 >= a4", a6 < a4);
-
   
+  
+  
+  return 0;
+}
+
+static char *test_reallocate() {
+
+  mem_init();
+
   int N = 1000;
   // OBS N > 6000 ger typ stack overflow ?!?
   char *array[N];
@@ -157,24 +166,41 @@ static char *test_free() {
     uint32_t reused_mem = (uint32_t)malloc(sizeof(char));
     mu_assert("Test failed: Free not reallocating properly.", reused_mem <= (uint32_t)array[N-1]);
   }
+
+  mem_init();
+
+  char *a1 = malloc(sizeof(char));
+  char *a2 = malloc(sizeof(char));
+  char *a3 = malloc(sizeof(char)*5000);  // Should be more than 1 page.
+  char *a4 = malloc(sizeof(char));
+  char *a5 = malloc(sizeof(char));
+  free(a1);
+  free(a2);
+  free(a3);
+  free(a4);
+  free(a5);
+  char *r1 = malloc(sizeof(char)*5000);
+  char *r2 = malloc(sizeof(char));
+  char *r3 = malloc(sizeof(char));
+  char *r4 = malloc(sizeof(char));
+  char *r5 = malloc(sizeof(char));
+  mu_assert("Test failed: Free not reallocating properly.", r1 == a3);
+  mu_assert("Test failed: Free not reallocating properly.", r1 < r2);
+  mu_assert("Test failed: Free not reallocating properly.", r1 < r3);
+  mu_assert("Test failed: Free not reallocating properly.", r1 > r4);
+  mu_assert("Test failed: Free not reallocating properly.", r1 > r5);
   
   return 0;
 }
 
-void do_nothing() {
-  char *nothing = test_allocate();
-  nothing = test_memory_access();
-  nothing = test_memory_null();
-  nothing = test_memory_align();
-  nothing = test_free();
-  nothing += 0;
-}
 char *test_memory() {
+
   mu_run_test(test_allocate);
   mu_run_test(test_memory_access);
   mu_run_test(test_memory_null);
   mu_run_test(test_memory_align);
   mu_run_test(test_free);
+  mu_run_test(test_reallocate);
 
   return 0;
 }
