@@ -1,7 +1,8 @@
 #include <common/memory.h>
 #include <common/stdio.h>
+#include <stddef.h>
 
-#define PAGESIZE 4096
+#define PAGESIZE 12
 #define ALIGNMEM 8
 #define HEADER 8
 
@@ -55,7 +56,7 @@ void null_memory(void *ptr, size_t size);
  *
  */
 
-static size_t aligned_mem(size_t mem);
+static size_t aligned_mem(size_t size, size_t mem);
 static size_t alloc(size_t size);
 
 
@@ -108,12 +109,12 @@ void free(void *ptr) {
 
 size_t alloc(size_t size) {
 	size_t unaligned_memory = number_of_pages(size) * PAGESIZE;
-	return aligned_mem(unaligned_memory);
+	return aligned_mem(size, unaligned_memory);
 }
 
-size_t aligned_mem(size_t mem) {
-	// Too small size left of the page to fit header.
-	if (mem % PAGESIZE <= HEADER) {
+size_t aligned_mem(size_t size, size_t mem) {
+  // Too small size left of the page to fit header.
+  if ((mem-size) <= 8) {
 		mem += HEADER;
 	}
 	// Already aligned.
@@ -153,4 +154,10 @@ void *get_freed_segment(size_t size) {
 		current = current->next;
 	}
 	return NULL;
+}
+
+// Test func.
+
+int get_align_size() {
+  return ALIGNMEM;
 }

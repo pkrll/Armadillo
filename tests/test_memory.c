@@ -94,7 +94,29 @@ static char *test_memory_align() {
 
   mem_init();
 
-  // TODO
+  char *array1 = malloc(sizeof(char)*47);
+  char *array2 = malloc(sizeof(char)*97);
+  size_t ptr1 = ((uint32_t)array1) % get_align_size();
+  size_t ptr2 = ((uint32_t)array2) % get_align_size();
+  mu_assert("Test failed: Memory not aligned.", ptr1 == 0);
+  mu_assert("Test failed: Memory not aligned.", ptr2 == 0);
+  mu_assert("Test failed: Memory not aligned.", ptr2-ptr1 == 0);
+  
+  int *array3 = malloc(sizeof(int)*11);
+  int *array4 = malloc(sizeof(int)*23);
+  size_t ptr3 = ((uint32_t)array3) % get_align_size();
+  size_t ptr4 = ((uint32_t)array4) % get_align_size();
+  mu_assert("Test failed: Memory not aligned.", ptr3 == 0);
+  mu_assert("Test failed: Memory not aligned.", ptr4 == 0);
+  mu_assert("Test failed: Memory not aligned.", ptr4-ptr3 == 0);
+
+  uint32_t *array5 = malloc(sizeof(uint32_t)*7);
+  uint32_t *array6 = malloc(sizeof(uint32_t)*17);
+  size_t ptr5 = ((uint32_t)array5) % get_align_size();
+  size_t ptr6 = ((uint32_t)array6) % get_align_size();
+  mu_assert("Test failed: Memory not aligned.", ptr5 == 0);
+  mu_assert("Test failed: Memory not aligned.", ptr6 == 0);
+  mu_assert("Test failed: Memory not aligned.", ptr6-ptr5 == 0);
   
   return 0;
 }
