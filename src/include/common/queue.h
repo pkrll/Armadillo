@@ -1,5 +1,5 @@
-#ifndef _LIST_H_
-#define _LIST_H_
+#ifndef _QUEUE_H_
+#define _QUEUE_H_
 
 #include <common/memory.h>
 
