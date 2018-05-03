@@ -76,7 +76,7 @@ context_t *init_context() {
 	return context;
 }
 
-stack_t init_stack() {
+stack_t *init_stack() {
 	stack_t *stack = malloc(PROCESS_STACKSIZE);
 	return stack;
 }

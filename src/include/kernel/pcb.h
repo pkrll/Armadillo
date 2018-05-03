@@ -39,7 +39,7 @@ context_t *init_context();
  *
  * @return Pointer to a stack space.
  */
-stack_t init_stack();
+stack_t *init_stack();
 /**
  * Sets the state of a process.
  *
