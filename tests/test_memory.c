@@ -3,13 +3,13 @@
 #include <test_memory.h>
 
 static char *test_malloc() {
-
-  mem_init();
-
   char *a = malloc(sizeof(char));
+	char *b = malloc(sizeof(char));
+	mu_assert("Test failed: adress of (a == b)", a != b);
+
   free(a);
-  char *b = malloc(sizeof(char));
-  mu_assert("Test failed: adress of (a != b)", a == b);
+  char *e = malloc(sizeof(char));
+  mu_assert("Test failed: adress of (a != e)", a == e);
 
   int *c = malloc(sizeof(int));
   *c = 42;
@@ -29,9 +29,6 @@ static char *test_malloc() {
 }
 
 static char *test_free() {
-
-  mem_init();
-
   char *a1 = malloc(sizeof(char));
   char *a2 = malloc(sizeof(char));
   free(a1);
@@ -53,6 +50,8 @@ static char *test_free() {
 }
 
 char *test_memory() {
+	mem_init();
+
 	mu_run_test(test_malloc);
 	mu_run_test(test_free);
 
