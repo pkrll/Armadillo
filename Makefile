@@ -30,7 +30,7 @@ OBJECTS += $(patsubst $(CMN_SRC)/%.c, $(OBJ_DIR)/%.o, $(COMMON_SOURCES))
 OBJECTS += $(patsubst $(KER_SRC)/%.S, $(OBJ_DIR)/%.o, $(ASSEMBLY_SOURCES))
 
 # Files to clean up
-CLEAN_FILES = $(shell find $(SRC_DIR) -type f -name '*.orig')
+CLEAN_FILES = $(shell find . -type f -name '*.orig')
 
 all:
 	@echo "usage: make [build|compile|run|debug|gdb|objdump|symbols|clean]"
@@ -85,7 +85,7 @@ $(OBJ_DIR)/%.o: $(TEST_DIR)/%.c
 
 test: $(BIN_DIR)/armadillo_test
 
-$(BIN_DIR)/armadillo_test: $(TEST_KERNEL) $(OBJ_DIR)/stdio.o $(OBJ_DIR)/stdlib.o $(OBJ_DIR)/test_stdlib.o $(OBJ_DIR)/memory.o $(OBJ_DIR)/test_memory.o $(OBJ_DIR)/stack.o $(OBJ_DIR)/test_stack.o
+$(BIN_DIR)/armadillo_test: $(TEST_KERNEL) $(OBJ_DIR)/stdio.o $(OBJ_DIR)/stdlib.o $(OBJ_DIR)/test_stdlib.o $(OBJ_DIR)/memory.o $(OBJ_DIR)/test_memory.o $(OBJ_DIR)/pcb.o $(OBJ_DIR)/queue.o $(OBJ_DIR)/dispatcher.o $(OBJ_DIR)/test_dispatcher.o $(OBJ_DIR)/stack.o $(OBJ_DIR)/test_stack.o
 	$(CC)-ld -T $(TEST_DIR)/linker.ld -o $@ $^
 	@$(VM) $(VMFLAGS) -kernel $@
 
