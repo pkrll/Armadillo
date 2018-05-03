@@ -70,7 +70,7 @@ void enqueue(queue_t *queue, void *data){
 * @param [out]  Data member of the first link
 */
 void *dequeue(queue_t *queue){
-  void *result;
+  void *result = NULL;
   if (queue && queue -> size > 0) {
     link_t *temp = queue->first;
     result = temp->data;

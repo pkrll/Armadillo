@@ -2,7 +2,6 @@
 #define __DISPATCHER_H_
 
 #include <common/stdlib.h>
-#include <common/pcb.h>
 #include <common/stdio.h>
 #include <common/pcb.h>
 #include <common/malloc.h>
@@ -14,6 +13,7 @@
 *	@brief	Allocates the ready queue and initializes all processes
 */
 void dispatcher_init();
+
 /*
 *	@brief	Enqueues the running process into the ready queue, pops another process
 *					from the queue and assigns it as the running process.

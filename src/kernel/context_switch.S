@@ -7,12 +7,15 @@
 .extern get_running_pc
 
 .set noreorder
-
+.section .data
+	__at: 			.word 0
 .section .text
 
 
 context_switch:
 
+	move $k0, $at
+	sw   $k0, __at
 	# Get offending instruction, add 4, and store
 	# it as the PC from where to resume next time
 	mfc0	K0, C0_EPC 	# EPC
@@ -91,6 +94,8 @@ save_context:
 	sw		T0, 8(K1)
 	sw		K0, 4(K1) # Actually RA
 	sw		SP, 0(K1)
+	lw    K0, __at
+	sw 		K0, 112(K1)
 	jr		RA
 	nop
 
@@ -130,10 +135,11 @@ load_context:
 	lw		T2, 16(K1)
 	lw		T1, 12(K1)
 	lw		T0, 8(K1)
-	lw		RA, 4(K1)
 	lw		SP, 0(K1)
+	lw		RA, 4(K1)
 
 	# Return from exception using the adress in EPC
+	lw 		$at, 112(K1)
 	eret
 	nop
 

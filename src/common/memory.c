@@ -1,6 +1,6 @@
 #include <common/memory.h>
 
-#define PAGESIZE 8
+#define PAGESIZE 4096
 #define ALIGNMEM 8
 
 extern uint8_t __end __attribute__((section (".data")));
@@ -109,7 +109,7 @@ size_t aligned_mem(size_t mem) {
 }
 
 int number_of_pages(size_t size) {
-	return size / PAGESIZE;
+	return size / PAGESIZE + 1;
 }
 
 void null_memory(void *ptr, size_t size) {
