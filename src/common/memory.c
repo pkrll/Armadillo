@@ -5,6 +5,10 @@
 
 extern uint8_t __end __attribute__((section (".data")));
 
+// -------------------------------
+// Structs
+// -------------------------------
+
 typedef struct Metadata {
 	void *next_allocation;
 	void *free_allocation_list_head;
@@ -18,6 +22,10 @@ typedef struct FreeSegment {
 	uint16_t size;
 	void *next;
 } free_segment_t;
+
+// -------------------------------
+// Declarations
+// -------------------------------
 
 /**
  * Retrieves a free segment from the list of freed allocations
@@ -43,7 +51,7 @@ static int number_of_pages(size_t size);
  * @param  size The number of bytes nulled.
  *
  */
-void null_memory(void *ptr, size_t size);
+static void null_memory(void *ptr, size_t size);
 /**
  * Returns the specified memory size aligned.
  *
@@ -51,6 +59,18 @@ void null_memory(void *ptr, size_t size);
  * @return     ...
  */
 static size_t aligned_mem(size_t mem);
+/**
+ * Converts a void pointer to a segment_t pointer, and
+ * pushes the pointer back with sizeof(segment_t).
+ *
+ * @param  ptr A pointer.
+ * @return     The pointer converted to segment_t.
+ */
+static segment_t *convert_to_segment(void *ptr);
+
+// -------------------------------
+// Public functions
+// -------------------------------
 
 void mem_init() {
 	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
@@ -88,13 +108,6 @@ void *malloc(size_t size) {
 	return (void *)allocation;
 }
 
-segment_t *convert_to_segment(void *ptr) {
-	segment_t *segment = (segment_t *)ptr;
-	segment -= sizeof(segment_t);
-
-	return segment;
-}
-
 void free(void *ptr) {
 	if (ptr == NULL) return;
 
@@ -105,18 +118,22 @@ void free(void *ptr) {
 	metadata->free_allocation_list_head = segment;
 }
 
-size_t aligned_mem(size_t mem) {
+// -------------------------------
+// Internal functions
+// -------------------------------
+
+static size_t aligned_mem(size_t mem) {
 	// Already aligned
 	if (mem % ALIGNMEM == 0) return mem;
 	// Align memory with ALIGNMEM
 	return mem + (ALIGNMEM - (mem % ALIGNMEM));
 }
 
-int number_of_pages(size_t size) {
+static int number_of_pages(size_t size) {
 	return size / PAGESIZE + 1;
 }
 
-void null_memory(void *ptr, size_t size) {
+static void null_memory(void *ptr, size_t size) {
 	char *p = ptr;
 	while(size > 0) {
 		*p = 0;
@@ -124,7 +141,7 @@ void null_memory(void *ptr, size_t size) {
 	}
 }
 
-void *get_freed_segment(size_t size) {
+static void *get_freed_segment(size_t size) {
 	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
 	free_segment_t *head = metadata->free_allocation_list_head;
 
@@ -138,4 +155,11 @@ void *get_freed_segment(size_t size) {
 	}
 
 	return NULL;
+}
+
+static segment_t *convert_to_segment(void *ptr) {
+	segment_t *segment = (segment_t *)ptr;
+	segment -= sizeof(segment_t);
+
+	return segment;
 }
