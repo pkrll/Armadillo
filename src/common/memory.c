@@ -52,10 +52,6 @@ void null_memory(void *ptr, size_t size);
  */
 static size_t aligned_mem(size_t mem);
 
-void do_nothing(void *ptr) { // NOTE: Is this needed?
-	ptr = ptr + 0;
-}
-
 void mem_init() {
 	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
 	metadata->next_allocation = (segment_t *)((uint32_t)&__end + sizeof(metadata_t));
@@ -67,12 +63,12 @@ void *malloc(size_t size) {
 
 	metadata_t *metadata 	= (metadata_t *)((uint32_t)&__end);
 	segment_t *allocation = NULL;
+
 	free_segment_t *freed_segment = get_freed_segment(size);
 
 	if (freed_segment == NULL) {
-		// TODO: Perhaps break this out into its own function
-		size_t unaligned_memory = number_of_pages(size) * PAGESIZE + sizeof(segment_t);
-		size_t aligned_memory = aligned_mem(unaligned_memory);
+		size = number_of_pages(size) * PAGESIZE + sizeof(segment_t);
+		size_t aligned_memory = aligned_mem(size);
 
 		allocation = metadata->next_allocation;
 		metadata->next_allocation += aligned_memory;
@@ -87,15 +83,23 @@ void *malloc(size_t size) {
 	if (allocation) {
 		allocation += sizeof(segment_t);
 	}
+
 	null_memory(allocation, size);
 	return (void *)allocation;
+}
+
+segment_t *convert_to_segment(void *ptr) {
+	segment_t *segment = (segment_t *)ptr;
+	segment -= sizeof(segment_t);
+
+	return segment;
 }
 
 void free(void *ptr) {
 	if (ptr == NULL) return;
 
 	metadata_t *metadata = (metadata_t *)((uint32_t)&__end);
-	free_segment_t *segment = (free_segment_t *)(ptr - sizeof(segment));
+	free_segment_t *segment = (free_segment_t *)convert_to_segment(ptr);
 
 	segment->next = metadata->free_allocation_list_head;
 	metadata->free_allocation_list_head = segment;
