@@ -24,7 +24,7 @@ struct Queue{
 * @param [out] Pointer to the link
 */
 link_t *link_new(){
-  link_t *link = malloc(sizeof(link_t*));
+  link_t *link = malloc(sizeof(link_t));
   link->data = NULL;
   link->next = NULL;
   return link;
@@ -35,7 +35,7 @@ link_t *link_new(){
 * @param [out] A pointer to a queue
 */
 queue_t *queue_new(){
-    queue_t *queue = malloc(sizeof(queue_t*));
+    queue_t *queue = malloc(sizeof(queue_t));
     queue->first = link_new();
     queue->last = link_new();
     queue->size = 0;
@@ -62,10 +62,6 @@ void enqueue(queue_t *queue, void *data){
 
   queue->last = new;
   queue->size++;
-
-  if (queue->size == 0) {
-    queue->last = new;
-  }
 };
 
 /*
@@ -79,7 +75,7 @@ void *dequeue(queue_t *queue){
     link_t *temp = queue->first;
     result = temp->data;
     queue->first = temp->next;
-    free(temp);
+    //free(temp);
     queue->size--;
   }
   return result;

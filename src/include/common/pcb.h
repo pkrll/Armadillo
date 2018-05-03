@@ -1,12 +1,12 @@
 #ifndef __PCB_H_
 #define __PCB_H_
 
-#include <common/memory.h>
+#include <common/malloc.h>
 
 typedef int reg_t;
 typedef int pid_t;
 typedef void *addr_t;
-typedef void *stack_t;
+
 /**
 * Enum representing the current state of a process
 */
@@ -17,6 +17,7 @@ typedef enum State{
 
 typedef struct Pcb pcb_t;
 typedef struct Context context_t;
+typedef struct Stack stack_t;
 
 pcb_t *init_pcb(pid_t pid, addr_t start_function);
 context_t *init_context();

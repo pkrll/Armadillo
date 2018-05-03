@@ -5,10 +5,10 @@
 #include <common/pcb.h>
 #include <common/stdio.h>
 #include <common/pcb.h>
-#include <common/memory.h>
+#include <common/malloc.h>
 #include <common/queue.h>
 
-__attribute__((unused))static addr_t process_mem_space __attribute__((section(".bss")));
+//__attribute__((unused))static addr_t process_mem_space __attribute__((section(".bss")));
 
 /*
 *	@brief	Allocates the ready queue and initializes all processes

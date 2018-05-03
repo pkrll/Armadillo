@@ -19,8 +19,8 @@ context_switch:
 
 	# Before saving anything, we need the adress to the current PCB
 	addi	SP, -8
-	sw		V0, 4(SP)		#save V0 before function call
 	sw		RA, 0(SP) 	# Save RA before jal
+	sw		V0, 4(SP)		#save V0 before function call
 	jal 	get_current_pcb #current PID in V0?
 	nop
 	move 	K1, V0			#  Move PCB adress to K1

@@ -1,14 +1,14 @@
 #include <common/dispatcher.h>
 
-static queue_t *ready_queue __attribute__((section(".bss")));
-__attribute__((unused))static pcb_t *running_process __attribute__((section(".bss")));
+static queue_t *ready_queue __attribute__((section(".data")));
+__attribute__((unused))static pcb_t *running_process __attribute__((section(".data")));
 
 /*
 *	Workspace for process 2
 */
 void process_2(){
 	while (1) {
-		for (int i = 1; i < 10000000; i++);
+		for (int i = 1; i < 1000000; i++);
 		printk("2");
 		asm volatile("syscall");
 	}
@@ -19,7 +19,7 @@ void process_2(){
 */
 void process_1(){
 	while (1) {
-		for (int i = 1; i < 10000000; i++);
+		for (int i = 1; i < 1000000; i++);
 		printk("1");
 		asm volatile("syscall");
 	}
@@ -30,7 +30,7 @@ void process_1(){
 */
 void process_0(){
 	while (1) {
-		for (int i = 1; i < 10000000; i++);
+		for (int i = 1; i < 1000000; i++);
 		printk("0");
 		asm volatile("syscall");
 	}
@@ -44,7 +44,7 @@ void process_0(){
 */
 void init_processes(){
   pcb_t *p0 = init_pcb(0, &process_0);
-  pcb_t *p1 = init_pcb(1, &process_1);
+ 	pcb_t *p1 = init_pcb(1, &process_1);
   pcb_t *p2 = init_pcb(2, &process_2);
   enqueue(ready_queue, p1);
   enqueue(ready_queue, p2);

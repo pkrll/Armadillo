@@ -1,5 +1,10 @@
 #include <common/pcb.h>
 
+#define PROCESS_STACKSIZE 4096
+
+struct Stack {
+  void *start;
+};
 /**
 * Struct containing all registers to be saved for a given process
 */
@@ -32,6 +37,7 @@ struct Context{
   reg_t s7;
   reg_t gp;
   reg_t fp;
+  reg_t at;
 };
 
 /**
@@ -43,9 +49,6 @@ struct Pcb{
   state_t process_state;
   context_t *cpu_context;
   addr_t stack;
-  addr_t text_seg;
-  addr_t data_seg;
-  addr_t schedule_info;
 };
 
 /*
@@ -61,10 +64,7 @@ pcb_t *init_pcb(pid_t pid, addr_t start_function){
   pcb->process_state = 0;
   pcb->cpu_context = init_context();
   pcb->stack = init_stack();
-//  pcb->text =     text;
-//  pcb->data =     data;
-//  pcb->sched =    sched;
-  pcb->cpu_context->sp = (reg_t)pcb->stack;
+  pcb->cpu_context->sp = (reg_t)pcb->stack+PROCESS_STACKSIZE;
   return pcb;
 };
 
@@ -82,7 +82,7 @@ context_t *init_context(){
 * @param [out] Pointer to a stack space
 */
 addr_t init_stack(){
-  addr_t stack = malloc(sizeof(stack_t));
+  stack_t *stack = malloc(PROCESS_STACKSIZE);
   return stack;
 }
 

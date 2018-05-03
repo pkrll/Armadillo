@@ -1,7 +1,7 @@
-#ifndef _LIST_H_
-#define _LIST_H_
+#ifndef __QUEUE_H_
+#define __QUEUE_H_
 
-#include <common/memory.h>
+#include <common/malloc.h>
 
 typedef struct Queue queue_t;
 typedef struct Link link_t;
