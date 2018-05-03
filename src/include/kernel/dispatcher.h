@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Dispatcher
+ */
+
 #ifndef __DISPATCHER_H_
 #define __DISPATCHER_H_
 
