@@ -5,6 +5,8 @@
 .globl start
 .extern main
 .extern	init_timer
+.extern test_dispatcher
+
 .set noreorder
 
 .set STACKSIZE, 0x4000
@@ -25,13 +27,24 @@ start:
 
 	# jal		init_timer
 	#syscall # temporary
-
+	#jal test_dispatcher
 	nop
 	jal main
 	nop
 	b	.
 
+
+
+
+#get_stack_adress:
+#	jal 	get_context_adress
+#	nop
+#	li		$t1, STACK_OFFSET
+#	add		$k1, $k1, $t1
+#	jr		$ra
+#	nop
+
 .section .bss
 
 stack:
-	.space STACKSIZE
+	.space 	STACKSIZE
