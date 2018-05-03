@@ -1,12 +1,7 @@
-<<<<<<< HEAD
 #ifndef __QUEUE_H_
 #define __QUEUE_H_
-=======
-#ifndef _QUEUE_H_
-#define _QUEUE_H_
->>>>>>> 0353ca64ca879c9054387c1ca19f2f45faff88f0
 
-#include <common/malloc.h>
+#include <common/memory.h>
 
 typedef struct Queue queue_t;
 typedef struct Link link_t;

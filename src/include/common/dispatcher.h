@@ -4,7 +4,7 @@
 #include <common/stdlib.h>
 #include <common/stdio.h>
 #include <common/pcb.h>
-#include <common/malloc.h>
+#include <common/memory.h>
 #include <common/queue.h>
 
 //__attribute__((unused))static addr_t process_mem_space __attribute__((section(".bss")));

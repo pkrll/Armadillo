@@ -1,6 +1,6 @@
 #include <common/pcb.h>
 
-#define PROCESS_STACKSIZE 4096
+#define PROCESS_STACKSIZE 512
 
 struct Stack {
   void *start;
