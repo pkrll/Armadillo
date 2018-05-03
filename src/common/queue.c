@@ -40,43 +40,52 @@ link_t *link_new();
 
 queue_t *queue_new() {
 	queue_t *queue = malloc(sizeof(queue_t));
-	queue->first = link_new();
-	queue->last = link_new();
-	queue->size = 0;
+
+	if (queue) {
+		queue->first = NULL;
+		queue->last = NULL;
+		queue->size = 0;
+	}
+
 	return queue;
 }
 
 void enqueue(queue_t *queue, void *data) {
-	link_t *new = link_new();
-	new->data = data;
+	link_t *link = link_new();
 
-	new->next = NULL;
-	if (queue->last) {
-		queue->last->next = new;
+	if (link) {
+		if (queue->size == 0) {
+			queue->first = link;
+		} else {
+			queue->last->next = link;
+		}
+
+		link->data = data;
+		link->next = queue->last;
+
+		queue->last = link;
+		queue->size++;
 	}
-
-	if (queue->size == 0) {
-		queue->first = new;
-	}
-
-	queue->last = new;
-	queue->size++;
 }
 
 void *dequeue(queue_t *queue) {
-	void *result = NULL;
-	if (queue && queue -> size > 0) {
-		link_t *temp = queue->first;
-		result = temp->data;
-		queue->first = temp->next;
-		//free(temp);
+	void *data = NULL;
+
+	if (queue && queue->size > 0) {
+		link_t *link = queue->first;
+		data = link->data;
+
+		queue->first = link->next;
 		queue->size--;
+
+		free(link);
 	}
-	return result;
+
+	return data;
 }
 
 int list_size(queue_t *queue) {
-	return queue->size;
+	return (queue) ? queue->size : 0;
 }
 
 // -------------------------------
@@ -85,7 +94,11 @@ int list_size(queue_t *queue) {
 
 link_t *link_new() {
 	link_t *link = malloc(sizeof(link_t));
-	link->data = NULL;
-	link->next = NULL;
+
+	if (link) {
+		link->data = NULL;
+		link->next = NULL;
+	}
+
 	return link;
-};
+}
