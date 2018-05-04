@@ -1,5 +1,6 @@
 #include <common/stdlib.h>
 #include <common/stdio.h>
+#include <kernel/dispatcher.h>
 
 void start_counter() {
 	while (1) {
@@ -17,6 +18,10 @@ void start_counter() {
 }
 
 int main(void) {
+	mem_init();
+	dispatcher_init();
+	printk("Hello world!\n");
+	print_to_ascii("UphillOS");
 	start_counter();
 	return 0;
 }
