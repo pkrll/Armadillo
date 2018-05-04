@@ -3,9 +3,9 @@
 #include <test_stdlib.h>
 
 static char *test_strlen() {
-  mu_assert("Test failed: strlen(\"Hello\") != 5", strlen("Hello") == 5);
-  mu_assert("Test failed: strlen(\"\") != 0", strlen("") == 0);
-  mu_assert("Test failed: strlen(\"foo\\0\") != 3", strlen("foo\0") == 3);
+	mu_assert("Test failed: strlen(\"Hello\") != 5", strlen("Hello") == 5);
+	mu_assert("Test failed: strlen(\"\") != 0", strlen("") == 0);
+	mu_assert("Test failed: strlen(\"foo\\0\") != 3", strlen("foo\0") == 3);
 
 	return 0;
 }
