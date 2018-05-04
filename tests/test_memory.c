@@ -2,15 +2,17 @@
 #include <common/memory.h>
 #include <test_memory.h>
 
-
-static char *test_allocate() {
+static char *test_malloc() {
 
   mem_init();
-
+  
   char *a = malloc(sizeof(char));
+	char *b = malloc(sizeof(char));
+	mu_assert("Test failed: adress of (a == b)", a != b);
+
   free(a);
-  char *b = malloc(sizeof(char));
-  mu_assert("Test failed: adress of (a != b)", a == b);
+  char *e = malloc(sizeof(char));
+  mu_assert("Test failed: adress of (a != e)", a == e);
 
   int *c = malloc(sizeof(int));
   *c = 42;
@@ -123,9 +125,6 @@ static char *test_memory_align() {
 
 
 static char *test_free() {
-
-  mem_init();
-
   char *a1 = malloc(sizeof(char));
   char *a2 = malloc(sizeof(char));
   free(a1);
@@ -195,7 +194,7 @@ static char *test_reallocate() {
 
 char *test_memory() {
 
-  mu_run_test(test_allocate);
+  mu_run_test(test_malloc);
   mu_run_test(test_memory_access);
   mu_run_test(test_memory_null);
   mu_run_test(test_memory_align);
