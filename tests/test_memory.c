@@ -5,7 +5,7 @@
 static char *test_malloc() {
 
   mem_init();
-  
+
   char *a = malloc(sizeof(char));
 	char *b = malloc(sizeof(char));
 	mu_assert("Test failed: adress of (a == b)", a != b);
@@ -59,7 +59,7 @@ static char *test_memory_access() {
     }
     C += 1;
   }
-  
+
 
 
   return 0;
@@ -68,9 +68,9 @@ static char *test_memory_access() {
 static char *test_memory_null() {
 
   mem_init();
-  
+
   int N = 10000;
-  
+
   char *array = malloc(sizeof(char)*N);
   char *incr = array;
   for (int i = 0; i < N; i++) {
@@ -79,7 +79,7 @@ static char *test_memory_null() {
   }
 
   free(array);
-  
+
   char *array2 = malloc(sizeof(char)*N);
   incr = array2;
   for (int i = 0; i < N; i++) {
@@ -88,13 +88,13 @@ static char *test_memory_null() {
   }
   mu_assert("Test failed: adress of (array != array2).", array == array2);
 
- 
+
   return 0;
 }
 
 static char *test_memory_align() {
 
-  mem_init();
+	mem_init();
 
   char *array1 = malloc(sizeof(char)*47);
   char *array2 = malloc(sizeof(char)*97);
@@ -103,7 +103,7 @@ static char *test_memory_align() {
   mu_assert("Test failed: Memory not aligned.", ptr1 == 0);
   mu_assert("Test failed: Memory not aligned.", ptr2 == 0);
   mu_assert("Test failed: Memory not aligned.", ptr2-ptr1 == 0);
-  
+
   int *array3 = malloc(sizeof(int)*11);
   int *array4 = malloc(sizeof(int)*23);
   size_t ptr3 = ((uint32_t)array3) % get_align_size();
@@ -119,7 +119,7 @@ static char *test_memory_align() {
   mu_assert("Test failed: Memory not aligned.", ptr5 == 0);
   mu_assert("Test failed: Memory not aligned.", ptr6 == 0);
   mu_assert("Test failed: Memory not aligned.", ptr6-ptr5 == 0);
-  
+
   return 0;
 }
 
@@ -130,10 +130,10 @@ static char *test_free() {
   free(a1);
   char *a3 = malloc(sizeof(char));
 
-  mu_assert("Test failed: adress of (a1 != a3)", a1 == a3);
+	mu_assert("Test failed: adress of (a1 != a3)", a1 == a3);
 
-  free(a2);
-  free(a3);
+	free(a2);
+	free(a3);
 
   char *a4 = malloc(sizeof(char)*10000);
   char *a5 = malloc(sizeof(char));
@@ -141,9 +141,9 @@ static char *test_free() {
 
   mu_assert("Test failed: a5 >= a4", a5 < a4);
   mu_assert("Test failed: a5 >= a4", a6 < a4);
-  
-  
-  
+
+
+
   return 0;
 }
 
@@ -154,7 +154,7 @@ static char *test_reallocate() {
   int N = 1000;
   // OBS N > 6000 ger typ stack overflow ?!?
   char *array[N];
-    
+
   for (int i = 0; i < N; i++) {
     array[i] = malloc(sizeof(char));
   }
@@ -188,7 +188,7 @@ static char *test_reallocate() {
   mu_assert("Test failed: Free not reallocating properly.", r1 < r3);
   mu_assert("Test failed: Free not reallocating properly.", r1 > r4);
   mu_assert("Test failed: Free not reallocating properly.", r1 > r5);
-  
+
   return 0;
 }
 
