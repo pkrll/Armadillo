@@ -25,6 +25,10 @@ int strcmp(const char *str1, const char *str2) {
 	return (*str2 == '\0') ? 0 : -1;
 }
 
+char itoa(int n) {
+  return (char)n + '0';
+}
+
 int length_of_number(int number) {
 	int count = 0;
 

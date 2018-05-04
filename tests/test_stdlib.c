@@ -19,11 +19,13 @@ static char *test_strcmp() {
 }
 
 static char *test_number_to_char() {
-	mu_assert("Test failed: number_to_char(\"0\") != '0'", *number_to_char(0) == '0');
-	mu_assert("Test failed: number_to_char(\"1234\")[2] != '1234'", number_to_char(1234)[2] == '3');
-	mu_assert("Test failed: number_to_char(\"1034\")[1] != '1034'", number_to_char(1034)[1] == '0');
-	mu_assert("Test failed: number_to_char(\"1204\")[3] != '1204'", number_to_char(1204)[3] == '4');
-	mu_assert("Test failed: number_to_char(\"1230\")[0] != '1230'", number_to_char(1230)[0] == '1');
+	mu_assert("Test failed: number_to_char(\"0\") != '0'", strcmp(number_to_char(0), "0") == 0);
+	mu_assert("Test failed: number_to_char(\"1234\")[2] != '1234'", strcmp(number_to_char(1234), "4321") != 0);
+	mu_assert("Test failed: number_to_char(\"1234\")[2] != '1234'", strcmp(number_to_char(1234), "1234") == 0);
+	mu_assert("Test failed: number_to_char(\"1204\")[3] != '1204'", strcmp(number_to_char(1204), "1204") == 0);
+	mu_assert("Test failed: number_to_char(\"1230\") != '1230'", strcmp(number_to_char(1230), "1230") == 0);
+	mu_assert("Test failed: number_to_char(\"1230\") != '200'", strcmp(number_to_char(200), "200") == 0);
+
 
 	return 0;
 }
