@@ -35,6 +35,12 @@ void enqueue(queue_t *queue, void *data);
  */
 void *dequeue(queue_t *queue);
 /**
+ * Deallocates a queue.
+ *
+ * @param queue The queue to deallocate.
+ */
+void queue_destroy(queue_t *queue);
+/**
  * Gives the length of a queue.
  *
  * @param  queue A queue.
