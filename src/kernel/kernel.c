@@ -1,6 +1,7 @@
 #include <common/stdlib.h>
 #include <common/stdio.h>
 #include <kernel/dispatcher.h>
+#include <kernel/kbd.h>
 
 void start_counter() {
 	while (1) {
@@ -18,6 +19,7 @@ void start_counter() {
 }
 
 int main(void) {
+  kbd_init();
 	mem_init();
 	dispatcher_init();
 	printk("Hello world!\n");

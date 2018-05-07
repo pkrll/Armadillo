@@ -71,7 +71,7 @@
 #define C0_EPC			$14	// Exception Program Counter
 
 #define C0_EBASE		$15,1	// Exception entry point base address
-
+#define CO_CDMMBASE $15,2 // Common Device Memory Map base adress
 #define C0_CONFIG		$16		// CPU Config
 #define C0_CONFIG1	$16,1	// Config 1 (contains TLB size)
 #define C0_CONFIG2	$16,2

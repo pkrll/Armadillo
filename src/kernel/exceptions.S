@@ -19,6 +19,9 @@ __exception:
 	srl		$k1, 2	# exception code
 
 	beq	$k1, 8, __syscall
+	nop
+	beq $k1, 0,	__forever
+	nop
 
 	addiu $t1, $zero, 1
 	beq $a0, $t1, __reset_led
@@ -42,4 +45,8 @@ __jump_back:
 __syscall:
 
 	b context_switch
+	nop
+
+__forever:
+	b __forever
 	nop

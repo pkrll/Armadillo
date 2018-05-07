@@ -4,7 +4,7 @@ CC = mipsel-elf
 CFLAGS = -g -Wall -Wextra -Werror -nostdlib -fno-builtin
 AFLAGS = --gen-debug -mips32
 VM = qemu-system-mipsel
-VMFLAGS = -M malta -m 256 -serial stdio
+VMFLAGS = -M malta -m 256 -serial stdio -device usb-mouse -device usb-kbd -show-cursor -display sdl
 VMFLAGS_DEBUG = -M malta -m 256 -s -S
 
 ELF_NAME = uphill.elf
