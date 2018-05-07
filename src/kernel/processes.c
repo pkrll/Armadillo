@@ -42,16 +42,16 @@ void process_2(){
 */
 void process_1(){
 	while (1) {
-		//for (int i = 1; i < 500000000; i++);
-		printk("#Initializing process 1, counting up to 5...");
+		for (int i = 1; i < 50000000; i++);
+		printk("#Initializing process 1, counting up to 5...\n");
     //for (int i = 1; i < 100000000; i++);
-    printk("1 ");
+    // printk("1 ");
     //for (int i = 1; i < 100000000; i++);
-    printk("2 ");
+    // printk("2 ");
     //for (int i = 1; i < 100000000; i++);
-    printk("3 ");
+    // printk("3 ");
     //for (int i = 1; i < 100000000; i++);
-    printk("error... ");
+    // printk("error... ");
     //for (int i = 1; i < 100000000; i++);
 
     //asm volatile("syscall");
@@ -66,7 +66,7 @@ void process_0(){
 		for (int i = 1; i < 50000000; i++);
 		printk("#Initializes process 0, calculating 1 + 1...");
   	for (int i = 1; i < 50000000; i++);
-    printk(" = 2 ");
+    printk(" = 2 \n");
 		//spawn_process(process_1);
 		//asm volatile("syscall");
 	}

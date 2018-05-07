@@ -29,6 +29,10 @@ reset_timer:
 
 	li   	$t2, 0x0
 	mtc0  $t2, C0_COUNT
+	li		$t2, 100000000
+	mtc0	$t2, C0_COMPARE	# Set compare register to 0x1
+
+	nop
 	jal 	interupt_handler
 	nop
 	lw    RA, 0(SP)

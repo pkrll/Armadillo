@@ -52,6 +52,6 @@ __syscall:
 	nop
 
 __interupt_handler:
-	#b reset_timer
-	b context_switch
+	jal reset_timer
 	nop
+	b context_switch

@@ -35,7 +35,7 @@ void exception_handler() {
 void interupt_handler() {
 	//for (int i = 1; i < 100000000; i++);
 
-	printk(" Timer Interupt, pausing running_process and starting process_0 ");
-	spawn_process(process_1);
-	asm volatile("syscall");
+	printk(" Timer Interupt, pausing running_process and starting process_0 \n");
+	// spawn_process(process_1);
+	// asm volatile("syscall");
 }
