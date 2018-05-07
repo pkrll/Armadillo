@@ -24,6 +24,14 @@ char itoa(int n);
  */
 char *number_to_char(int n);
 /**
+ * Takes hexadecimal the number, converts it to chars and puts it in an array.
+ *
+ * @param        The hex we want to convert to corresponding char.
+ *
+ * @return       The number converted in a string
+ */
+char *hexadecimal_to_char(unsigned long number);
+/**
  * @brief Compares the string pointed to by str1 with the string
  * 				pointed to by str2.
  *
