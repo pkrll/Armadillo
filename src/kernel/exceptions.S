@@ -5,6 +5,7 @@
 .globl __exception
 .extern exception_handler
 .extern context_switch
+.extern interupt_handler
 
 .set noreorder
 #.set noat
@@ -12,6 +13,10 @@
 .section .ktext
 .org 0x184 # Offset for the general exception vector in RAM
 __exception:
+
+	mfc0  $k0, C0_STATUS
+	addi  $k0, -1
+	mtc0  $k0, C0_STATUS #disable interrupts
 
 	mfc0	$k0, C0_CAUSE
 	li		$k1, MASK_CAUSE
@@ -22,6 +27,8 @@ __exception:
 
 	addiu $t1, $zero, 1
 	beq $a0, $t1, __reset_led
+	nop
+	beq $k1, 0, __interupt_handler
 	nop
 	jal exception_handler
 	nop
@@ -41,5 +48,10 @@ __jump_back:
 
 __syscall:
 
+	b context_switch
+	nop
+
+__interupt_handler:
+	#b reset_timer
 	b context_switch
 	nop

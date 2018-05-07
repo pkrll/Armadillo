@@ -2,9 +2,11 @@
 
 
 .globl context_switch
+.globl save_context
 .extern get_running_pcb
 .extern get_current_context
 .extern get_running_pc
+.extern get_current_pcb
 
 .set noreorder
 .section .data
@@ -137,6 +139,10 @@ load_context:
 	lw		T0, 8(K1)
 	lw		SP, 0(K1)
 	lw		RA, 4(K1)
+
+	mfc0  $k0, C0_STATUS
+	addi  $k0, 1
+	mtc0  $k0, C0_STATUS #enable interrupts
 
 	# Return from exception using the adress in EPC
 	lw 		$at, 112(K1)

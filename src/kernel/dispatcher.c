@@ -1,62 +1,44 @@
 #include <common/dispatcher.h>
+#include <common/stdlib.h>
+#include <common/processes.h>
 
 static queue_t *ready_queue __attribute__((section(".data")));
 __attribute__((unused))static pcb_t *running_process __attribute__((section(".data")));
+static pid_t pid __attribute__((section("data"))) = 0;
 
-void process_5(){
-	while (1) {
-		for (int i = 1; i < 10000000; i++);
-		printk("5");
-		asm volatile("syscall");
-	}
+
+/*
+*	@brief Set the process as the running_process and changing the processes state to 1 (running)
+*
+*/
+void set_running_process(pcb_t *process) {
+	running_process = process;
+	set_pcb_state(process, 1);
 }
-void process_4(){
-	while (1) {
-		for (int i = 1; i < 10000000; i++);
-		printk("4");
-		asm volatile("syscall");
-	}
-}
-void process_3(){
-	while (1) {
-		for (int i = 1; i < 10000000; i++);
-		printk("3");
-		asm volatile("syscall");
+
+void spawn_process(void *process_function) {
+  pcb_t *process = init_pcb(pid, process_function);
+  pid++;
+
+  if (list_size(ready_queue) == 0 && running_process == NULL) {
+    set_running_process(process);
+  } else {
+  	enqueue(ready_queue, process);
 	}
 }
 
 /*
-*	Workspace for process 2
-*/
-void process_2(){
-	while (1) {
-		for (int i = 1; i < 1000000; i++);
-		printk("2");
-		asm volatile("syscall");
-	}
-}
+void forkish(void *process_function) {
+  pcb_t *process = init_pcb(pid, process_function);
+  pid++;
 
-/*
-*	Workspace for process 1
-*/
-void process_1(){
-	while (1) {
-		for (int i = 1; i < 1000000; i++);
-		printk("1");
-		asm volatile("syscall");
+  if (list_size(ready_queue) == 0 && running_process == NULL) {
+    set_running_process(process);
+  } else {
+  	enqueue(ready_queue, process);
 	}
-}
+}*/
 
-/*
-*	Workspace for process 0
-*/
-void process_0(){
-	while (1) {
-		for (int i = 1; i < 1000000; i++);
-		printk("0");
-		asm volatile("syscall");
-	}
-}
 
 /*
 *	@ brief	Initializes all processes by assigning PIDs,
@@ -65,7 +47,7 @@ void process_0(){
 *					and its starting function is called.
 */
 void init_processes(){
-  pcb_t *p0 = init_pcb(0, &process_0);
+  /*pcb_t *p0 = init_pcb(0, &process_0);
  	pcb_t *p1 = init_pcb(1, &process_1);
   pcb_t *p2 = init_pcb(2, &process_2);
 	pcb_t *p3 = init_pcb(3, &process_3);
@@ -77,8 +59,10 @@ void init_processes(){
   enqueue(ready_queue, p3);
   enqueue(ready_queue, p4);
   enqueue(ready_queue, p5);
-  running_process = p0;
-	process_0();
+  set_running_process(p0);*/
+	//process_0();
+	spawn_process(process_0);
+	spawn_process(process_1);
 }
 
 void dispatcher_init(){

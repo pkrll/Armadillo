@@ -27,4 +27,10 @@ void process_switch();
 */
 pcb_t *get_current_pcb();
 
+//So we can start the first process in kernel. We need to do that so we can make tests for dispatcher_init. Can remove this if we find a better way.
+void process_0();
+
+void spawn_process();
+void forkish(void *process_function);
+
 #endif

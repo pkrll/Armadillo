@@ -1,6 +1,7 @@
 #include <common/stdlib.h>
 #include <common/stdio.h>
 #include <common/dispatcher.h>
+#include <common/processes.h>
 
 void start_counter() {
 	while (1) {
@@ -20,6 +21,7 @@ void start_counter() {
 int main(void) {
 	mem_init();
 	dispatcher_init();
+	process_0();
 	printk("Hello world!\n");
 	print_to_ascii("UphillOS");
 	start_counter();
@@ -28,4 +30,12 @@ int main(void) {
 
 void exception_handler() {
 	printk("Nope");
+}
+
+void interupt_handler() {
+	//for (int i = 1; i < 100000000; i++);
+
+	printk(" Timer Interupt, pausing running_process and starting process_0 ");
+	spawn_process(process_1);
+	asm volatile("syscall");
 }
