@@ -1,6 +1,4 @@
-#define KBD_DATA_PORT 0x60
-#define KBD_CMD_REG 0x64
-#define ENABLE_FIRST_PORT 0xAE
+
 
 #include <common/stdint.h>
 #include <kernel/kbd.h>
@@ -18,10 +16,8 @@ static inline char read_kbd();
 *
 */
 void kbd_init() {
-  asm volatile("li $t0, 0xae");
-  asm volatile("sw $t0, 0x64");
-  char __attribute__ ((unused))bajs;
-  bajs = read_kbd();
+  //char __attribute__ ((unused))bajs;
+  //bajs = read_kbd();
 }
 
 /*

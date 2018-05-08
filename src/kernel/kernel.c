@@ -19,7 +19,7 @@ void start_counter() {
 }
 
 int main(void) {
-  kbd_init();
+  //kbd_init();
 	mem_init();
 	dispatcher_init();
 	printk("Hello world!\n");

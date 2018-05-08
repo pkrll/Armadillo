@@ -1,13 +1,12 @@
 #include <mips/registers.h>
+#include <mips/adresses.h>
 
 .globl _read_kbd_asm
-
-.section .data
-  KBD_DATA_PORT: .word 0x60
 
 .section .text
 
 _read_kbd_asm:
-  li $t0, KBD_DATA_PORT
-  lb $v0, 0($t0)
-  jr $ra
+  li T0, KBD_DATA_PORT # Load adress to data port
+  lb V0, 0(T0)        # First byte of port adress 
+  jr RA
+  nop
