@@ -2,27 +2,6 @@
 
 OSPP (1DT096) 2018 - Projekt iota
 
-**INFO:** Detta dokument är skrivet i
-formatet [Markdown](https://help.github.com/articles/getting-started-with-writing-and-formatting-on-github/).
-
-**INFO:** Det går att redigera, förhandsvisa och spara (commit)
-[sidan](./medlemmar.md) på GitHub direkt i din webbläsare.
-
-**INFO:** För att lärarna på kursen skall kunna följa och bedöma era
-arbetsinsatser är det viktigt att vi vet vem som är vem vid till exempel
-muntliga presentationer och andra möten.
-
-**INFO:** För sådant som inte går att uttrycka med den variant av Markdown som
-GitHub använder går det bra att använda HTML istället. Till exempel går det att
-använda en `<img src="..." width="180"/>` tag för att sätta bredden på en bild
-till `180` pixlar.
-
-**INFO:** Om ni inte vill bråka med syntaxen för tabeller i Markdown går det
- bra att byta ut hela tabellen mot en HTML-tabell.
-
-**INFO:** För att länka till en rubrik på formen `En rubrik med åäö` använd
-ankaret `#en-rubrik-med-åäö`.
-
 Bild                                     | Förnamn                     | Efternamn | Personnummer | Användarnamn (GitHub)
 -----------------------------------------|-----------------------------|-----------|--------------|----------------------
 <img src="images/fredrik.JPG" width="180"/> | [Fredrik](#fredrik-facebook-jonasson) | Jonasson | 910628-1877  | `fredrikjonasson`

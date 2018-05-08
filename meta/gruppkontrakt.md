@@ -2,12 +2,6 @@
 
 OSPP (1DT096) 2018 - Projekt iota
 
-**INFO:** Detta dokument är skrivet i
-formatet [Markdown](https://help.github.com/articles/getting-started-with-writing-and-formatting-on-github/).
-
-**INFO:** Det går att redigera, förhandsvisa och spara (commit)
-[sidan](./gruppkontrakt.md) på GitHub direkt i din webbläsare.
-
 ## Syfte
 
 Det huvudsakliga syftet med att upprätta ett gruppkontrakt är att alla i gruppen ska vara överens om mål och arbetssätt för det fortsatta arbetet. Utarbetandet av ett gruppkontrakt leder till diskussion och reflektion kring frågor som är viktiga för gruppens arbete och trivsel. Vid utformandet av gruppkontraktet är det viktigt att alla i gruppen deltar aktivt och att hänsyn tas till alla gruppmedlemmars synpunkter och önskemål.
