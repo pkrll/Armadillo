@@ -28,14 +28,56 @@ int main(void) {
 	return 0;
 }
 
-void exception_handler() {
-	printk("Nope");
+/*-------------------Exception handlers--------------------*/
+void addrl_handler() {
+	delay();
+	printk("Addrl exception! (Cause 4) Load from illegal address exception\n");
+}
+
+void addrs_handler() {
+	delay();
+	printk("Addrs exception! (Cause 5) Store to illegal address exception\n");
+}
+
+void ibus_handler() {
+	delay();
+	printk("Ibus exception! (Cause 6) Bus error on instruction fetch\n");
+}
+
+void dbus_handler() {
+	delay();
+	printk("Dbus exception! (Cause 7) Bus error on data reference\n");
+}
+
+void bkpt_handler() {
+	delay();
+	printk("Bkpt exception! (Cause 9) Break instruction executed\n");
+}
+
+void ri_handler() {
+	delay();
+	printk("Ri exception! (Cause 10) Reserved instruction\n");
+}
+
+void ovf_handler() {
+	delay();
+	printk("Ovf exception! (Cause 12) Arithmetic overflow\n");
+}
+
+void unkown_exception() {
+	delay();
+	//print the cause with %d
+	printk("Unknown exception with cause ___\n");
+}
+
+void unhandled_interrupt() {
+	delay();
+	printk("Unhandled interrupt\n");
 }
 
 void interupt_handler() {
-	//for (int i = 1; i < 100000000; i++);
-
-	printk(" Timer Interupt, pausing running_process and starting process_0 \n");
+	//delay();
+	printk("\n -- Timer Interupt, switching process \n");
 	// spawn_process(process_1);
-	// asm volatile("syscall");
+	//asm volatile("syscall");
 }

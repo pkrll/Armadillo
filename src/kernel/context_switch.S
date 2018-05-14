@@ -1,5 +1,5 @@
 #include <mips/registers.h>
-
+#include <mips/bitmasks.h>
 
 .globl context_switch
 .globl save_context
@@ -140,9 +140,9 @@ load_context:
 	lw		SP, 0(K1)
 	lw		RA, 4(K1)
 
-	mfc0  $k0, C0_STATUS
-	addi  $k0, 1
-	mtc0  $k0, C0_STATUS #enable interrupts
+	mfc0 	$k0, C0_STATUS 	#	Load contents of Status register
+	ori		$k0, ENABLE_INTR
+	mtc0	$k0, C0_STATUS	# Store the contents in Status register
 
 	# Return from exception using the adress in EPC
 	lw 		$at, 112(K1)

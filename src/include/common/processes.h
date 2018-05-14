@@ -8,4 +8,6 @@ void process_2();
 void process_1();
 void process_0();
 
+void delay();
+
 #endif
