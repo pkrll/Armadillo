@@ -3,10 +3,13 @@
 
 .globl context_switch
 .globl save_context
+.globl copy_context
 .extern get_running_pcb
 .extern get_current_context
 .extern get_running_pc
 .extern get_current_pcb
+.extern get_child_context
+.extern get_child_pcb
 
 .set noreorder
 .section .data
@@ -21,6 +24,8 @@ context_switch:
 	# Get offending instruction, add 4, and store
 	# it as the PC from where to resume next time
 	mfc0	K0, C0_EPC 	# EPC
+	addi  K0, 4
+	mtc0  K0, C0_EPC
 
 	# Before saving anything, we need the adress to the current PCB
 	addi	SP, -8
@@ -148,5 +153,72 @@ load_context:
 	lw 		$at, 112(K1)
 	eret
 	nop
+
+copy_context:
+	# Make room on the stack for RA and V0 since these will be overwritten by the jal
+	addi	SP, -8
+	sw		V0, 4(SP)
+	sw		RA, 0(SP)
+	jal		get_child_context # Adress of context is in V0 efter this
+	nop
+
+	# Move context adress into K1 wich is not saved and restore V0 and RA
+	move 	K1, V0
+
+	mfc0	K0, C0_EPC 	# EPC
+	addi	K0, 4				# add to offending instruction
+	mtc0	K0, C0_EPC		# Store PC in PCB
+
+	jal   get_child_pcb
+	nop
+
+	sw    K0, 4(V0)
+
+	lw		V0, 4(SP)
+	lw		RA, 0(SP)
+	addi	SP, 8
+
+
+
+	# Pop original RA from the stack and store in K0 (NOT in RA since we need to return from this function).
+	# Also restore the stack pointer for saving.
+	addi	SP, 4
+	lw		K0, 0(SP) # RA
+
+	sw		FP, 108(K1)
+	sw		GP, 104(K1)
+	sw		S7, 100(K1)
+	sw		S6, 96(K1)
+	sw		S5, 92(K1)
+	sw		S4, 88(K1)
+	sw		S3, 84(K1)
+	sw		S2, 80(K1)
+	sw		S1, 76(K1)
+	sw		S0, 72(K1)
+	sw		A3, 68(K1)
+	sw		A2, 64(K1)
+	sw		A1, 60(K1)
+	sw		A0, 56(K1)
+	sw		V1, 52(K1)
+	sw		V0, 48(K1)
+	sw		T9, 44(K1)
+	sw		T8, 40(K1)
+	sw		T7, 36(K1)
+	sw		T6, 32(K1)
+	sw		T5, 28(K1)
+	sw		T4, 24(K1)
+	sw		T3, 20(K1)
+	sw		T2, 16(K1)
+	sw		T1, 12(K1)
+	sw		T0, 8(K1)
+	sw		K0, 4(K1)
+	sw		SP, 0(K1)
+	lw    K0, __at
+	sw 		K0, 112(K1)
+
+	mfc0 	$k0, C0_STATUS 	#	Load contents of Status register
+	ori		$k0, ENABLE_INTR
+	mtc0	$k0, C0_STATUS	# Store the contents in Status register
+	eret
 
 .section .bss

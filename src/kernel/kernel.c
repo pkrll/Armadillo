@@ -21,7 +21,7 @@ void start_counter() {
 int main(void) {
 	mem_init();
 	dispatcher_init();
-	process_0();
+	process_1();
 	printk("Hello world!\n");
 	print_to_ascii("UphillOS");
 	start_counter();

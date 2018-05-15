@@ -12,10 +12,12 @@
 .extern ovf_handler
 .extern unkown_exception
 .extern context_switch
+.extern copy_context
 .extern interupt_handler
 .extern unhandled_interrupt
 .extern save_context
 .extern load_context
+.extern forkish
 
 .set noreorder
 #.set noat
@@ -103,9 +105,12 @@ __timer_interrupt:
 	nop
 
 #--------------------Exceptions-------------------#
-#context switch when calling syscall from user space
 __syscall:
-	b context_switch
+	#b context_switch
+	#nop
+	jal forkish
+	nop
+	b copy_context
 	nop
 
 #addrl exception, jump to addrl_handler and then jump back

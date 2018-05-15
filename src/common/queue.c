@@ -65,6 +65,27 @@ void enqueue(queue_t *queue, void *data){
 };
 
 /*
+*	Puts data in a new link at the beginning of a queue
+* @param [in] queue A queue
+* @param [in] data The data to store
+*/
+void enqueue_first(queue_t *queue, void *data){
+  link_t *new = link_new();
+  new->data = data;
+
+  new->next = NULL;
+  if (queue->first) {
+    new->next = queue->first;
+  }
+
+  if (queue->size == 0) {
+    queue->last = new;
+  }
+  queue->first = new;
+  queue->size++;
+}
+
+/*
 *	Removes the first link in a queue and returns its data.
 * @param [in] queue A queue
 * @param [out]  Data member of the first link
@@ -87,3 +108,10 @@ void *dequeue(queue_t *queue){
 int list_size(queue_t *queue){
   return queue->size;
 };
+
+/*
+* Returns the first element in the list
+*/
+void *get_first_element(queue_t *queue) {
+  return queue->first->data;
+}

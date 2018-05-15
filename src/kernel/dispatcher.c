@@ -4,7 +4,7 @@
 
 static queue_t *ready_queue __attribute__((section(".data")));
 __attribute__((unused))static pcb_t *running_process __attribute__((section(".data")));
-static pid_t pid __attribute__((section("data"))) = 0;
+static pid_t pid __attribute__((section("data"))) = 1;
 
 
 /*
@@ -27,19 +27,6 @@ void spawn_process(void *process_function) {
 	}
 }
 
-
-void forkish(void *process_function) {
-  pcb_t *process = init_pcb(pid, process_function);
-  pid++;
-
-  if (list_size(ready_queue) == 0 && running_process == NULL) {
-    set_running_process(process);
-  } else {
-  	enqueue(ready_queue, process);
-	}
-}
-
-
 /*
 *	@ brief	Initializes all processes by assigning PIDs,
 *					starting functions and enqueing them into the ready queue.
@@ -47,10 +34,13 @@ void forkish(void *process_function) {
 *					and its starting function is called.
 */
 void init_processes(){
-  spawn_process(process_0);
-	spawn_process(process_1);
+  spawn_process(process_1);
+	spawn_process(process_2);
 }
 
+/*
+* @brief  Initialize the dispatcher by creating a ready_queue and spawning processes
+*/
 void dispatcher_init(){
   ready_queue = queue_new();
   init_processes();
@@ -68,7 +58,7 @@ void process_switch(){
 }
 
 /*
-*	@ brief	Returns the adress for the PCB Of the currently running process
+*	@ brief	Returns the adress for the PCB of the currently running process
 */
 pcb_t *get_current_pcb(){
 	return running_process;
@@ -82,8 +72,35 @@ context_t *get_current_context(){
 }
 
 /*
+* @brief Returns the address of the CPU context for the pcb first in the queue (child)
+*/
+context_t *get_child_context(){
+	pcb_t *child = get_first_element(ready_queue);
+	return get_context(child);
+}
+
+/*
+* @brief Returns the address of the pcb first in the queue (child)
+*/
+pcb_t *get_child_pcb(){
+	pcb_t *child = get_first_element(ready_queue);
+	return child;
+}
+
+/*
 *	@brief	Returns the PC for the currently running process
 */
 addr_t get_running_pc(){
 	return get_pc(running_process);
+}
+
+void forkish() {
+	addr_t new_pc = get_running_pc();
+  pcb_t *process = init_pcb(pid, new_pc);
+	pid++;
+
+	enqueue_first(ready_queue, process);
+
+	//asm volatile ("syscall");
+
 }

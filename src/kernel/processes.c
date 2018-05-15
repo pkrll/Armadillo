@@ -6,6 +6,14 @@ void delay() {
   for (int i = 1; i < 100000000; i++);
 }
 
+void process_6(){
+	while (1) {
+		delay();
+		printk("6");
+		asm volatile("syscall");
+	}
+}
+
 void process_5(){
 	while (1) {
 		delay();
@@ -22,11 +30,13 @@ void process_4(){
 	}
 }
 
+/*
+*	Workspace for process 3
+*/
 void process_3(){
 	while (1) {
-		delay();
-		printk("3");
-		asm volatile("syscall");
+    for (int i = 1; i < 100000000; i++); //delay();
+    printk("PROCESS_3\n");
 	}
 }
 
@@ -35,18 +45,8 @@ void process_3(){
 */
 void process_2(){
 	while (1) {
-    for (int i = 1; i < 100000000; i++); //delay();
-    printk("PROCESS_2\n");
-	}
-}
-
-/*
-*	Workspace for process 1
-*/
-void process_1(){
-	while (1) {
 		for (int i = 1; i < 100000000; i++); //delay();
-		printk("#Initializing process 1, counting up to 5...\n");
+		printk("Process 2 counting up to 5...\n");
     for (int i = 1; i < 100000000; i++); //delay();
     printk("1\n");
     for (int i = 1; i < 100000000; i++); //delay();
@@ -60,15 +60,20 @@ void process_1(){
 }
 
 /*
-*	Workspace for process 0
+*	Workspace for process 1
 */
-void process_0(){
-  spawn_process(process_2);
+void process_1(){
+  //forkish();
   while (1) {
     for (int i = 1; i < 100000000; i++); //delay(); funkar ej, blir något exception
-    printk("#Initializes process 0, calculating 1 + 1...");
+    printk("Process 1 Calculating 1 + 1...");
     for (int i = 1; i < 100000000; i++); //delay();
+    printk("NU FORKAR JAG\n");
+    asm volatile ("syscall"); //sycall = forkish
+    for (int i = 1; i < 100000000; i++); //delay();
+    printk("HEEEJ");
+    for (int i = 1; i < 100000000; i++); //delay();
+
     printk(" = 2 \n");
-		//asm volatile("syscall");
 	}
 }
