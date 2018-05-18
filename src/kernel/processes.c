@@ -1,6 +1,8 @@
 #include <common/processes.h>
 #include <common/stdlib.h>
 #include <common/dispatcher.h>
+#include <common/k_rand.h>
+#include <common/pcb.h>
 
 void delay() {
   for (int i = 1; i < 100000000; i++);
@@ -63,17 +65,11 @@ void process_2(){
 *	Workspace for process 1
 */
 void process_1(){
-  //forkish();
-  while (1) {
-    for (int i = 1; i < 100000000; i++); //delay(); funkar ej, blir något exception
-    printk("Process 1 Calculating 1 + 1...");
-    for (int i = 1; i < 100000000; i++); //delay();
-    printk("NU FORKAR JAG\n");
-    asm volatile ("syscall"); //sycall = forkish
-    for (int i = 1; i < 100000000; i++); //delay();
-    printk("HEEEJ");
-    for (int i = 1; i < 100000000; i++); //delay();
-
-    printk(" = 2 \n");
-	}
+  for (int i = 0; i < 10; i++) {
+    int random = rand(100000000);
+    for (int i = 0; i < random; i++); //delay
+    printk("Doing something\n");
+  }
+  asm volatile ("li $a0, 99");
+  asm volatile ("syscall");
 }

@@ -12,12 +12,12 @@
 .extern ovf_handler
 .extern unkown_exception
 .extern context_switch
-.extern copy_context
 .extern interupt_handler
 .extern unhandled_interrupt
 .extern save_context
 .extern load_context
-.extern forkish
+.extern _random_number
+.extern terminate_process
 
 .set noreorder
 #.set noat
@@ -106,11 +106,12 @@ __timer_interrupt:
 
 #--------------------Exceptions-------------------#
 __syscall:
-	#b context_switch
-	#nop
-	jal forkish
+	#move $k0, $a0
+	#beq  $k0, 99, __terminated
+
+	jal terminate_process
 	nop
-	b copy_context
+	b context_switch
 	nop
 
 #addrl exception, jump to addrl_handler and then jump back

@@ -13,12 +13,14 @@ typedef void *addr_t;
 typedef enum State{
   ready = 0,
   running = 1,
+  terminated = 2,
 } state_t;
 
 typedef struct Pcb pcb_t;
 typedef struct Context context_t;
 typedef struct Stack stack_t;
 
+state_t get_pcb_state(pcb_t *pcb);
 pcb_t *init_pcb(pid_t pid, addr_t start_function);
 context_t *init_context();
 addr_t init_stack();

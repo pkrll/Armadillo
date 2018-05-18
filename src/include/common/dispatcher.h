@@ -31,6 +31,5 @@ pcb_t *get_current_pcb();
 void process_0();
 
 void spawn_process();
-void forkish();
 
 #endif

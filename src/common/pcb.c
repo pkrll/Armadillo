@@ -97,6 +97,15 @@ void set_pcb_state(pcb_t *pcb, state_t state){
 }
 
 /*
+*	@brief  Gets the state of a process
+*
+* @param [in] pcb Pointer to a PCB
+*/
+state_t get_pcb_state(pcb_t *pcb) {
+  return pcb->process_state;
+}
+
+/*
 *	Returns the PID of a process
 * @param [in] pcb A PCB
 * @param [out] The PID of the process

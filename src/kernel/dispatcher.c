@@ -1,6 +1,7 @@
 #include <common/dispatcher.h>
 #include <common/stdlib.h>
 #include <common/processes.h>
+#include <common/pcb.h>
 
 static queue_t *ready_queue __attribute__((section(".data")));
 __attribute__((unused))static pcb_t *running_process __attribute__((section(".data")));
@@ -51,10 +52,16 @@ void dispatcher_init(){
 *					from the queue and assigns it as the running process.
 */
 void process_switch(){
-  enqueue(ready_queue, running_process);
-  pcb_t *next = dequeue(ready_queue);
-  set_pcb_state(next, running);
-  running_process = next;
+	if (get_pcb_state(running_process) != terminated) {
+  	enqueue(ready_queue, running_process);
+	}
+	pcb_t *next = dequeue(ready_queue);
+	set_pcb_state(next, running);
+	running_process = next;
+}
+
+void terminate_process() {
+	set_pcb_state(running_process, terminated); //Set state to terminated
 }
 
 /*
@@ -92,15 +99,4 @@ pcb_t *get_child_pcb(){
 */
 addr_t get_running_pc(){
 	return get_pc(running_process);
-}
-
-void forkish() {
-	addr_t new_pc = get_running_pc();
-  pcb_t *process = init_pcb(pid, new_pc);
-	pid++;
-
-	enqueue_first(ready_queue, process);
-
-	//asm volatile ("syscall");
-
 }
