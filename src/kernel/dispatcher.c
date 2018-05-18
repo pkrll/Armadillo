@@ -1,7 +1,7 @@
 #include <kernel/dispatcher.h>
 #include <common/stdlib.h>
 #include <common/processes.h>
-#include <common/pcb.h>
+#include <kernel/pcb.h>
 
 static queue_t *ready_queue __attribute__((section(".data")));
 __attribute__((unused))static pcb_t *running_process __attribute__((section(".data")));

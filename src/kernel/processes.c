@@ -2,7 +2,7 @@
 #include <common/stdlib.h>
 #include <kernel/dispatcher.h>
 #include <common/k_rand.h>
-#include <common/pcb.h>
+#include <kernel/pcb.h>
 
 void delay() {
   for (int i = 1; i < 100000000; i++);
