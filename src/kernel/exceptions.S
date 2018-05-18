@@ -10,9 +10,9 @@
 .extern bkpt_handler
 .extern ri_handler
 .extern ovf_handler
-.extern unkown_exception
+.extern unknown_exception
 .extern context_switch
-.extern interupt_handler
+.extern interrupt_handler
 .extern unhandled_interrupt
 .extern save_context
 .extern load_context
@@ -37,7 +37,7 @@ __exception:
 	and		$k1, $k1, $k0
 	srl		$k1, 2	# exception code
 
-	beq 	$k1, 0, __interupt_handler #If interupt, jump to interupt_handler
+	beq 	$k1, 0, __interrupt_handler #If interupt, jump to interrupt_handler
 	nop
 
 __exception_handler:
@@ -66,12 +66,21 @@ __exception_handler:
 	beq  $k1, 12, __ovf    #arithmetic overflow
 	nop
 
-	jal  unkown_exception  #Exception which we do not cover
+	addi SP, -4
+	sw 	 A0, 0(SP)
+	add  A0, ZERO, K1
+
+	jal  unknown_exception  #Exception which we do not cover
+	nop
+
+	lw 	 A0, 0(SP)
+	addi SP, 4
+
 	nop
 	b    __jump_back
 	nop
 
-__interupt_handler:
+__interrupt_handler:
 	mfc0 $k0, C0_CAUSE     #Get cause register
 	beqz $k0, __jump_back  #All interrupts has been handled
 	nop

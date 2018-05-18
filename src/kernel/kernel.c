@@ -64,10 +64,9 @@ void ovf_handler() {
 	printk("Ovf exception! (Cause 12) Arithmetic overflow\n");
 }
 
-void unkown_exception() {
+void unknown_exception(int cause) {
 	delay();
-	//print the cause with %d
-	printk("Unknown exception with cause ___\n");
+	printf("Unknown exception with cause: %d\n", cause);
 }
 
 void unhandled_interrupt() {
@@ -75,9 +74,10 @@ void unhandled_interrupt() {
 	printk("Unhandled interrupt\n");
 }
 
-void interupt_handler() {
+void interrupt_handler() {
 	//delay();
-	printk("\n -- Timer Interupt, switching process \n");
+	int pid = get_pid(get_current_pcb());
+	printf("\n -- Timer Interrupt, switching from process %d \n", pid);
 	// spawn_process(process_1);
 	//asm volatile("syscall");
 }

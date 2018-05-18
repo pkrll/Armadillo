@@ -4,7 +4,7 @@
 
 .globl init_timer
 .globl reset_timer
-.extern interupt_handler
+.extern interrupt_handler
 
 .set noreorder
 .set noat
@@ -32,7 +32,7 @@ reset_timer:
 	mtc0	$t2, C0_COMPARE	# Set compare register to 0x1
 
 	nop
-	jal 	interupt_handler
+	jal 	interrupt_handler
 	nop
 	lw    RA, 0(SP)
 	addi 	SP, 4
