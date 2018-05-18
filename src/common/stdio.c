@@ -1,4 +1,5 @@
 #include <common/stdio.h>
+#include <common/stdlib.h>
 #include <stdarg.h>
 
 // -------------------------------
@@ -83,11 +84,19 @@ void putchar(char character) {
 }
 
 void convert(char specifier, va_list *args) {
+	char *arg;
+
 	switch (specifier) {
 	case 'd':
+		arg = number_to_char(va_arg(*args, int));
+		break;
+	case 'h':
+		arg = hexadecimal_to_char(va_arg(*args, unsigned int));
 		break;
 	case 's':
-		printk(va_arg(*args, char *));
+		arg = va_arg(*args, char *);
 		break;
 	}
+
+	printk(arg);
 }
