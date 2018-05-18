@@ -1,6 +1,6 @@
 #include <common/stdlib.h>
 #include <common/stdio.h>
-#include <common/dispatcher.h>
+#include <kernel/dispatcher.h>
 #include <common/processes.h>
 
 void start_counter() {

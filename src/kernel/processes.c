@@ -1,6 +1,6 @@
 #include <common/processes.h>
 #include <common/stdlib.h>
-#include <common/dispatcher.h>
+#include <kernel/dispatcher.h>
 #include <common/k_rand.h>
 #include <common/pcb.h>
 

@@ -1,4 +1,4 @@
-#include <common/dispatcher.h>
+#include <kernel/dispatcher.h>
 #include <common/stdlib.h>
 #include <common/processes.h>
 #include <common/pcb.h>
