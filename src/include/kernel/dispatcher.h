@@ -29,11 +29,14 @@ void process_switch();
  * @return Adress of the current process' PCB
  */
 pcb_t *get_current_pcb();
-
-//So we can start the first process in kernel. We need to do that so we can make tests for dispatcher_init. Can remove this if we find a better way.
-void process_0();
-
-void spawn_process();
+/**
+ * Initialize a pcb and enqueue the proces into the ready queue if it already
+ * exists a running process, otherwise set it to running process.
+ *
+ * @param  process_function A pointer to a function (the process)   
+ *
+*/
+void spawn_process(void *process_function);
 
 
 #endif
