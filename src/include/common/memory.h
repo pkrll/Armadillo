@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Memory manager
+ */
+
 #ifndef __MEMORY_H__
 #define __MEMORY_H__
 
@@ -28,4 +33,5 @@ void *malloc(size_t size);
 
 void free(void *ptr);
 
+int get_align_size();
 #endif

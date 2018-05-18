@@ -71,27 +71,8 @@ pcb_t *get_current_pcb(){
 	return running_process;
 }
 
-/*
-*	@brief	Returns the adress for the CPU context for the currently running process.
-*/
-context_t *get_current_context(){
+context_t *get_current_context() {
 	return get_context(running_process);
-}
-
-/*
-* @brief Returns the address of the CPU context for the pcb first in the queue (child)
-*/
-context_t *get_child_context(){
-	pcb_t *child = get_first_element(ready_queue);
-	return get_context(child);
-}
-
-/*
-* @brief Returns the address of the pcb first in the queue (child)
-*/
-pcb_t *get_child_pcb(){
-	pcb_t *child = get_first_element(ready_queue);
-	return child;
 }
 
 /*

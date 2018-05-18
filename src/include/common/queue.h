@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Queue data structure
+ */
+
 #ifndef __QUEUE_H_
 #define __QUEUE_H_
 
@@ -9,13 +14,18 @@ typedef struct Link link_t;
 /**
 * Allocates space for a queue and returns an empty queue
 */
-queue_t *queue_new();
-
 /**
-* Enqueues data to a queue
-* @param [in] queue A queue
-* @param [in] data The data to enqueue
-*/
+ * Creates a new queue data structure.
+ *
+ * @return A pointer to a new, empty queue.
+ */
+queue_t *queue_new();
+/**
+ * Pushes data to the end of the queue.
+ *
+ * @param queue A queue.
+ * @param data  The data to enqueue.
+ */
 void enqueue(queue_t *queue, void *data);
 
 /*
@@ -24,19 +34,26 @@ void enqueue(queue_t *queue, void *data);
 * @param [in] data The data to store
 */
 void enqueue_first(queue_t *queue, void *data);
-
+  
 /**
-* Removes the first element of a queue and returns it
-* @param [in] queue A queue
-* @param [out] The data element of the first link
-*/
+ * Removes the first element of a queue, and returns it.
+ *
+ * @param  queue A queue.
+ * @return The data element at the head of the queue.
+ */
 void *dequeue(queue_t *queue);
-
 /**
-* Gives the length of a queue
-* @param [in] queue A queue
-* @param [out] The length of the queue
-*/
+ * Deallocates a queue.
+ *
+ * @param queue The queue to deallocate.
+ */
+void queue_destroy(queue_t *queue);
+/**
+ * Gives the length of a queue.
+ *
+ * @param  queue A queue.
+ * @return The length of a queue.
+ */
 int list_size(queue_t *queue);
 
 /*

@@ -1,5 +1,5 @@
 #include <munit/unit.h>
-#include <common/dispatcher.h>
+#include <kernel/dispatcher.h>
 #include <test_dispatcher.h>
 #include <dispatcher.c>
 #include <pcb.c>

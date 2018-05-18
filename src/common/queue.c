@@ -1,74 +1,55 @@
 #include <common/queue.h>
 
-/**
-* Struct used as links in a queue. Contains a pointer to
-* data and a pointer to the next item in the list, if any.
-*/
-struct Link{
-  void *data;
-  link_t *next;
-};
+// -------------------------------
+// Structs
+// -------------------------------
 
 /**
-* List struct with pointers to the first and last element
-* and also the size of the list.
-*/
-struct Queue{
-  link_t *first;
-  link_t *last;
-  int size;
+ * Struct used as links in a queue. Contains a pointer to
+ * data and a pointer to the next item in the list, if any.
+ */
+struct Link {
+	void *data;
+	link_t *next;
 };
 
 /**
-* Allocates space for a link, initiates data and next to NULL.
-* @param [out] Pointer to the link
-*/
-link_t *link_new(){
-  link_t *link = malloc(sizeof(link_t));
-  link->data = NULL;
-  link->next = NULL;
-  return link;
+ * List struct with pointers to the first and last element
+ * and also the size of the list.
+ */
+struct Queue {
+	link_t *first;
+	link_t *last;
+	int size;
 };
 
-/*
-*	Allocates space for a queue, initiates the f irst and last pointers along with the queue size.
-* @param [out] A pointer to a queue
-*/
-queue_t *queue_new(){
-    queue_t *queue = malloc(sizeof(queue_t));
-    queue->first = link_new();
-    queue->last = link_new();
-    queue->size = 0;
-    return queue;
-};
+// -------------------------------
+// Declarations
+// -------------------------------
 
-/*
-*	Puts data in a new link at the end of a queue
-* @param [in] queue A queue
-* @param [in] data The data to store
-*/
-void enqueue(queue_t *queue, void *data){
-  link_t *new = link_new();
-  new->data = data;
+/**
+ * Allocates space for a link, initiates data and next to NULL.
+ *
+ * @return Pointer to the link
+ */
+link_t *link_new();
 
-  new->next = NULL;
-  if (queue->last) {
-    queue->last->next = new;
-  }
+// -------------------------------
+// Public functions
+// -------------------------------
 
-  if (queue->size == 0) {
-    queue->first = new;
-  }
+queue_t *queue_new() {
+	queue_t *queue = malloc(sizeof(queue_t));
 
-  queue->last = new;
-  queue->size++;
-};
+	if (queue) {
+		queue->first = NULL;
+		queue->last = NULL;
+		queue->size = 0;
+	}
 
-/*
-*	Puts data in a new link at the beginning of a queue
-* @param [in] queue A queue
-* @param [in] data The data to store
-*/
+	return queue;
+}
+
 void enqueue_first(queue_t *queue, void *data){
   link_t *new = link_new();
   new->data = data;
@@ -85,33 +66,69 @@ void enqueue_first(queue_t *queue, void *data){
   queue->size++;
 }
 
-/*
-*	Removes the first link in a queue and returns its data.
-* @param [in] queue A queue
-* @param [out]  Data member of the first link
-*/
-void *dequeue(queue_t *queue){
-  void *result = NULL;
-  if (queue && queue -> size > 0) {
-    link_t *temp = queue->first;
-    result = temp->data;
-    queue->first = temp->next;
-    //free(temp);
-    queue->size--;
-  }
-  return result;
-};
+void enqueue(queue_t *queue, void *data) {
+	link_t *link = link_new();
 
-/*
-*	Returns the size of a queue
-*/
-int list_size(queue_t *queue){
-  return queue->size;
-};
+	if (link) {
+		if (queue->size == 0) {
+			queue->first = link;
+		} else {
+			queue->last->next = link;
+		}
 
-/*
-* Returns the first element in the list
-*/
-void *get_first_element(queue_t *queue) {
-  return queue->first->data;
+		link->data = data;
+		link->next = queue->last;
+
+		queue->last = link;
+		queue->size++;
+	}
+}
+
+void *dequeue(queue_t *queue) {
+	void *data = NULL;
+
+	if (queue && queue->size > 0) {
+		link_t *link = queue->first;
+		data = link->data;
+
+		queue->first = link->next;
+		queue->size--;
+
+		free(link);
+	}
+
+	return data;
+}
+
+void queue_destroy(queue_t *queue) {
+	if (queue == NULL) return;
+
+	link_t *current = queue->first;
+
+	while (current) {
+		link_t *link = current;
+		current = link->next;
+		free(link);
+	}
+
+	free(queue);
+}
+
+int list_size(queue_t *queue) {
+	return (queue) ? queue->size : 0;
+}
+
+// -------------------------------
+// Internal functions
+// -------------------------------
+
+link_t *link_new() {
+	link_t *link = malloc(sizeof(link_t));
+
+	if (link) {
+		link->data = NULL;
+		link->next = NULL;
+	}
+
+	return link;
 }

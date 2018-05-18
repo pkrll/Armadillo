@@ -1,7 +1,6 @@
 #include <mips/registers.h>
 #include <mips/adresses.h>
 #include <mips/bitmasks.h>
-#include <mips/pcb_offsets.h>
 
 .globl start
 .extern main
