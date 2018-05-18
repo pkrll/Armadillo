@@ -37,7 +37,7 @@ void spawn_process(void *process_function) {
 void init_processes(){
   spawn_process(process_1);
 	spawn_process(process_2);
-	spawn_process(process_3);
+	// spawn_process(process_3);
 }
 
 /*
