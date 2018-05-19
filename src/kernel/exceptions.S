@@ -108,7 +108,7 @@ __timer_interrupt:
 	lw   $t3, 8(SP)
 	lw 	 $t2, 4(SP)
 	lw   RA,  0(SP)
-	addi SP,  12
+	addi SP,  20
 
 	b    context_switch
 	nop
