@@ -5,10 +5,10 @@
 #include <kernel/pcb.h>
 
 void delay() {
-  for (int i = 1; i < 100000000; i++);
+	for (int i = 1; i < 100000000; i++);
 }
 
-void process_6(){
+void process_6() {
 	while (1) {
 		delay();
 		printk("6");
@@ -16,7 +16,7 @@ void process_6(){
 	}
 }
 
-void process_5(){
+void process_5() {
 	while (1) {
 		delay();
 		printk("5");
@@ -24,7 +24,7 @@ void process_5(){
 	}
 }
 
-void process_4(){
+void process_4() {
 	while (1) {
 		delay();
 		printk("4");
@@ -35,41 +35,41 @@ void process_4(){
 /*
 *	Workspace for process 3
 */
-void process_3(){
+void process_3() {
 	while (1) {
-    for (int i = 1; i < 100000000; i++); //delay();
-    printk("PROCESS_3\n");
+		for (int i = 1; i < 100000000; i++); //delay();
+		printk("PROCESS_3\n");
 	}
 }
 
 /*
 *	Workspace for process 2
 */
-void process_2(){
+void process_2() {
 	while (1) {
 		for (int i = 1; i < 100000000; i++); //delay();
 		printk("Process 2 counting up to 5...\n");
-    for (int i = 1; i < 100000000; i++); //delay();
-    printk("1\n");
-    for (int i = 1; i < 100000000; i++); //delay();
-    printk("2\n");
-    for (int i = 1; i < 100000000; i++); //delay();
-    printk("3\n");
-    for (int i = 1; i < 100000000; i++); //delay();
-    printk("error...\n");
-    //asm volatile("syscall");
+		for (int i = 1; i < 100000000; i++); //delay();
+		printk("1\n");
+		for (int i = 1; i < 100000000; i++); //delay();
+		printk("2\n");
+		for (int i = 1; i < 100000000; i++); //delay();
+		printk("3\n");
+		for (int i = 1; i < 100000000; i++); //delay();
+		printk("error...\n");
+		//asm volatile("syscall");
 	}
 }
 
 /*
 *	Workspace for process 1
 */
-void process_1(){
-  for (int i = 0; i < 10; i++) {
-    int random = rand(100000000);
-    for (int i = 0; i < random; i++); //delay
-    printk("Doing something\n");
-  }
-  asm volatile ("li $a0, 99");
-  asm volatile ("syscall");
+void process_1() {
+	for (int i = 0; i < 10; i++) {
+		int random = rand(100000000);
+		for (int i = 0; i < random; i++); //delay
+		printk("Doing something\n");
+	}
+	asm volatile ("li $a0, 99");
+	asm volatile ("syscall");
 }

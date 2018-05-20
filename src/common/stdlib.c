@@ -26,7 +26,7 @@ int strcmp(const char *str1, const char *str2) {
 }
 
 char itoa(int n) {
-  return (char)n + '0';
+	return (char)n + '0';
 }
 
 char htoa(unsigned long n) {
@@ -40,26 +40,26 @@ char htoa(unsigned long n) {
 int length_of_number(unsigned long number, int base) {
 	int count = 0;
 
-  while (number > 0) {
-    number = number / base;
-    ++count;
-  }
+	while (number > 0) {
+		number = number / base;
+		++count;
+	}
 
-  return count;
+	return count;
 }
 
 char *number_to_char(int number) {
-  if (number == 0) return "0";
+	if (number == 0) return "0";
 
-  int size = length_of_number(number, 10);
-  char *array = malloc(sizeof(char) * size + 1);
+	int size = length_of_number(number, 10);
+	char *array = malloc(sizeof(char) * size + 1);
 
-  for (int i = 0; i < size; i++) {
-    array[(size - 1) - i] = itoa(number % 10);
-    number = number / 10;
-  }
+	for (int i = 0; i < size; i++) {
+		array[(size - 1) - i] = itoa(number % 10);
+		number = number / 10;
+	}
 
-  array[size + 1] = '\0';
+	array[size + 1] = '\0';
 
 	return array;
 }
@@ -67,17 +67,17 @@ char *number_to_char(int number) {
 char *hexadecimal_to_char(unsigned long number) {
 	if (number == 0) return "0";
 
-  int size = length_of_number(number, 16) + 3;
-  char *array = malloc(sizeof(char) * size);
+	int size = length_of_number(number, 16) + 3;
+	char *array = malloc(sizeof(char) * size);
 
-  for (int i = 2; i < size; i++) {
-    array[size - i] = htoa(number % 16);
-    number = number / 16;
-  }
+	for (int i = 2; i < size; i++) {
+		array[size - i] = htoa(number % 16);
+		number = number / 16;
+	}
 
 	array[0] = '0';
 	array[1] = 'x';
-  array[size + 1] = '\0';
+	array[size + 1] = '\0';
 
 	return array;
 }

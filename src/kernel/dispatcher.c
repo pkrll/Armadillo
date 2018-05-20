@@ -48,31 +48,31 @@ context_t *get_current_context();
 // -------------------------------
 
 void spawn_process(void *process_function) {
-  pcb_t *process = init_pcb(pid, process_function);
-  pid++;
+	pcb_t *process = init_pcb(pid, process_function);
+	pid++;
 
-  if (list_size(ready_queue) == 0 && running_process == NULL) {
-    set_running_process(process);
-  } else {
-  	enqueue(ready_queue, process);
+	if (list_size(ready_queue) == 0 && running_process == NULL) {
+		set_running_process(process);
+	} else {
+		enqueue(ready_queue, process);
 	}
 }
 
-void dispatcher_init(){
-  ready_queue = queue_new();
-  init_processes();
+void dispatcher_init() {
+	ready_queue = queue_new();
+	init_processes();
 }
 
-void process_switch(){
+void process_switch() {
 	if (get_pcb_state(running_process) != terminated) {
-  	enqueue(ready_queue, running_process);
+		enqueue(ready_queue, running_process);
 	}
 	pcb_t *next = dequeue(ready_queue);
 	set_pcb_state(next, running);
 	running_process = next;
 }
 
-pcb_t *get_current_pcb(){
+pcb_t *get_current_pcb() {
 	return running_process;
 }
 
@@ -86,7 +86,7 @@ void set_running_process(pcb_t *process) {
 }
 
 void init_processes() {
-  spawn_process(process_1);
+	spawn_process(process_1);
 	spawn_process(process_2);
 	// spawn_process(process_3);
 }

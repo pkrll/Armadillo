@@ -86,7 +86,7 @@ void set_pcb_state(pcb_t *pcb, state_t state) {
 }
 
 state_t get_pcb_state(pcb_t *pcb) {
-  return pcb->process_state;
+	return pcb->process_state;
 }
 
 pid_t get_pid(pcb_t *pcb) {
