@@ -3,15 +3,8 @@
 #include <mips/bitmasks.h>
 
 .globl __exception
-.extern ibus_handler
-.extern dbus_handler
-.extern addrs_handler
-.extern addrl_handler
-.extern bkpt_handler
-.extern ri_handler
-.extern ovf_handler
-.extern unknown_exception
 .extern context_switch
+.extern exception_handler
 .extern interrupt_handler
 .extern unhandled_interrupt
 .extern save_context
@@ -44,33 +37,11 @@ __exception_handler:
 	beq  $k1, 8, __syscall #syscall exception
 	nop
 
-	beq  $k1, 4, __addrl   #load from illegal address exception
-	nop
-
-	beq  $k1, 5, __addrs   #store to illegal address exception
-	nop
-
-	#bus error occur when our processor cannot attempt the memory access requested
-	beq  $k1, 6, __ibus    #bus error on instruction fetch
-	nop
-
-	beq  $k1, 7, __dbus    #bus error on data reference
-	nop
-
-	beq  $k1, 9, __bkpt    #break instruction executed
-	nop
-
-	beq  $k1, 10, __ri     #reserved instruction
-	nop
-
-	beq  $k1, 12, __ovf    #arithmetic overflow
-	nop
-
 	addi SP, -4
 	sw 	 A0, 0(SP)
 	add  A0, ZERO, K1
 
-	jal  unknown_exception  #Exception which we do not cover
+	jal  exception_handler
 	nop
 
 	lw 	 A0, 0(SP)
@@ -121,55 +92,6 @@ __syscall:
 	jal terminate_process
 	nop
 	b context_switch
-	nop
-
-#addrl exception, jump to addrl_handler and then jump back
-__addrl:
-	jal  addrl_handler
-	nop
-	b    __jump_back
-	nop
-
-#addrs exception, jump to addrs_handler and then jump back
-__addrs:
-	jal  addrs_handler
-	nop
-	b    __jump_back
-	nop
-
-#ibus exception, jump to ibus_handler and then jump back
-__ibus:
-	jal  ibus_handler
-	nop
-	b    __jump_back
-	nop
-
-#dbus exception, jump to dbus_handler and then jump back
-__dbus:
-	jal  dbus_handler
-	nop
-	b    __jump_back
-	nop
-
-#bkpt exception, jump to bkpt_handler and then jump back
-__bkpt:
-	jal  bkpt_handler
-	nop
-	b    __jump_back
-	nop
-
-#ri exception, jump to ri_handler and then jump back
-__ri:
-	jal  ri_handler
-	nop
-	b 	 __jump_back
-	nop
-
-#ovf exception, jump to ovf_handler and then jump back
-__ovf:
-  jal  ovf_handler
-	nop
-	b    __jump_back
 	nop
 
 #----------------------Interrupts--------------------#
