@@ -87,7 +87,9 @@ void set_running_process(pcb_t *process) {
 
 void init_processes() {
 	spawn_process(process_1);
-	spawn_process(process_2);
+	spawn_process(triangle_numbers);
+	spawn_process(square_numbers);
+	spawn_process(fibonacci);
 	// spawn_process(process_3);
 }
 
