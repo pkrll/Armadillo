@@ -15,7 +15,7 @@
 //__attribute__((unused))static addr_t process_mem_space __attribute__((section(".bss")));
 
 /**
- * Allocates the ready queue and initializes all processes.
+ * Initializes the dispatcher.
  */
 void dispatcher_init();
 /**
@@ -33,10 +33,9 @@ pcb_t *get_current_pcb();
  * Initialize a pcb and enqueue the proces into the ready queue if it already
  * exists a running process, otherwise set it to running process.
  *
- * @param  process_function A pointer to a function (the process)   
+ * @param  process_function A pointer to a function (the process)
  *
-*/
+ */
 void spawn_process(void *process_function);
-
 
 #endif
