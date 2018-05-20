@@ -18,6 +18,7 @@ typedef void *addr_t;
 typedef enum State{
   ready = 0,
   running = 1,
+  terminated = 2,
 } state_t;
 
 typedef struct Pcb pcb_t;
@@ -52,6 +53,12 @@ stack_t *init_stack();
  * @param state New state of the process.
  */
 void set_pcb_state(pcb_t *pcb, state_t state);
+/*
+*	@brief  Gets the state of a process
+*
+* @param [in] pcb Pointer to a PCB
+*/
+state_t get_pcb_state(pcb_t *pcb);
 /**
  * Returns the PID of a process.
  *

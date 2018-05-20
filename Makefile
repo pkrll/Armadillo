@@ -81,7 +81,7 @@ $(OBJ_DIR)/%.o: $(OBJ_DIR)/%.s
 	$(CC)-as $(AFLAGS) -o $@ $<
 
 $(OBJ_DIR)/%.o: $(TEST_DIR)/%.c
-	$(CC)-gcc -I $(INC_DIR) -I $(TEST_INC) $(CFLAGS) -o $@ -c $<
+	$(CC)-gcc -I $(INC_DIR) -I $(TEST_INC) -I ./src/kernel -I ./src/common $(CFLAGS) -o $@ -c $<
 
 test: $(BIN_DIR)/armadillo_test
 

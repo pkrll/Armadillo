@@ -1,6 +1,7 @@
 #include <common/stdlib.h>
 #include <common/stdio.h>
 #include <kernel/dispatcher.h>
+#include <common/processes.h>
 
 void start_counter() {
 	while (1) {
@@ -20,12 +21,63 @@ void start_counter() {
 int main(void) {
 	mem_init();
 	dispatcher_init();
+	process_1();
 	printk("Hello world!\n");
 	print_to_ascii("UphillOS");
 	start_counter();
 	return 0;
 }
 
-void exception_handler() {
-	printk("Nope");
+/*-------------------Exception handlers--------------------*/
+void addrl_handler() {
+	delay();
+	printk("Addrl exception! (Cause 4) Load from illegal address exception\n");
+}
+
+void addrs_handler() {
+	delay();
+	printk("Addrs exception! (Cause 5) Store to illegal address exception\n");
+}
+
+void ibus_handler() {
+	delay();
+	printk("Ibus exception! (Cause 6) Bus error on instruction fetch\n");
+}
+
+void dbus_handler() {
+	delay();
+	printk("Dbus exception! (Cause 7) Bus error on data reference\n");
+}
+
+void bkpt_handler() {
+	delay();
+	printk("Bkpt exception! (Cause 9) Break instruction executed\n");
+}
+
+void ri_handler() {
+	delay();
+	printk("Ri exception! (Cause 10) Reserved instruction\n");
+}
+
+void ovf_handler() {
+	delay();
+	printk("Ovf exception! (Cause 12) Arithmetic overflow\n");
+}
+
+void unknown_exception(int cause) {
+	delay();
+	printf("Unknown exception with cause: %d\n", cause);
+}
+
+void unhandled_interrupt() {
+	delay();
+	printk("Unhandled interrupt\n");
+}
+
+void interrupt_handler() {
+	//delay();
+	int pid = get_pid(get_current_pcb());
+	printf("\n -- Timer Interrupt, switching from process %d \n", pid);
+	// spawn_process(process_1);
+	//asm volatile("syscall");
 }

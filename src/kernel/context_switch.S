@@ -1,10 +1,14 @@
 #include <mips/registers.h>
-
+#include <mips/bitmasks.h>
 
 .globl context_switch
+.globl save_context
 .extern get_running_pcb
 .extern get_current_context
 .extern get_running_pc
+.extern get_current_pcb
+.extern get_child_context
+.extern get_child_pcb
 
 .set noreorder
 .section .data
@@ -19,6 +23,8 @@ context_switch:
 	# Get offending instruction, add 4, and store
 	# it as the PC from where to resume next time
 	mfc0	K0, C0_EPC 	# EPC
+	addi  K0, 4
+	mtc0  K0, C0_EPC
 
 	# Before saving anything, we need the adress to the current PCB
 	addi	SP, -8
@@ -137,6 +143,10 @@ load_context:
 	lw		T0, 8(K1)
 	lw		SP, 0(K1)
 	lw		RA, 4(K1)
+
+	mfc0 	$k0, C0_STATUS 	#	Load contents of Status register
+	ori		$k0, ENABLE_INTR
+	mtc0	$k0, C0_STATUS	# Store the contents in Status register
 
 	# Return from exception using the adress in EPC
 	lw 		$at, 112(K1)

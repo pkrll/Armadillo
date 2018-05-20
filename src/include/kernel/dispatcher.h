@@ -29,5 +29,14 @@ void process_switch();
  * @return Adress of the current process' PCB
  */
 pcb_t *get_current_pcb();
+/**
+ * Initialize a pcb and enqueue the proces into the ready queue if it already
+ * exists a running process, otherwise set it to running process.
+ *
+ * @param  process_function A pointer to a function (the process)   
+ *
+*/
+void spawn_process(void *process_function);
+
 
 #endif
