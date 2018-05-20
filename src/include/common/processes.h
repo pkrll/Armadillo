@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Processes
+ */
+
 #ifndef __PROCESSES_H_
 #define __PROCESSES_H_
 
