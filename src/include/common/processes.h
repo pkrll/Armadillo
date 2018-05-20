@@ -13,6 +13,10 @@ void process_3();
 void process_2();
 void process_1();
 
+void fibonacci();
+void square_numbers();
+void triangle_numbers();
+
 void delay();
 
 #endif
