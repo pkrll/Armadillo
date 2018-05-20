@@ -5,7 +5,7 @@
 // -------------------------------
 // Structs
 // -------------------------------
-
+// TODO: REMOVE THIS?
 struct Stack {
 	void *start;
 };
