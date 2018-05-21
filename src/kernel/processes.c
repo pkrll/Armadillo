@@ -1,12 +1,11 @@
 #include <common/processes.h>
 #include <common/stdlib.h>
 #include <kernel/dispatcher.h>
+#include <kernel/syscall.h>
 #include <common/k_rand.h>
 #include <kernel/pcb.h>
 
 #define wait(x) for (int _i = 0; _i < x; _i++);
-
-extern int __terminated();
 
 void *processes[4] = {
 	process_1,
@@ -17,12 +16,6 @@ void *processes[4] = {
 
 void delay() {
 	for (int i = 0; i < 250000000; i++);
-}
-
-void exit() {
-	__terminated();
-	// asm volatile("li $a0, 99");
-	// asm volatile("syscall");
 }
 
 void launch() {
@@ -49,6 +42,8 @@ void process_1() {
 		for (int i = 0; i < random; i++); //delay
 		printf("%d, ", i+1);
 	}
+
+	make_io_request();
 
 	printf("\n==================\nDone printing 1..10\n==================\n");
 

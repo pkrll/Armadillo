@@ -19,6 +19,7 @@ typedef enum State{
   ready = 0,
   running = 1,
   terminated = 2,
+	waiting = 3
 } state_t;
 
 typedef struct Pcb pcb_t;

@@ -1,17 +1,17 @@
 #include <common/k_rand.h>
-extern int _random_number();
 
+extern int __rand();
 static int seed __attribute__((section (".data")));
 
 int rand(int max) {
-	int i = _random_number();
+	int i = __rand();
 	i = i % (max + 1);
 
 	return i;
 }
 
 void rand_init() {
-	seed = _random_number();
+	seed = __rand();
 }
 
 int krand(int max) {

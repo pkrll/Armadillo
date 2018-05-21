@@ -8,6 +8,7 @@
 // -------------------------------
 
 static queue_t *ready_queue __attribute__((section(".data")));
+static queue_t *waiting_queue __attribute__((section(".data")));
 __attribute__((unused))static pcb_t *running_process __attribute__((section(".data")));
 static pid_t pid __attribute__((section("data"))) = 1;
 
@@ -60,6 +61,7 @@ void spawn_process(void *process_function) {
 
 void dispatcher_init() {
 	ready_queue = queue_new();
+	waiting_queue = queue_new();
 	init_processes();
 }
 
@@ -67,7 +69,8 @@ void process_switch() {
 	int old_pid = get_pid(running_process);
 
 	if (get_pcb_state(running_process) != terminated) {
-		enqueue(ready_queue, running_process);
+		queue_t *queue = (get_pcb_state(running_process) == waiting) ? waiting_queue : ready_queue;
+		enqueue(queue, running_process);
 	}
 
 	pcb_t *next = dequeue(ready_queue);
@@ -94,8 +97,12 @@ void set_running_process(pcb_t *process) {
 void init_processes() {
 	spawn_process(process_1);
 	spawn_process(triangle_numbers);
-	spawn_process(square_numbers);
-	spawn_process(fibonacci);
+	// spawn_process(square_numbers);
+	// spawn_process(fibonacci);
+}
+
+void pause_process() {
+	set_pcb_state(running_process, waiting);
 }
 
 void terminate_process() {

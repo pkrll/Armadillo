@@ -3,15 +3,17 @@
 #include <mips/bitmasks.h>
 
 .globl __exception
+.globl __terminate
+.globl __pause
+
 .extern context_switch
 .extern exception_handler
 .extern interrupt_handler
 .extern unhandled_interrupt
 .extern save_context
 .extern load_context
-.extern _random_number
 .extern terminate_process
-.globl __terminated
+.extern pause_process
 
 .set noreorder
 #.set noat
@@ -87,12 +89,22 @@ __timer_interrupt:
 
 #--------------------Exceptions-------------------#
 __syscall:
-	b context_switch
+	beq A0, 0, __context_switch
+	nop
+	beq A0, 1, __terminate
+	nop
+	beq A0, 2, __pause
 	nop
 
-__terminated:
+__terminate:
 	jal terminate_process
 	nop
+
+__pause:
+	jal pause_process
+	nop
+
+__context_switch:
 	b context_switch
 	nop
 

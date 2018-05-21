@@ -2,14 +2,14 @@
 #include <mips/adresses.h>
 #include <mips/bitmasks.h>
 
-.globl _random_number
+.globl __rand
 
 .set noreorder
 .set noat
 
 .section .text
 
-_random_number:
+__rand:
 	mfc0  $t3, C0_COUNT
 	addi  $v0, $t3, 0
 	jr    $ra
