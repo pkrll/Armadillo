@@ -49,5 +49,5 @@ void unhandled_interrupt() {
 
 void interrupt_handler() {
 	int pid = get_pid(get_current_pcb());
-	printf("\n==================\nTimer Interrupt, switching from process %d\n==================\n", pid);
+	printf("\n\n==================\nTimer Interrupt, switching from process %d\n==================\n", pid);
 }

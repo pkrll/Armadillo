@@ -71,7 +71,7 @@ void fibonacci() {
 
 	printf("\n==================\nDone printing the fibonacci series\n==================\n\n");
 
-	spawn_process(fibonacci);
+	// spawn_process(fibonacci);
 
 	exit();
 }
