@@ -4,6 +4,7 @@
 
 .globl init_timer
 .globl reset_timer
+.globl _sleep
 .extern interrupt_handler
 
 .set noreorder
@@ -37,4 +38,9 @@ reset_timer:
 	lw    RA, 0(SP)
 	addi 	SP, 4
 	jr 		$ra
+	nop
+
+_sleep:
+	nop
+	b _sleep
 	nop

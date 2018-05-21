@@ -6,6 +6,8 @@
 #include <common/processes.h>
 
 extern int context_switch();
+extern int init_timer();
+extern int _sleep();
 
 void start_counter() {
 	while (1) {
@@ -24,9 +26,22 @@ void start_counter() {
 
 
 int main(void) {
+	printk("\033[2J\033[;H");
+	printk("Boot up completed! Initializing Armadillo...\n\n");
+	delay();
 	mem_init();
+	printk("Memory init done!\n");
+	delay();
 	dispatcher_init();
+	printk("Dispatcher init done!\n\n");
+	delay();
 	rand_init();
+	//init_timer();
+	printk("Initialization done!\n");
+	printk("Processes ready to start!\n");
+	// _sleep();
+	delay();
+	init_timer(); // Move up after demo
 	// spawn_process(launch);
 	// asm volatile("syscall");
 	// launch();
@@ -48,6 +63,5 @@ void unhandled_interrupt() {
 }
 
 void interrupt_handler() {
-	int pid = get_pid(get_current_pcb());
-	printf("\n\n==================\nTimer Interrupt, switching from process %d\n==================\n", pid);
+	printf("\n\n==================\nTimer Interrupt\n==================\n");
 }

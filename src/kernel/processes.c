@@ -15,6 +15,10 @@ void *processes[4] = {
 	fibonacci
 };
 
+void delay() {
+	for (int i = 0; i < 250000000; i++);
+}
+
 void exit() {
 	__terminated();
 	// asm volatile("li $a0, 99");
@@ -25,7 +29,7 @@ void launch() {
 	int random = 0;
 
 	for (int i = 0; i < 4; i++) {
-		random = krand(100000000);
+		random = krand(1000000);
 		wait(random);
 
 		printf("\n==================\nSpawning process %d\n==================\n", i);
@@ -39,14 +43,14 @@ void launch() {
 }
 
 void process_1() {
-	printf("\n==================\nStarting process_1()\n==================\n");
+	printf("\n==================\nPrinting 1..10\n==================\n");
 	for (int i = 0; i < 10; i++) {
-		int random = rand(100000000);
+		int random = krand(100000000);
 		for (int i = 0; i < random; i++); //delay
-		printk("Doing some work\n");
+		printf("%d, ", i+1);
 	}
 
-	printf("\n==================\nprocess_1() done\n==================\n");
+	printf("\n==================\nDone printing 1..10\n==================\n");
 
 	exit();
 }
@@ -57,7 +61,6 @@ void fibonacci() {
 	unsigned long f2 = 1;
 	unsigned long next = 0;
 
-	printf("\n==================\nStarting fibonacci()\n==================\n", n);
 	printf("\n==================\nPrinting the first %d terms of the Fibonacci series...\n==================\n", n);
 	for (int i = 0; i < n; i++) {
 		printf("%d, ", f1);
@@ -65,7 +68,7 @@ void fibonacci() {
 		f1 = f2;
 		f2 = next;
 
-		int random = rand(100000000);
+		int random = krand(100000000);
 		wait(random);
 	}
 
@@ -101,7 +104,7 @@ void triangle_numbers() {
 		last = last + i;
 		printf("%d ", i + last);
 
-		int random = rand(100000000);
+		int random = krand(100000000);
 		wait(random);
 	}
 

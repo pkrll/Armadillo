@@ -64,12 +64,18 @@ void dispatcher_init() {
 }
 
 void process_switch() {
+	int old_pid = get_pid(running_process);
+
 	if (get_pcb_state(running_process) != terminated) {
 		enqueue(ready_queue, running_process);
 	}
+
 	pcb_t *next = dequeue(ready_queue);
 	set_pcb_state(next, running);
+
 	running_process = next;
+	int pid = get_pid(next);
+	printf("\n\n==================\nSwitching from process %d to process %d\n==================\n", old_pid, pid);
 }
 
 pcb_t *get_current_pcb() {
