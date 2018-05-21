@@ -90,7 +90,6 @@ void init_processes() {
 	spawn_process(triangle_numbers);
 	spawn_process(square_numbers);
 	spawn_process(fibonacci);
-	// spawn_process(process_3);
 }
 
 void terminate_process() {

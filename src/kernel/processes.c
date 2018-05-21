@@ -6,79 +6,49 @@
 
 #define wait(x) for (int _i = 0; _i < x; _i++);
 
+extern int __terminated();
+
+void *processes[4] = {
+	process_1,
+	triangle_numbers,
+	square_numbers,
+	fibonacci
+};
+
 void exit() {
-	asm volatile ("li $a0, 99");
-	asm volatile ("syscall");
+	__terminated();
+	// asm volatile("li $a0, 99");
+	// asm volatile("syscall");
 }
 
-void delay() {
-	for (int i = 1; i < 100000000; i++);
-}
+void launch() {
+	int random = 0;
 
-void process_6() {
-	while (1) {
-		delay();
-		printk("6");
-		asm volatile("syscall");
+	for (int i = 0; i < 4; i++) {
+		random = krand(100000000);
+		wait(random);
+
+		printf("\n==================\nSpawning process %d\n==================\n", i);
+		spawn_process(processes[i]);
+		void (*func)() = processes[i];
+		func();
+
 	}
+
+	printf("\n==================\nLaunch is done!\n==================\n");
 }
 
-void process_5() {
-	while (1) {
-		delay();
-		printk("5");
-		asm volatile("syscall");
-	}
-}
-
-void process_4() {
-	while (1) {
-		delay();
-		printk("4");
-		asm volatile("syscall");
-	}
-}
-
-/*
-*	Workspace for process 3
-*/
-void process_3() {
-	while (1) {
-		for (int i = 1; i < 100000000; i++); //delay();
-		printk("PROCESS_3\n");
-	}
-}
-
-/*
-*	Workspace for process 2
-*/
-void process_2() {
-	while (1) {
-		for (int i = 1; i < 100000000; i++); //delay();
-		printk("Process 2 counting up to 5...\n");
-		for (int i = 1; i < 100000000; i++); //delay();
-		printk("1\n");
-		for (int i = 1; i < 100000000; i++); //delay();
-		printk("2\n");
-		for (int i = 1; i < 100000000; i++); //delay();
-		printk("3\n");
-		for (int i = 1; i < 100000000; i++); //delay();
-		printk("error...\n");
-		//asm volatile("syscall");
-	}
-}
-
-/*
-*	Workspace for process 1
-*/
 void process_1() {
+	printf("\n==================\nStarting process_1()\n==================\n");
 	for (int i = 0; i < 10; i++) {
 		int random = rand(100000000);
 		for (int i = 0; i < random; i++); //delay
-		printk("Doing something\n");
+		printk("Doing some work\n");
 	}
-	asm volatile ("li $a0, 99");
-	asm volatile ("syscall");
+
+	printf("\n==================\nprocess_1() done\n==================\n");
+
+	exit();
 }
 
 void fibonacci() {
@@ -87,6 +57,7 @@ void fibonacci() {
 	unsigned long f2 = 1;
 	unsigned long next = 0;
 
+	printf("\n==================\nStarting fibonacci()\n==================\n", n);
 	printf("\n==================\nPrinting the first %d terms of the Fibonacci series...\n==================\n", n);
 	for (int i = 0; i < n; i++) {
 		printf("%d, ", f1);
@@ -99,6 +70,9 @@ void fibonacci() {
 	}
 
 	printf("\n==================\nDone printing the fibonacci series\n==================\n\n");
+
+	spawn_process(fibonacci);
+
 	exit();
 }
 
@@ -111,7 +85,7 @@ void square_numbers() {
 		s = s + x;
 		printf("%d ", s);
 
-		int random = rand(50000000);
+		int random = krand(100000000);
 		wait(random);
 	}
 
@@ -120,14 +94,14 @@ void square_numbers() {
 }
 
 void triangle_numbers() {
-	int n = 10;
+	int n = 1000;
 	int last = 1;
 	printf("\n==================\nPrinting the triangle numbers\n==================\n\n");
 	for (int i = 0; i < n; i++) {
 		last = last + i;
 		printf("%d ", i + last);
 
-		int random = rand(50000000);
+		int random = rand(100000000);
 		wait(random);
 	}
 

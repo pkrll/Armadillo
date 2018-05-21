@@ -13,4 +13,7 @@
  */
 int rand(int maximum);
 
+int krand(int max);
+void rand_init();
+
 #endif

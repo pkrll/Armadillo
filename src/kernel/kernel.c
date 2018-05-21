@@ -1,5 +1,6 @@
 #include <common/stdlib.h>
 #include <common/stdio.h>
+#include <common/k_rand.h>
 #include <kernel/dispatcher.h>
 #include <kernel/exceptions.h>
 #include <common/processes.h>
@@ -21,29 +22,32 @@ void start_counter() {
 	}
 }
 
+
 int main(void) {
 	mem_init();
 	dispatcher_init();
+	rand_init();
+	// spawn_process(launch);
+	// asm volatile("syscall");
+	// launch();
 	process_1();
-	printk("Hello world!\n");
-	print_to_ascii("UphillOS");
-	start_counter();
+	// printk("Hello world!\n");
+	// print_to_ascii("UphillOS");
+	// start_counter();
 	return 0;
 }
 
 /*-------------------Exception handlers--------------------*/
 
 void exception_handler(int cause) {
-	delay();
 	printf("EXCEPTION CAUGHT: %s\n", exceptions[cause]);
 }
 
 void unhandled_interrupt() {
-	delay();
 	printk("Unhandled interrupt\n");
 }
 
 void interrupt_handler() {
 	int pid = get_pid(get_current_pcb());
-	printf("\n -- Timer Interrupt, switching from process %d \n", pid);
+	printf("\n==================\nTimer Interrupt, switching from process %d\n==================\n", pid);
 }

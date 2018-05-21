@@ -11,6 +11,7 @@
 .extern load_context
 .extern _random_number
 .extern terminate_process
+.globl __terminated
 
 .set noreorder
 #.set noat
@@ -86,9 +87,10 @@ __timer_interrupt:
 
 #--------------------Exceptions-------------------#
 __syscall:
-	#move $k0, $a0
-	#beq  $k0, 99, __terminated
+	b context_switch
+	nop
 
+__terminated:
 	jal terminate_process
 	nop
 	b context_switch
