@@ -27,7 +27,7 @@ void start_counter() {
 
 int main(void) {
 	printk("\033[2J\033[;H");
-	printk("Boot up completed! Initializing Armadillo...\n\n");
+	printk("Boot up completed!\nInitializing Armadillo version 1.0...\n\n");
 	delay();
 	mem_init();
 	printk("Memory init done!\n");
