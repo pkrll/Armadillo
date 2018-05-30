@@ -50,22 +50,6 @@ queue_t *queue_new() {
 	return queue;
 }
 
-void enqueue_first(queue_t *queue, void *data) {
-	link_t *new = link_new();
-	new->data = data;
-
-	new->next = NULL;
-	if (queue->first) {
-		new->next = queue->first;
-	}
-
-	if (queue->size == 0) {
-		queue->last = new;
-	}
-	queue->first = new;
-	queue->size++;
-}
-
 void enqueue(queue_t *queue, void *data) {
 	link_t *link = link_new();
 
@@ -82,6 +66,10 @@ void enqueue(queue_t *queue, void *data) {
 		queue->last = link;
 		queue->size++;
 	}
+}
+
+void *queue_front(queue_t *queue) {
+	return (queue != NULL) ? queue->first : NULL;
 }
 
 void *dequeue(queue_t *queue) {

@@ -27,14 +27,13 @@ queue_t *queue_new();
  * @param data  The data to enqueue.
  */
 void enqueue(queue_t *queue, void *data);
-
-/*
-*	Puts data in a new link at the beginning of a queue
-* @param [in] queue A queue
-* @param [in] data The data to store
-*/
-void enqueue_first(queue_t *queue, void *data);
-  
+/**
+ * Returns the first element of a queue.
+ *
+ * @param  queue A queue
+ * @return The element at the front.
+ */
+void *queue_front(queue_t *queue);
 /**
  * Removes the first element of a queue, and returns it.
  *
