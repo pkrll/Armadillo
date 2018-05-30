@@ -119,7 +119,7 @@ Debugging Armadillo requires ``GDB``. Start by running the OS in debug mode, and
 │   └── linker.ld
 └── tests
     ├── include
-    │   ├── munit
+    │   ├── minunit
     │   │   └── unit.h
     │   ├── test_dispatcher.h
     │   ├── test_memory.h

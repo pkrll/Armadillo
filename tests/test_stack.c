@@ -1,5 +1,5 @@
 #include <stddef.h>
-#include <munit/unit.h>
+#include <minunit/unit.h>
 #include <test_stack.h>
 #include <common/stack.h>
 

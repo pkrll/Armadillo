@@ -1,4 +1,4 @@
-#include <munit/unit.h>
+#include <minunit/unit.h>
 #include <kernel/dispatcher.h>
 #include <test_dispatcher.h>
 #include <dispatcher.c>

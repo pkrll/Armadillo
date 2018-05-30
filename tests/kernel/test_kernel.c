@@ -1,4 +1,4 @@
-#include <munit/unit.h>
+#include <minunit/unit.h>
 #include <common/stdio.h>
 
 int main(void) {
