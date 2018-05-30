@@ -7,7 +7,7 @@ VM = qemu-system-mipsel
 VMFLAGS = -M malta -m 256 -serial stdio
 VMFLAGS_DEBUG = -M malta -m 256 -s -S
 
-ELF_NAME = uphill.elf
+ELF_NAME = armadillo.elf
 
 # Directories
 
@@ -101,7 +101,7 @@ gdb: $(BIN_DIR)/$(ELF_NAME)
 	mipsel-elf-gdb --symbols=$(BIN_DIR)/$(ELF_NAME) -ex "target extended-remote :1234" -ex "layout regs"
 
 objdump: $(BIN_DIR)/$(ELF_NAME)
-	mipsel-elf-objdump -D bin/uphill.elf > $(BIN_DIR)/uphill.asm
+	mipsel-elf-objdump -D $(BIN_DIR)/$(ELF_NAME) > $(BIN_DIR)/armadillo.asm
 
 symbols: $(BIN_DIR)/$(ELF_NAME)
 	mipsel-elf-nm -n $(BIN_DIR)/$(ELF_NAME)
